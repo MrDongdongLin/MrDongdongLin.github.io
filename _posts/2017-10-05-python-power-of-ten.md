@@ -72,9 +72,9 @@ def PowerOfTen(n):
 1000000000000000019884624838656
 ```
 可以看到，这次的结果居然不一致！我猜测是`浮点数`的影响，今天太晚了，都凌晨两点多了，这里留个TODO。
-总之，使用方法B可以得到正确的结果，通过两幅图我们可以清晰地观察到\\(10^n\\)的二进制形式中1-bit数量的增长趋势，方法B的正确性也从图中得到了验证。
+总之，使用方法B可以得到正确的结果，通过两幅图我们可以清晰地观察到\\(10^n\\)的二进制形式中1-bit数量的增长趋势，图中横坐标表示指数\\(n\\)，纵坐标表示1-bit数量。
 
 ---
 
-![m_vs_n0_a](https://mrdongdonglin.github.io/images/m_vs_n0_a.png)
-![m_vs_n0_b](https://mrdongdonglin.github.io/images/m_vs_n0_b.png)
+![n_vs_m_a](https://mrdongdonglin.github.io/images/n_vs_m_a.png)
+![n_vs_m_b](https://mrdongdonglin.github.io/images/n_vs_m_b.png)
