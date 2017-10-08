@@ -44,6 +44,6 @@ The procedure of calculating the largest Lyapunov exponent \\(\lambda\\) can be 
 The following figure shows the above procedure.
 
 ![wolf_lyapunov](https://mrdongdonglin.github.io/images/wolf_lyapunov.png)
-
+---
 [1]: http://www.mdpi.com/2079-8954/4/4/37
 [2]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.152.3162&rep=rep1&type=pdf
