@@ -10,11 +10,13 @@ tag:
 
 In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories[^Lyapunov].
 
-[^Lyapunov]: Boeing, G. (2016). "Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction". Systems. 4 (4): 37. doi:10.3390/systems4040037. Retrieved 2016-12-02.
+[^Lyapunov]: Boeing, G. Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction. Systems. vol. 4. pp. 37. 2016.
 
 It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.g., phase space compactness).
 
 In the following, the procedure of calculating the largest Lyapunov exponent by Wolf's algorithm[^Wolf] will be introduced.
+
+[^Wolf]: Wolf A, Swift J B, Swinney H L, et al., Determining Lyapunov exponents from a time series. Physica D: Nonlinear Phenomena, vol. 3. pp. 285-317. 1985.
 
 # Delay reconstruction
 Given a time series, delay reconstruction builds an \\(n\\)-dimensional "orbit" out of a time series once the user selects two parameters: the embedding dimension \\(n\\), and the time delay \\(\tau\\).
@@ -44,3 +46,4 @@ The following figure shows the above procedure.
 ![wolf_lyapunov](https://mrdongdonglin.github.io/images/wolf_lyapunov.png)
 
 [1]: http://www.mdpi.com/2079-8954/4/4/37
+[2]: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.152.3162&rep=rep1&type=pdf
