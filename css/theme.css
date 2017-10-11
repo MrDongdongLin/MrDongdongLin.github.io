@@ -9,6 +9,8 @@ img {
     height: auto;
 }
 
+table td {border:1px solid rgb(0, 0, 0)}
+
 .copyright {
     color: #ffffff;
 }
