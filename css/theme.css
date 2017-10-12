@@ -9,7 +9,10 @@ img {
     height: auto;
 }
 
-table td {border:1px solid rgb(0, 0, 0)}
+table td {
+    border:1px solid rgb(0, 0, 0);
+    width: 100px;
+}
 
 .copyright {
     color: #ffffff;
