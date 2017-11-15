@@ -74,7 +74,7 @@
       <description>
 
 &lt;blockquote&gt;
-&lt;p&gt;You can download the &lt;a href=&#34;https://mrdongdonglin.github.io/codes/matplotlib_case.py&#34;&gt;code&lt;/a&gt; of this case.&lt;/p&gt;
+&lt;p&gt;You can download the &lt;a href=&#34;https://mrdongdonglin.github.io/codes/matplotlib_case.py&#34; target=&#34;_blank&#34;&gt;code&lt;/a&gt; of this case.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://matplotlib.org/&#34; target=&#34;_blank&#34;&gt;Matplotlib&lt;/a&gt; is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.&lt;/p&gt;
