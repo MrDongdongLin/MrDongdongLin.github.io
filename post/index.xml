@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Starlin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Your Name</copyright>
+    <copyright>&amp;copy; 2017 Starlin</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0800</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
@@ -50,7 +50,7 @@
 
 &lt;p&gt;The following figure shows the above procedure.&lt;/p&gt;
 
-&lt;h2 id=&#34;wolf-lyapunov-https-mrdongdonglin-github-io-images-wolf-lyapunov-png&#34;&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/wolf_lyapunov.png&#34; alt=&#34;wolf_lyapunov&#34; /&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;wolf-lyapunov-https-mrdongdonglin-github-io-img-wolf-lyapunov-png&#34;&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/wolf_lyapunov.png&#34; alt=&#34;wolf_lyapunov&#34; /&gt;&lt;/h2&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -113,7 +113,7 @@ plt.show()
 
 &lt;p&gt;The following shows the produced figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_1.png&#34; alt=&#34;matplotlib_1&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_1.png&#34; alt=&#34;matplotlib_1&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This figure is well enough to put into a paper or other normal publications, because it has &lt;code&gt;different markers&lt;/code&gt;, &lt;code&gt;clear ticks&lt;/code&gt; and &lt;code&gt;a wrap border&lt;/code&gt;. But it can be improved to make it perfect.&lt;/p&gt;
 
@@ -134,7 +134,7 @@ ax.xaxis.set_minor_locator(ticker.MultipleLocator(1.00))
 
 &lt;p&gt;Now we have the following figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_2.png&#34; alt=&#34;matplotlib_2&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_2.png&#34; alt=&#34;matplotlib_2&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;tex-used-format&#34;&gt;$TeX$ used format&lt;/h2&gt;
 
@@ -164,7 +164,7 @@ plt.legend(loc = &#39;upper left&#39;,
 
 &lt;p&gt;Now we have a new figure.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_3.png&#34; alt=&#34;matplotlib_3&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_3.png&#34; alt=&#34;matplotlib_3&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;add-grid&#34;&gt;Add grid&lt;/h2&gt;
 
@@ -176,17 +176,17 @@ plt.grid(which=&#39;both&#39;, linewidth=1, color=&#39;gray&#39;)
 
 &lt;p&gt;The purpose that setting &amp;lsquo;kwargs&amp;rsquo; &lt;code&gt;linewidth&lt;/code&gt; and &lt;code&gt;color&lt;/code&gt; is to make a soft vision when you put it into a &lt;code&gt;pdf&lt;/code&gt; file. If you use the default color &lt;code&gt;black&lt;/code&gt;, when you zoom in the &lt;code&gt;pdf&lt;/code&gt;, it will be like this&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_clear.png&#34; alt=&#34;zoom-in&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_clear.png&#34; alt=&#34;zoom-in&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;When you zoom out, guess what happend?&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_mohu.png&#34; alt=&#34;zoom-out&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_mohu.png&#34; alt=&#34;zoom-out&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It looks sharply! A soft vision is quite important, too.&lt;/p&gt;
 
 &lt;p&gt;The final version of our figure is&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/pyplot/matplotlib_4.png&#34; alt=&#34;matplotlib_4&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_4.png&#34; alt=&#34;matplotlib_4&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -275,8 +275,8 @@ def PowerOfTen(n):
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/n_vs_m_a.png&#34; alt=&#34;n_vs_m_a&#34; /&gt;
-&lt;img src=&#34;https://mrdongdonglin.github.io/images/n_vs_m_b.png&#34; alt=&#34;n_vs_m_b&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/n_vs_m_a.png&#34; alt=&#34;n_vs_m_a&#34; /&gt;
+&lt;img src=&#34;https://mrdongdonglin.github.io/n_vs_m_b.png&#34; alt=&#34;n_vs_m_b&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -361,7 +361,7 @@ def PowerOfTen(n):
 
 &lt;p&gt;当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/PO2s PO5.jpg&#34; alt=&#34;PO2s PO5&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/PO2s PO5.jpg&#34; alt=&#34;PO2s PO5&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。&lt;/p&gt;
 
@@ -631,7 +631,7 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/其他/JCR分区.png&#34; alt=&#34;JCR2016&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/其他/JCR分区.png&#34; alt=&#34;JCR2016&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;但是我们查出来是三区的。&lt;/p&gt;
@@ -772,23 +772,23 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
       <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
       
       <guid>https://mrdongdonglin.github.io/post/others/%E6%B6%82%E6%B6%82%E5%86%99%E5%86%99/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/练字/我的一个道姑朋友.jpg&#34; alt=&#34;我的一个道姑朋友&#34; /&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/练字/我的一个道姑朋友.jpg&#34; alt=&#34;我的一个道姑朋友&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/画画/百里屠苏.jpg&#34; alt=&#34;百里屠苏&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/画画/百里屠苏.jpg&#34; alt=&#34;百里屠苏&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/画画/jay.jpg&#34; alt=&#34;jay&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/画画/jay.jpg&#34; alt=&#34;jay&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/画画/犬夜叉1.jpg&#34; alt=&#34;犬夜叉1&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/画画/犬夜叉1.jpg&#34; alt=&#34;犬夜叉1&#34; /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/images/画画/犬夜叉2.jpg&#34; alt=&#34;犬夜叉2&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/画画/犬夜叉2.jpg&#34; alt=&#34;犬夜叉2&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -804,7 +804,7 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 
 &lt;h1 id=&#34;制作简历&#34;&gt;制作简历&lt;/h1&gt;
 
-&lt;p&gt;找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击&lt;a href=&#34;https://mrdongdonglin.github.io/docs/CV_DongdongLin.pdf&#34; target=&#34;_blank&#34;&gt;简历&lt;/a&gt;&lt;!-- TODO --&gt;，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司……&lt;/p&gt;
+&lt;p&gt;找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击&lt;a href=&#34;https://mrdongdonglin.github.io/files/CV_DongdongLin.pdf&#34; target=&#34;_blank&#34;&gt;简历&lt;/a&gt;，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司……&lt;/p&gt;
 
 &lt;h1 id=&#34;深信服&#34;&gt;深信服&lt;/h1&gt;
 
