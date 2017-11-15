@@ -1,35 +1,1279 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
 
-{% for post in paginator.posts %}
-<div class="article">
-    <div class="well">
-        <h1><a href="{{ site.baseurl}}{{ post.url }}">{{ post.date | date: "%b %-d, %Y" }} - {{ post.title }}</a></h1>
-        {% if site.comments and post.comments %}
-            {% if site.disqus != '' %}
-            <p class="author"><a href="{{ site.baseurl }}{{ post.url }}/#disqus_thread" data-disqus-identifier="{{ post.url | slugify }}">Comments</a></p>
-            {% elsif site.isso != '' %}
-            <p class="author"><a href="{{ site.baseurl }}{{ post.url }}{{ site.isso_suffix }}#isso-thread">Comments</a></p>
-            {% endif %}
-        {% endif %}
-        <div class="content">
-            {{ post.content }}
-        </div>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Dongdong Lin">
+  <meta name="description" content="Postgraduate of Image Privacy">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://mrdongdonglin.github.io/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://mrdongdonglin.github.io/index.xml" type="application/rss+xml" title="Starlin">
+  <link rel="feed" href="https://mrdongdonglin.github.io/index.xml" type="application/rss+xml" title="Starlin">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://mrdongdonglin.github.io/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@GeorgeCushen">
+  <meta property="twitter:creator" content="@GeorgeCushen">
+  
+  <meta property="og:site_name" content="Starlin">
+  <meta property="og:url" content="https://mrdongdonglin.github.io/">
+  <meta property="og:title" content="Starlin">
+  <meta property="og:description" content="Postgraduate of Image Privacy">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="og:updated_time" content="2017-10-15T00:00:00&#43;08:00">
+  
+
+  
+
+  <title>Starlin</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/static/img/logo.png" alt="Starlin"></a>
     </div>
-</div>
-{% endfor %}
 
-<div class="pagination">
-  {% if paginator.previous_page %}
-      {% if paginator.previous_page == 1 %}
-        <a class="btn btn-default" href="{{ site.baseurl}}/index.html" class="previous">上一页</a>
-      {% else %}
-        <a class="btn btn-default" href="{{ site.baseurl}}/page{{ paginator.previous_page }}" class="previous">上一页</a>
-      {% endif %}
-  {% endif %}
-  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-  {% if paginator.next_page %}
-    <a class="btn btn-default" href="{{ site.baseurl}}/page{{ paginator.next_page }}" class="next">下一页</a>
-  {% endif %}
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about" data-target="#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected" data-target="#publications_selected">
+            
+            <span>Publications</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts" data-target="#posts">
+            
+            <span>Blogs</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects" data-target="#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact" data-target="#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+
+<span id="homepage" style="display: none"></span>
+
+
+  
+
+
+
+
+
+  
+  
+  
+  <section id="about" class="home-section">
+    <div class="container">
+      
+
+
+
+<div class="row" itemprop="author" itemscope itemtype="http://schema.org/Person" itemref="person-email">
+  <div class="col-xs-12 col-md-4">
+    <div id="profile">
+
+      
+      <div class="portrait" style="background-image: url('https://mrdongdonglin.github.io/img/portrait.jpg');"></div>
+      <meta itemprop="image" content="https://mrdongdonglin.github.io/img/portrait.jpg">
+      
+
+      <div class="portrait-title">
+        <h2 itemprop="name">Dongdong Lin</h2>
+        <h3 itemprop="jobTitle">Postgraduate of Image Privacy</h3>
+
+        
+        
+
+        
+        <h3 itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
+          
+          <span itemprop="name">Xiangtan University</span>
+          
+        </h3>
+        
+      </div>
+
+      <link itemprop="url" href="https://mrdongdonglin.github.io/">
+
+      <ul class="network-icon" aria-hidden="true">
+        
+        
+        <li>
+          <a itemprop="sameAs" href="dongdonglin8@gmail.com" target="_blank" rel="noopener">
+            <i class="fa fa-envelope big-icon"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a itemprop="sameAs" href="//twitter.com/GeorgeCushen" target="_blank" rel="noopener">
+            <i class="fa fa-twitter big-icon"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a itemprop="sameAs" href="https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ" target="_blank" rel="noopener">
+            <i class="ai ai-google-scholar big-icon"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a itemprop="sameAs" href="//github.com/MrDongdongLin" target="_blank" rel="noopener">
+            <i class="fa fa-github big-icon"></i>
+          </a>
+        </li>
+        
+      </ul>
+
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-8" itemprop="description">
+
+    
+
+<h1 id="biography">Biography</h1>
+
+<p>I am a graduate student in computer science at the College of Information Engineering, Xiangtan University. My research interests include image privacy protection and image forensics. I has a BS in computer science from the College of Information Engineering, Xiangtan University. Contact me at dongdonglin8@gmail.com.</p>
+
+
+    <div class="row">
+
+      
+      <div class="col-sm-5">
+        <h3>Interests</h3>
+        <ul class="ul-interests">
+          
+          <li>Cryptanalysis</li>
+          
+          <li>Image Privacy Protection</li>
+          
+          <li>Image Forensics</li>
+          
+        </ul>
+      </div>
+      
+
+      
+      <div class="col-sm-7">
+        <h3>Education</h3>
+        <ul class="ul-edu fa-ul">
+          
+          <li>
+            <i class="fa-li fa fa-graduation-cap"></i>
+            <div class="description">
+              <p class="course">Postgraduate, 2015</p>
+              <p class="institution">XiangTan University</p>
+            </div>
+          </li>
+          
+        </ul>
+      </div>
+      
+
+    </div>
+  </div>
 </div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="publications_selected" class="home-section">
+    <div class="container">
+      
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+    <h1>Selected Publications</h1>
+    
+  </div>
+  <div class="col-xs-12 col-md-8">
+    
+
+    
+      
+    
+
+    
+    
+      
+        <div class="pub-list-item" itemscope itemtype="http://schema.org/CreativeWork">
+  <div class="row">
+
+    
+
+    <div class="col-md-12">
+
+    
+
+      <h3 class="article-title" itemprop="name">
+        <a href="https://mrdongdonglin.github.io/publication/cryptanalysis-ieae/" itemprop="url">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</a>
+      </h3>
+
+      <div class="pub-abstract" itemprop="text">
+        
+        Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography
+        
+      </div>
+
+      <div class="pub-authors" itemprop="author">
+        
+        Chengqing Li, Dongdong Lin
+        
+      </div>
+
+      <div class="pub-publication">
+        Arxiv,&nbsp;2017.
+      </div>
+
+      <div class="pub-links">
+        
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://arxiv.org/pdf/1711.01858.pdf" target="_blank" rel="noopener">
+  Preprint
+</a>
+
+
+
+
+
+<button type="button" class="btn btn-primary btn-outline btn-xs js-cite-modal"
+        data-filename="/files/citations/cryptanalysis-ieae.bib">
+  Cite
+</button>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/matlab-ieae/">
+  Project
+</a>
+
+
+
+
+
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" itemscope itemtype="http://schema.org/CreativeWork">
+  <div class="row">
+
+    
+
+    <div class="col-md-12">
+
+    
+
+      <h3 class="article-title" itemprop="name">
+        <a href="https://mrdongdonglin.github.io/publication/cryptanalysis-isea/" itemprop="url">Cryptanalyzing an image scrambling encryption algorithm of pixel bits</a>
+      </h3>
+
+      <div class="pub-abstract" itemprop="text">
+        
+        Cryptanalyzing an image scrambling encryption algorithm of pixel bits
+        
+      </div>
+
+      <div class="pub-authors" itemprop="author">
+        
+        Chengqing Li, Dongdong Lin, Jinhu Lv
+        
+      </div>
+
+      <div class="pub-publication">
+        In <em>IMM</em>,&nbsp;2017.
+      </div>
+
+      <div class="pub-links">
+        
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://arxiv.org/pdf/1607.01642.pdf" target="_blank" rel="noopener">
+  Preprint
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="http://ieeexplore.ieee.org/document/7999153/" target="_blank" rel="noopener">
+  PDF
+</a>
+
+
+
+
+<button type="button" class="btn btn-primary btn-outline btn-xs js-cite-modal"
+        data-filename="/files/citations/cryptanalysis-isea.bib">
+  Cite
+</button>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/matlab-isea/">
+  Project
+</a>
+
+
+
+
+
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+      
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="publications" class="home-section">
+    <div class="container">
+      
+
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+    <h1>Recent Publications</h1>
+    
+    
+  </div>
+  <div class="col-xs-12 col-md-8">
+    
+
+    
+      
+    
+
+    
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    Chengqing Li, Dongdong Lin</span>.
+  <a href="https://mrdongdonglin.github.io/publication/cryptanalysis-ieae/" itemprop="name">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</a>.
+  Arxiv,&nbsp;2017.
+  <p>
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://arxiv.org/pdf/1711.01858.pdf" target="_blank" rel="noopener">
+  Preprint
+</a>
+
+
+
+
+
+<button type="button" class="btn btn-primary btn-outline btn-xs js-cite-modal"
+        data-filename="/files/citations/cryptanalysis-ieae.bib">
+  Cite
+</button>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/matlab-ieae/">
+  Project
+</a>
+
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    Chengqing Li, Dongdong Lin, Jinhu Lv</span>.
+  <a href="https://mrdongdonglin.github.io/publication/cryptanalysis-isea/" itemprop="name">Cryptanalyzing an image scrambling encryption algorithm of pixel bits</a>.
+  In <em>IMM</em>,&nbsp;2017.
+  <p>
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="https://arxiv.org/pdf/1607.01642.pdf" target="_blank" rel="noopener">
+  Preprint
+</a>
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="http://ieeexplore.ieee.org/document/7999153/" target="_blank" rel="noopener">
+  PDF
+</a>
+
+
+
+
+<button type="button" class="btn btn-primary btn-outline btn-xs js-cite-modal"
+        data-filename="/files/citations/cryptanalysis-isea.bib">
+  Cite
+</button>
+
+
+
+
+
+<a class="btn btn-primary btn-outline btn-xs" href="/project/matlab-isea/">
+  Project
+</a>
+
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="posts" class="home-section">
+    <div class="container">
+      
+
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+
+    <h1>Recent Posts</h1>
+    
+    
+    <p class="view-all">
+      <a href="/post/">
+        More Posts
+        <i class="fa fa-angle-double-right"></i>
+      </a>
+    </p>
+    
+
+  </div>
+  <div class="col-xs-12 col-md-8">
+
+    
+
+    
+      
+
+      
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/lyapunov-exponent/" itemprop="url">Largest Lypunov Exponent</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 15, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>How to calculate the largest Lyapunov exponent?</p>
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/lyapunov-exponent/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/matplotlib/" itemprop="url">Matplotlib</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 15, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>How to plot a figure with Matplotlib?</p>
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/matplotlib/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten/" itemprop="url">Power of Ten</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 15, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>Power of ten and the number of 1-bit in it&rsquo;s binary version</p>
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/" itemprop="url">Power of Ten Simplify</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 15, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>How to calculate power of 10 quickly?</p>
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/" itemprop="url">Seeing Powers of Five in Powers of Two and Vice Versa</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 15, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>Power of Five in Power of Two and Vice Versa</p>
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="projects" class="home-section">
+    <div class="container">
+      
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+    <h1>Projects</h1>
+    
+  </div>
+  <div class="col-xs-12 col-md-8">
+    
+
+    
+    
+    <span class="hidden default-project-filter">*</span>
+    
+
+    
+    
+    <div class="project-toolbar">
+      <div class="project-filters">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            
+              <a href="#" data-filter="*" class="btn btn-primary btn-large active">All</a>
+            
+              <a href="#" data-filter=".cryptanalysis" class="btn btn-primary btn-large">Cryptanalysis</a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+
+    
+
+    <div class="row isotope projects-container js-layout-masonry">
+
+      
+      
+      
+      
+      
+      
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 project-item isotope-item cryptanalysis">
+        <div class="card">
+          
+          <div class="card-text">
+            <h4><a href="https://github.com/MrDongdongLin/Cryptanalysis_ISEA" target="_blank">Cryptanalyzing an image scrambling encryption algorithm of pixel bits</a></h4>
+            <div class="card-desription">
+              <p>Matlab codes of ISEA</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 project-item isotope-item cryptanalysis">
+        <div class="card">
+          
+          <div class="card-text">
+            <h4><a href="https://github.com/MrDongdongLin/Cryptanalysis_IEAE" target="_blank">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</a></h4>
+            <div class="card-desription">
+              <p>Matlab codes of IEAE</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="tags" class="home-section">
+    <div class="container">
+      
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+    <h1>Tags</h1>
+    
+  </div>
+  <div class="col-xs-12 col-md-8">
+    
+
+    
+      
+      
+
+      
+      
+      
+      
+      
+
+      <div id="tag-cloud">
+        
+          
+          
+          
+          
+          
+          <a href="/tags/algebra" style="font-size:0.8rem">Algebra</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/cryptanalysis" style="font-size:1.8725805810714777rem">cryptanalysis</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/math" style="font-size:1.8725805810714777rem">math</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/python" style="font-size:0.8rem">python</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/research" style="font-size:0.8rem">research</a>
+        
+      </div>
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+  
+  
+  
+  <section id="contact" class="home-section">
+    <div class="container">
+      
+
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+    <h1>Contact</h1>
+    
+  </div>
+  <div class="col-xs-12 col-md-8">
+    
+
+    <ul class="fa-ul" itemscope>
+
+      
+      <li>
+        <i class="fa-li fa fa-envelope fa-2x" aria-hidden="true"></i>
+        <span id="person-email" itemprop="email"><a href="mailto:dongdonglin8@gmail.com">dongdonglin8@gmail.com</a></span>
+      </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+    </ul>
+
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+  
+
+
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Your Name &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
+
