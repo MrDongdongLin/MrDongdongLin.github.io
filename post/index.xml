@@ -50,7 +50,7 @@
 
 &lt;p&gt;The following figure shows the above procedure.&lt;/p&gt;
 
-&lt;h2 id=&#34;wolf-lyapunov-https-mrdongdonglin-github-io-img-wolf-lyapunov-png&#34;&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/wolf_lyapunov.png&#34; alt=&#34;wolf_lyapunov&#34; /&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;wolf-lyapunov-img-wolf-lyapunov-png&#34;&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/wolf_lyapunov.png&#34; alt=&#34;wolf_lyapunov&#34; /&gt;&lt;/h2&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -74,7 +74,7 @@
       <description>
 
 &lt;blockquote&gt;
-&lt;p&gt;You can download the &lt;a href=&#34;https://mrdongdonglin.github.io/codes/matplotlib_case.py&#34; target=&#34;_blank&#34;&gt;code&lt;/a&gt; of this case.&lt;/p&gt;
+&lt;p&gt;You can download the &lt;a href=&#34;https://mrdongdonglin.github.io/codes/matplotlib_case.py&#34;&gt;code&lt;/a&gt; of this case.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://matplotlib.org/&#34; target=&#34;_blank&#34;&gt;Matplotlib&lt;/a&gt; is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.&lt;/p&gt;
@@ -275,8 +275,8 @@ def PowerOfTen(n):
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/n_vs_m_a.png&#34; alt=&#34;n_vs_m_a&#34; /&gt;
-&lt;img src=&#34;https://mrdongdonglin.github.io/n_vs_m_b.png&#34; alt=&#34;n_vs_m_b&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/n_vs_m_a.png&#34; alt=&#34;n_vs_m_a&#34; /&gt;
+&lt;img src=&#34;https://mrdongdonglin.github.io/img/n_vs_m_b.png&#34; alt=&#34;n_vs_m_b&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -288,7 +288,7 @@ def PowerOfTen(n):
       <guid>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</guid>
       <description>
 
-&lt;p&gt;上一篇文章&lt;a href=&#34;https://mrdongdonglin.github.io/python-power-of-ten&#34; target=&#34;_blank&#34;&gt;Power of ten&lt;/a&gt;中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。&lt;/p&gt;
+&lt;p&gt;上一篇文章&lt;a href=&#34;https://mrdongdonglin.github.io/post/math/power-of-ten/&#34; target=&#34;_blank&#34;&gt;Power of ten&lt;/a&gt;中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。&lt;/p&gt;
 
 &lt;h1 id=&#34;简化方法&#34;&gt;简化方法&lt;/h1&gt;
 
@@ -298,34 +298,34 @@ def PowerOfTen(n):
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;n&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;decimal&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;binary&lt;/th&gt;
+&lt;th&gt;decimal&lt;/th&gt;
+&lt;th&gt;binary&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;101&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;101&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;25&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;11001&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;11001&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td&gt;3&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;125&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1111101&lt;/td&gt;
+&lt;td&gt;125&lt;/td&gt;
+&lt;td&gt;1111101&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;625&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1001110001&lt;/td&gt;
+&lt;td&gt;625&lt;/td&gt;
+&lt;td&gt;1001110001&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -361,7 +361,7 @@ def PowerOfTen(n):
 
 &lt;p&gt;当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/PO2s PO5.jpg&#34; alt=&#34;PO2s PO5&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/PO2s PO5.jpg&#34; alt=&#34;PO2s PO5&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。&lt;/p&gt;
 
@@ -372,59 +372,59 @@ def PowerOfTen(n):
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;$5^n$&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;$2^{-n}$&lt;/th&gt;
+&lt;th&gt;n&lt;/th&gt;
+&lt;th&gt;$5^n$&lt;/th&gt;
+&lt;th&gt;$2^{-n}$&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;0.5&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;25&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.25&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;0.25&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;125&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.125&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;125&lt;/td&gt;
+&lt;td&gt;0.125&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;625&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.0625&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;625&lt;/td&gt;
+&lt;td&gt;0.0625&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;3125&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.03125&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;3125&lt;/td&gt;
+&lt;td&gt;0.03125&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;15625&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.015625&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;15625&lt;/td&gt;
+&lt;td&gt;0.015625&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;78125&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.0078125&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;78125&lt;/td&gt;
+&lt;td&gt;0.0078125&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;390625&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.00390625&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;390625&lt;/td&gt;
+&lt;td&gt;0.00390625&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -444,59 +444,59 @@ $$&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;$2^n$&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;$5^{-n}$&lt;/th&gt;
+&lt;th&gt;n&lt;/th&gt;
+&lt;th&gt;$2^n$&lt;/th&gt;
+&lt;th&gt;$5^{-n}$&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;0.2&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.04&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;0.04&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.008&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;0.008&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;16&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.0016&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;0.0016&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;32&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.00032&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;0.00032&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;64&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.000064&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;td&gt;0.000064&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;128&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.0000128&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;128&lt;/td&gt;
+&lt;td&gt;0.0000128&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;256&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.00000256&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;256&lt;/td&gt;
+&lt;td&gt;0.00000256&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -631,7 +631,7 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/其他/JCR分区.png&#34; alt=&#34;JCR2016&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/其他/JCR分区.png&#34; alt=&#34;JCR2016&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;但是我们查出来是三区的。&lt;/p&gt;
