@@ -11,6 +11,71 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Tips of using matlab</title>
+      <link>https://mrdongdonglin.github.io/post/matlab/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/matlab/</guid>
+      <description>
+
+&lt;p&gt;Matlab高效，完备，用户友好，功能丰富。诸如数据采集、数据库接口、概率统计、样条拟合、优化算法、偏微分方程求解、神经网络、小波分析、信号处理、图像处理、系统辨识、控制系统设计、LMI控制、鲁棒控制、模型预测、模糊逻辑、金融分析、地图工具、非线性控制设计、实时快速原型及半物理仿真、嵌入式系统开发、定点仿真、DSP与通讯、电力系统仿真等，都在工具箱（Toolbox）家族中有了自己的一席之地。&lt;/p&gt;
+
+&lt;h1 id=&#34;基础篇&#34;&gt;基础篇&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;a = 1;
+b = 2.3;
+c = a+b;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结构体&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;s.a = 1;
+s.b = 2;
+s.c = 3;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;function [a, b] = func(c, d, e)
+% 函数体
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面介绍一种更灵活的写法，结合结构体能写出让人更加易懂的代码。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;function varargout = func(varargin)
+% 参数检查，若输入参数少于一个或者多余三个，就报错。
+nargchk(1, 3);
+% 输入参数初始化。
+if varargin == 1
+    a = varargin{1};
+elseif varargin == 2
+    a = varargin{1};
+    b = varargin{2};
+else
+    a = varargin{1};
+    b = varargin{2};
+    c = varargin{3};
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;调试篇&#34;&gt;调试篇&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;单步调试&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>一起吃过的美食</title>
       <link>https://mrdongdonglin.github.io/post/others/%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F/</link>
       <pubDate>Tue, 28 Nov 2017 00:00:00 +0800</pubDate>

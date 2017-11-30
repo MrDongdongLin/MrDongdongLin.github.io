@@ -525,6 +525,129 @@
 
         
         
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://mrdongdonglin.github.io/post/matlab/" itemprop="url">Tips of using matlab</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-30 00:00:00 &#43;0800 CST" itemprop="datePublished">
+      Nov 30, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="https://mrdongdonglin.github.io/post/matlab/#disqus_thread"></a>
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    
+
+<p>Matlab高效，完备，用户友好，功能丰富。诸如数据采集、数据库接口、概率统计、样条拟合、优化算法、偏微分方程求解、神经网络、小波分析、信号处理、图像处理、系统辨识、控制系统设计、LMI控制、鲁棒控制、模型预测、模糊逻辑、金融分析、地图工具、非线性控制设计、实时快速原型及半物理仿真、嵌入式系统开发、定点仿真、DSP与通讯、电力系统仿真等，都在工具箱（Toolbox）家族中有了自己的一席之地。</p>
+
+<h1 id="基础篇">基础篇</h1>
+
+<ul>
+<li>变量</li>
+</ul>
+
+<pre><code class="language-matlab">a = 1;
+b = 2.3;
+c = a+b;
+</code></pre>
+
+<ul>
+<li>结构体</li>
+</ul>
+
+<pre><code class="language-matlab">s.a = 1;
+s.b = 2;
+s.c = 3;
+</code></pre>
+
+<ul>
+<li>函数</li>
+</ul>
+
+<pre><code class="language-matlab">function [a, b] = func(c, d, e)
+% 函数体
+end
+</code></pre>
+
+<p>下面介绍一种更灵活的写法，结合结构体能写出让人更加易懂的代码。</p>
+
+<pre><code class="language-matlab">function varargout = func(varargin)
+% 参数检查，若输入参数少于一个或者多余三个，就报错。
+nargchk(1, 3);
+% 输入参数初始化。
+if varargin == 1
+    a = varargin{1};
+elseif varargin == 2
+    a = varargin{1};
+    b = varargin{2};
+else
+    a = varargin{1};
+    b = varargin{2};
+    c = varargin{3};
+end
+</code></pre>
+
+<h1 id="调试篇">调试篇</h1>
+
+<ul>
+<li>单步调试</li>
+</ul>
+
+    
+  </div>
+  <p class="read-more">
+    <a href="https://mrdongdonglin.github.io/post/matlab/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
 
       
       
@@ -781,73 +904,6 @@
       
 
       
-
-        
-
-        
-        
-
-        
-        
-          
-      
-
-      
-      
-        
-        
-
-<div class="article-list-item" itemscope itemprop="blogPost">
-  
-  
-  <h3 class="article-title" itemprop="name">
-    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/" itemprop="url">Power of Ten Simplify</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2017-11-15 00:00:00 &#43;0800 CST" itemprop="datePublished">
-      Nov 15, 2017
-    </time>
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/#disqus_thread"></a>
-  
-
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    <p>How to calculate power of 10 quickly?</p>
-    
-  </div>
-  <p class="read-more">
-    <a href="https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
     
 
   </div>
@@ -998,6 +1054,13 @@
           
           
           <a href="/tags/math" style="font-size:2.1472181256129828rem">math</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/matlab" style="font-size:0.8rem">matlab</a>
         
           
           
