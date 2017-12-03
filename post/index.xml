@@ -70,8 +70,44 @@ end
 &lt;h1 id=&#34;调试篇&#34;&gt;调试篇&lt;/h1&gt;
 
 &lt;ul&gt;
-&lt;li&gt;单步调试&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;单步调试&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;设置断点&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/matlab/break.png&#34; alt=&#34;bp&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;步进&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;F10&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;步入&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;F11&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;运行多行&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/matlab/run2line.png&#34; alt=&#34;r2l&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;绘图篇&#34;&gt;绘图篇&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Matlab导出无白边pdf图&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://cn.mathworks.com/matlabcentral/fileexchange/23629-export-fig&#34; target=&#34;_blank&#34;&gt;Export figure with matlab&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;fh = gcf;
+export_fig(&#39;xxx.pdf&#39;,&#39;-pdf&#39;,fh);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可参考&lt;a href=&#34;https://mrdongdonglin.github.io/post/matplotlib/&#34; target=&#34;_blank&#34;&gt;Python绘图&lt;/a&gt;对图像美化后再导出。在Matlab可用图形界面设置，也可以用命令。图形界面设置步骤为：&lt;code&gt;编辑&lt;/code&gt; -&amp;gt; &lt;code&gt;图形属性&lt;/code&gt;。&lt;/p&gt;
 </description>
     </item>
     
