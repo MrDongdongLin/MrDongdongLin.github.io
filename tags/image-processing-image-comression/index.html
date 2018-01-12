@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -11,7 +13,7 @@
   <meta name="description" content="Postgraduate of Image Privacy">
 
   
-  <link rel="alternate" hreflang="en-us" href="https://mrdongdonglin.github.io/post/matlab/">
+  <link rel="alternate" hreflang="en-us" href="https://mrdongdonglin.github.io/tags/image-processing-image-comression/">
 
   
   
@@ -70,24 +72,22 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://mrdongdonglin.github.io/post/matlab/">
+  <link rel="canonical" href="https://mrdongdonglin.github.io/tags/image-processing-image-comression/">
 
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Starlin">
-  <meta property="og:url" content="https://mrdongdonglin.github.io/post/matlab/">
-  <meta property="og:title" content="Tips of using matlab | Starlin">
-  <meta property="og:description" content="">
+  <meta property="og:url" content="https://mrdongdonglin.github.io/tags/image-processing-image-comression/">
+  <meta property="og:title" content="Image processing, image comression | Starlin">
+  <meta property="og:description" content="Postgraduate of Image Privacy">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2017-11-30T00:00:00&#43;08:00">
-  
-  <meta property="article:modified_time" content="2017-11-30T00:00:00&#43;08:00">
+  <meta property="og:updated_time" content="2018-01-12T00:00:00&#43;08:00">
   
 
   
 
-  <title>Tips of using matlab | Starlin</title>
+  <title>Image processing, image comression | Starlin</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71" >
@@ -184,250 +184,31 @@
 </nav>
 
 
-<article class="article" itemscope itemtype="http://schema.org/Article">
+
+
+
+<div class="universal-wrapper">
+
+  <h1>Image processing, image comression</h1>
 
   
 
-
-  <div class="article-container">
-    <div class="article-inner">
-      <h1 itemprop="name">Tips of using matlab</h1>
-
+  
+  
+  <div>
+    <h2><a href="https://mrdongdonglin.github.io/post/compression/spiht/">Image Compression with Set Partitioning in Hierarchical Trees</a></h2>
+    <div class="article-style">
       
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2017-11-30 00:00:00 &#43;0800 CST" itemprop="datePublished">
-      Nov 30, 2017
-    </time>
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="https://mrdongdonglin.github.io/post/matlab/#disqus_thread"></a>
-  
-
-  
-
-  
-  
-<div class="share-box" aria-hidden="true">
-  <ul class="share">
-    <li>
-      <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Tips%20of%20using%20matlab&amp;url=https%3a%2f%2fmrdongdonglin.github.io%2fpost%2fmatlab%2f"
-         target="_blank" rel="noopener">
-        <i class="fa fa-twitter"></i>
-      </a>
-    </li>
-    <li>
-      <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmrdongdonglin.github.io%2fpost%2fmatlab%2f"
-         target="_blank" rel="noopener">
-        <i class="fa fa-facebook"></i>
-      </a>
-    </li>
-    <li>
-      <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmrdongdonglin.github.io%2fpost%2fmatlab%2f&amp;title=Tips%20of%20using%20matlab"
-         target="_blank" rel="noopener">
-        <i class="fa fa-linkedin"></i>
-      </a>
-    </li>
-    <li>
-      <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmrdongdonglin.github.io%2fpost%2fmatlab%2f&amp;title=Tips%20of%20using%20matlab"
-         target="_blank" rel="noopener">
-        <i class="fa fa-weibo"></i>
-      </a>
-    </li>
-    <li>
-      <a class="email"
-         href="mailto:?subject=Tips%20of%20using%20matlab&amp;body=https%3a%2f%2fmrdongdonglin.github.io%2fpost%2fmatlab%2f">
-        <i class="fa fa-envelope"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
-
-  
-
-</div>
-
-
-      <div class="article-style" itemprop="articleBody">
-        
-
-<p>Matlab高效，完备，用户友好，功能丰富。诸如数据采集、数据库接口、概率统计、样条拟合、优化算法、偏微分方程求解、神经网络、小波分析、信号处理、图像处理、系统辨识、控制系统设计、LMI控制、鲁棒控制、模型预测、模糊逻辑、金融分析、地图工具、非线性控制设计、实时快速原型及半物理仿真、嵌入式系统开发、定点仿真、DSP与通讯、电力系统仿真等，都在工具箱（Toolbox）家族中有了自己的一席之地。</p>
-
-<h1 id="基础篇">基础篇</h1>
-
-<ul>
-<li>变量</li>
-</ul>
-
-<pre><code class="language-matlab">a = 1;
-b = 2.3;
-c = a+b;
-</code></pre>
-
-<ul>
-<li>结构体</li>
-</ul>
-
-<pre><code class="language-matlab">s.a = 1;
-s.b = 2;
-s.c = 3;
-</code></pre>
-
-<ul>
-<li>函数</li>
-</ul>
-
-<pre><code class="language-matlab">function [a, b] = func(c, d, e)
-% 函数体
-end
-</code></pre>
-
-<p>下面介绍一种更灵活的写法，结合结构体能写出让人更加易懂的代码。</p>
-
-<pre><code class="language-matlab">function varargout = func(varargin)
-% 参数检查，若输入参数少于一个或者多余三个，就报错。
-nargchk(1, 3);
-% 输入参数初始化。
-if varargin == 1
-    a = varargin{1};
-elseif varargin == 2
-    a = varargin{1};
-    b = varargin{2};
-else
-    a = varargin{1};
-    b = varargin{2};
-    c = varargin{3};
-end
-</code></pre>
-
-<h1 id="调试篇">调试篇</h1>
-
-<ul>
-<li><p>单步调试</p>
-
-<ul>
-<li>设置断点</li>
-</ul>
-
-<p><img src="/img/matlab/break.png" alt="bp" /></p>
-
-<ul>
-<li>步进</li>
-</ul>
-
-<p>F10</p>
-
-<ul>
-<li>步入</li>
-</ul>
-
-<p>F11</p></li>
-
-<li><p>运行多行</p></li>
-</ul>
-
-<p><img src="/img/matlab/run2line.png" alt="r2l" /></p>
-
-<h1 id="绘图篇">绘图篇</h1>
-
-<ul>
-<li>Matlab导出无白边pdf图</li>
-</ul>
-
-<p><a href="https://cn.mathworks.com/matlabcentral/fileexchange/23629-export-fig" target="_blank">Export figure with matlab</a></p>
-
-<pre><code class="language-matlab">fh = gcf;
-export_fig('xxx.pdf','-pdf',fh);
-</code></pre>
-
-<p>可参考<a href="https://mrdongdonglin.github.io/post/matplotlib/" target="_blank">Python绘图</a>对图像美化后再导出。在Matlab可用图形界面设置，也可以用命令。图形界面设置步骤为：<code>编辑</code> -&gt; <code>图形属性</code>。</p>
-
-      </div>
-
+      The powerful wavelet-based image compression method called Set Partitioning in Hierarchical Trees (SPIHT). This award-winning method has received worldwide acclaim and attention since its introduction via this web site in 1995. Thousands of people, researchers and practioners alike, have now tested and used SPIHT. It has become the benchmark state-of-the-art algorithm for image compression.
       
-
-
-<div class="article-tags">
-  
-  <a class="btn btn-primary btn-outline" href="/tags/matlab">matlab</a>
-  
-</div>
-
-
-
     </div>
   </div>
-
-</article>
-
-
-
-
-
-<div class="container article-widget">
-  <nav>
-  <ul class="pager">
-    
-    <li class="previous"><a href="https://mrdongdonglin.github.io/post/others/%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F/"><span
-      aria-hidden="true">&larr;</span> 一起吃过的美食</a></li>
-    
-
-    
-    <li class="next"><a href="https://mrdongdonglin.github.io/post/compression/spiht/">Image Compression with Set Partitioning in Hierarchical Trees <span
-      aria-hidden="true">&rarr;</span></a></li>
-    
-  </ul>
-</nav>
-
-</div>
-
-
-<div class="article-container">
   
-<section id="comments">
-  <div id="disqus_thread"></div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "https-mrdongdonglin-github-io" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
+
+  
 
 
 </div>
-
 <footer class="site-footer">
   <div class="container">
     <p class="powered-by">
@@ -519,4 +300,6 @@ export_fig('xxx.pdf','-pdf',fh);
 
   </body>
 </html>
+
+
 
