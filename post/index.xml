@@ -6,9 +6,52 @@
     <description>Recent content in Posts on Starlin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Starlin</copyright>
+    <copyright>&amp;copy; 2018 Starlin</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0800</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>latexdiff</title>
+      <link>https://mrdongdonglin.github.io/post/latexdiff/</link>
+      <pubDate>Wed, 17 Jan 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/latexdiff/</guid>
+      <description>
+
+&lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://mrdongdonglin.github.io/files/latexdiff.rar&#34; target=&#34;_blank&#34;&gt;这里&lt;/a&gt;提供本文所需的脚本和批处理文件，还有清理&lt;code&gt;tex&lt;/code&gt;多余文件的脚本工具&lt;code&gt;TexClear.bat&lt;/code&gt;（其实就是几个删除命令而已啦）也一并附上。&lt;/p&gt;
+
+&lt;p&gt;如果你拥有两个版本以上的&lt;code&gt;tex&lt;/code&gt;源文件，例如：&lt;code&gt;xxx_v1.0&lt;/code&gt;和&lt;code&gt;xxx_v2.0&lt;/code&gt;，你可以通过&lt;a href=&#34;https://3142.nl/latex-diff/&#34; target=&#34;_blank&#34;&gt;latexdiff&lt;/a&gt;这个工具来比较这两个版本的差异。就像这样：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/其他/latexdiff.png&#34; alt=&#34;example_latexdiff&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;使用教程&#34;&gt;使用教程&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;安装依赖环境&lt;code&gt;Perl&lt;/code&gt;：&lt;a href=&#34;http://downloads.activestate.com/ActivePerl/releases/&#34; target=&#34;_blank&#34;&gt;http://downloads.activestate.com/ActivePerl/releases/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载脚本&lt;code&gt;latexdiff.pl&lt;/code&gt;：&lt;a href=&#34;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&#34; target=&#34;_blank&#34;&gt;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;将你需要比较的两个&lt;code&gt;tex&lt;/code&gt;源文件以及源文件依赖的&lt;code&gt;figures&lt;/code&gt;、&lt;code&gt;bib&lt;/code&gt;源文件放入同一文件夹内。&lt;/li&gt;
+&lt;li&gt;新建一个&lt;code&gt;bat&lt;/code&gt;批处理文件，写入内容&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;latexdiff.pl -t UNDERLINE xxx_v1.0.tex xxx_v2.0.tex &amp;gt; xxx_diff.tex  
+pdflatex xxx_diff
+bibtex xxx_diff
+bibtex xxx_diff
+pdflatex xxx_diff
+pdflatex xxx_diff
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行批处理文件，生成&lt;code&gt;xxx_diff.pdf&lt;/code&gt;，打开该文件，恭喜你，get到了一个技能。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;动图教程&#34;&gt;动图教程&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/其他/latexdiff_demo.gif&#34; alt=&#34;latexdiff_demo&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Image Compression with Set Partitioning in Hierarchical Trees</title>
