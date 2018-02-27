@@ -471,9 +471,9 @@ ax.xaxis.set_minor_locator(ticker.MultipleLocator(1.00))
 
 &lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/pyplot/matplotlib_2.png&#34; alt=&#34;matplotlib_2&#34; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;tex-used-format&#34;&gt;$TeX$ used format&lt;/h2&gt;
+&lt;h2 id=&#34;rm-tex-used-format&#34;&gt;$\rm \TeX$ used format&lt;/h2&gt;
 
-&lt;p&gt;Default font of the figure is not fit with $TeX$ font, if the text needs $TeX$ font, the following command should be included.&lt;/p&gt;
+&lt;p&gt;Default font of the figure is not fit with $\rm \TeX$ font, if the text needs $\rm \TeX$ font, the following command should be included.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from matplotlib import rc
 rc(&#39;font&#39;,**{&#39;family&#39;:&#39;sans-serif&#39;,&#39;sans-serif&#39;:[&#39;Helvetica&#39;]})
