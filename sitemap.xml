@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://mrdongdonglin.github.io/project/xtuthesis/</loc>
+      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mrdongdonglin.github.io/post/latexdiff/</loc>
       <lastmod>2018-01-17T00:00:00+08:00</lastmod>
     </url>
@@ -284,7 +293,7 @@
     <url>
     
       <loc>https://mrdongdonglin.github.io/project/</loc>
-      <lastmod>2017-11-15T18:24:45+08:00</lastmod>
+      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -335,6 +344,16 @@
     
       <loc>https://mrdongdonglin.github.io/tags/</loc>
       <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mrdongdonglin.github.io/tags/tex/latex/</loc>
+      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
       <priority>0</priority>
     </url>
     

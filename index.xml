@@ -11,6 +11,32 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>A TeX/LaTeX Template of the Master Thesis of XTU</title>
+      <link>https://mrdongdonglin.github.io/project/xtuthesis/</link>
+      <pubDate>Tue, 27 Feb 2018 16:00:41 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/project/xtuthesis/</guid>
+      <description>
+
+&lt;h2 id=&#34;使用说明&#34;&gt;使用说明&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;下载最新版&lt;code&gt;CTeX&lt;/code&gt;套装：&lt;a href=&#34;http://www.ctex.org/HomePage&#34; target=&#34;_blank&#34;&gt;http://www.ctex.org/HomePage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载本项目：&lt;a href=&#34;https://github.com/MrDongdongLin/xtuthesis/releases&#34; target=&#34;_blank&#34;&gt;https://github.com/MrDongdongLin/xtuthesis/releases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;WinEdt&lt;/code&gt;打开&lt;code&gt;xtuthesis.tex&lt;/code&gt;：
+
+&lt;ul&gt;
+&lt;li&gt;编译文件：&lt;code&gt;XeLaTeX&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;参考文献：&lt;code&gt;BibTeX&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;编译有问题的话多重复上一步骤直到没有问题即可。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在主目录下得到pdf文件，执行&lt;code&gt;texclear.bat&lt;/code&gt;清理多余的文件。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>latexdiff</title>
       <link>https://mrdongdonglin.github.io/post/latexdiff/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0800</pubDate>
@@ -1153,49 +1179,6 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/画画/犬夜叉2.jpg&#34; alt=&#34;犬夜叉2&#34; /&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>面经</title>
-      <link>https://mrdongdonglin.github.io/post/others/%E9%9D%A2%E7%BB%8F/</link>
-      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
-      
-      <guid>https://mrdongdonglin.github.io/post/others/%E9%9D%A2%E7%BB%8F/</guid>
-      <description>
-
-&lt;p&gt;我从2017年5月份开始找实习，正式开始投简历应该是6月份，直到九月份实习结束，这里记录一些我的面试经历。&lt;/p&gt;
-
-&lt;h1 id=&#34;制作简历&#34;&gt;制作简历&lt;/h1&gt;
-
-&lt;p&gt;找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击&lt;a href=&#34;https://mrdongdonglin.github.io/files/CV_DongdongLin.pdf&#34; target=&#34;_blank&#34;&gt;简历&lt;/a&gt;，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司……&lt;/p&gt;
-
-&lt;h1 id=&#34;深信服&#34;&gt;深信服&lt;/h1&gt;
-
-&lt;p&gt;深信服笔试考的是C语言，题目不难，但是考的很细、很深，我最喜欢他们家的笔试题。深信服笔试选择题一共30道，内容包括&lt;code&gt;字符串处理&lt;/code&gt;、&lt;code&gt;指针运用&lt;/code&gt;、&lt;code&gt;内存泄漏&lt;/code&gt;、&lt;code&gt;字节对齐&lt;/code&gt;等等，还包含&lt;code&gt;编译原理文法&lt;/code&gt;、&lt;code&gt;正则表达式&lt;/code&gt;、&lt;code&gt;加解密&lt;/code&gt;各一题。填空题15道，根据面试岗位不同而题目也有所不同，我当时投的windows开发，结果填空题考&lt;code&gt;windows API&lt;/code&gt;我一个都不会- -。编程题三道，深信服我做过两套他们的卷子，选择题基本上差不多，而编程题都不一样，包括&lt;code&gt;哈夫曼树&lt;/code&gt;、&lt;code&gt;链表冒泡排序&lt;/code&gt;、&lt;code&gt;字符串正则匹配&lt;/code&gt;（还有一套题目我忘了）。&lt;/p&gt;
-
-&lt;p&gt;深信服的笔试通过后我跪在了面试上，第一次面试，该犯的错都犯了……这里列举一些我犯过的错误：
-- “这个我不熟悉”，“那个我不太会” —— 回家等消息。
-- “学习开源代码啊？我大概要三周吧！” —— 将近一个月啊！同志。
-- ……&lt;/p&gt;
-
-&lt;p&gt;面试的时候还问了&lt;code&gt;虚函数&lt;/code&gt;、&lt;code&gt;字符串处理&lt;/code&gt;、&lt;code&gt;图像处理&lt;/code&gt;。&lt;/p&gt;
-
-&lt;h1 id=&#34;wps&#34;&gt;WPS&lt;/h1&gt;
-
-&lt;p&gt;这个公司我怀疑就是来搞搞宣传的，至今不知道为什么我挂了。笔试考C++，考点基本与深信服一致，就是多了C++的&lt;code&gt;STL&lt;/code&gt;还有&lt;code&gt;虚函数&lt;/code&gt;（虚函数贼爱考），但题目没有深信服出的好，并不算难，三道编程题我有一道没做（莫非是因为这个挂了？）也进了面试。&lt;/p&gt;
-
-&lt;p&gt;我是跪在电话面试上，HR与我热情的交谈了40多分钟，还留了一道题目给我，我们还围绕这个问题互发了几次邮件，最终我被拒了，interesting，我去你的大西瓜。&lt;/p&gt;
-
-&lt;h1 id=&#34;智慧眼&#34;&gt;智慧眼&lt;/h1&gt;
-
-&lt;p&gt;这是通过内推进的面试，人事处的小姐人很好，HR看起来像是一个niubility的人，面试的时候说俺们这儿招的是XXX开发，你这个YYY，好像不符合啊。所以说投合适的岗位真的很重要啊！朋友们。末了HR还要我当场写冒泡排序，说是要看我的编码风格。我怕死了，写了那么多次快排，冒泡差点都忘记怎么写了，虽然我觉得我写对了，然并卵，岗位不合适。&lt;/p&gt;
-
-&lt;h1 id=&#34;智为信息&#34;&gt;智为信息&lt;/h1&gt;
-
-&lt;p&gt;为了面试这家公司，我花了三天把《计算机网络》这本书给啃了，还看了一些网络安全的相关知识，例如常见的&lt;code&gt;流量攻击&lt;/code&gt;&amp;mdash;&lt;code&gt;SYN flood&lt;/code&gt;，&lt;code&gt;ACK flood&lt;/code&gt;等等。老总黑客出身，从我出生那年就开始做网络安全了（你以为他很老？老总是80后）。虽然我简历上的东西和他们要招的岗位还是冲突了，但是老总和我交谈的还可以，最终还是留下我了。&lt;/p&gt;
-
-&lt;p&gt;总结经验就是，HR问你会不会这个会不会那个的时候，你能吹牛逼就能进，进了之后会不会再说。&lt;/p&gt;
 </description>
     </item>
     

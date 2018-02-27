@@ -7,8 +7,34 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Starlin</copyright>
-    <lastBuildDate>Wed, 15 Nov 2017 18:24:45 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 27 Feb 2018 16:00:41 +0800</lastBuildDate>
     <atom:link href="/project/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>A TeX/LaTeX Template of the Master Thesis of XTU</title>
+      <link>https://mrdongdonglin.github.io/project/xtuthesis/</link>
+      <pubDate>Tue, 27 Feb 2018 16:00:41 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/project/xtuthesis/</guid>
+      <description>
+
+&lt;h2 id=&#34;使用说明&#34;&gt;使用说明&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;下载最新版&lt;code&gt;CTeX&lt;/code&gt;套装：&lt;a href=&#34;http://www.ctex.org/HomePage&#34; target=&#34;_blank&#34;&gt;http://www.ctex.org/HomePage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载本项目：&lt;a href=&#34;https://github.com/MrDongdongLin/xtuthesis/releases&#34; target=&#34;_blank&#34;&gt;https://github.com/MrDongdongLin/xtuthesis/releases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;WinEdt&lt;/code&gt;打开&lt;code&gt;xtuthesis.tex&lt;/code&gt;：
+
+&lt;ul&gt;
+&lt;li&gt;编译文件：&lt;code&gt;XeLaTeX&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;参考文献：&lt;code&gt;BibTeX&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;编译有问题的话多重复上一步骤直到没有问题即可。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在主目录下得到pdf文件，执行&lt;code&gt;texclear.bat&lt;/code&gt;清理多余的文件。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Cryptanalyzing an image scrambling encryption algorithm of pixel bits</title>
