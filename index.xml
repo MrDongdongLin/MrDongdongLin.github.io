@@ -21,8 +21,8 @@
 &lt;h2 id=&#34;使用说明&#34;&gt;使用说明&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;下载最新版&lt;code&gt;CTeX&lt;/code&gt;套装：&lt;a href=&#34;http://www.ctex.org/HomePage&#34; target=&#34;_blank&#34;&gt;http://www.ctex.org/HomePage&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;下载本项目：&lt;a href=&#34;https://github.com/MrDongdongLin/xtuthesis/releases&#34; target=&#34;_blank&#34;&gt;https://github.com/MrDongdongLin/xtuthesis/releases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载最新版&lt;code&gt;CTeX&lt;/code&gt;套装：&lt;a href=&#34;http://www.ctex.org/HomePage&#34;&gt;http://www.ctex.org/HomePage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载本项目：&lt;a href=&#34;https://github.com/MrDongdongLin/xtuthesis/releases&#34;&gt;https://github.com/MrDongdongLin/xtuthesis/releases&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;使用&lt;code&gt;WinEdt&lt;/code&gt;打开&lt;code&gt;xtuthesis.tex&lt;/code&gt;：
 
 &lt;ul&gt;
@@ -48,15 +48,15 @@
 
 &lt;p&gt;&lt;a href=&#34;https://mrdongdonglin.github.io/files/latexdiff.rar&#34; target=&#34;_blank&#34;&gt;这里&lt;/a&gt;提供本文所需的脚本和批处理文件，还有清理&lt;code&gt;tex&lt;/code&gt;多余文件的脚本工具&lt;code&gt;TexClear.bat&lt;/code&gt;（其实就是几个删除命令而已啦）也一并附上。&lt;/p&gt;
 
-&lt;p&gt;如果你拥有两个版本以上的&lt;code&gt;tex&lt;/code&gt;源文件，例如：&lt;code&gt;xxx_v1.0&lt;/code&gt;和&lt;code&gt;xxx_v2.0&lt;/code&gt;，你可以通过&lt;a href=&#34;https://3142.nl/latex-diff/&#34; target=&#34;_blank&#34;&gt;latexdiff&lt;/a&gt;这个工具来比较这两个版本的差异。就像这样：&lt;/p&gt;
+&lt;p&gt;如果你拥有两个版本以上的&lt;code&gt;tex&lt;/code&gt;源文件，例如：&lt;code&gt;xxx_v1.0&lt;/code&gt;和&lt;code&gt;xxx_v2.0&lt;/code&gt;，你可以通过&lt;a href=&#34;https://3142.nl/latex-diff/&#34;&gt;latexdiff&lt;/a&gt;这个工具来比较这两个版本的差异。就像这样：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/其他/latexdiff.png&#34; alt=&#34;example_latexdiff&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;使用教程&#34;&gt;使用教程&lt;/h2&gt;
 
 &lt;ol&gt;
-&lt;li&gt;安装依赖环境&lt;code&gt;Perl&lt;/code&gt;：&lt;a href=&#34;http://downloads.activestate.com/ActivePerl/releases/&#34; target=&#34;_blank&#34;&gt;http://downloads.activestate.com/ActivePerl/releases/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;下载脚本&lt;code&gt;latexdiff.pl&lt;/code&gt;：&lt;a href=&#34;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&#34; target=&#34;_blank&#34;&gt;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;安装依赖环境&lt;code&gt;Perl&lt;/code&gt;：&lt;a href=&#34;http://downloads.activestate.com/ActivePerl/releases/&#34;&gt;http://downloads.activestate.com/ActivePerl/releases/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载脚本&lt;code&gt;latexdiff.pl&lt;/code&gt;：&lt;a href=&#34;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&#34;&gt;http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;将你需要比较的两个&lt;code&gt;tex&lt;/code&gt;源文件以及源文件依赖的&lt;code&gt;figures&lt;/code&gt;、&lt;code&gt;bib&lt;/code&gt;源文件放入同一文件夹内。&lt;/li&gt;
 &lt;li&gt;新建一个&lt;code&gt;bat&lt;/code&gt;批处理文件，写入内容&lt;/li&gt;
 &lt;/ol&gt;
@@ -180,13 +180,13 @@ end
 &lt;li&gt;Matlab导出无白边pdf图&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://cn.mathworks.com/matlabcentral/fileexchange/23629-export-fig&#34; target=&#34;_blank&#34;&gt;Export figure with matlab&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cn.mathworks.com/matlabcentral/fileexchange/23629-export-fig&#34;&gt;Export figure with matlab&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;fh = gcf;
 export_fig(&#39;xxx.pdf&#39;,&#39;-pdf&#39;,fh);
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;可参考&lt;a href=&#34;https://mrdongdonglin.github.io/post/matplotlib/&#34; target=&#34;_blank&#34;&gt;Python绘图&lt;/a&gt;对图像美化后再导出。在Matlab可用图形界面设置，也可以用命令。图形界面设置步骤为：&lt;code&gt;编辑&lt;/code&gt; -&amp;gt; &lt;code&gt;图形属性&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;可参考&lt;a href=&#34;https://mrdongdonglin.github.io/post/matplotlib/&#34;&gt;Python绘图&lt;/a&gt;对图像美化后再导出。在Matlab可用图形界面设置，也可以用命令。图形界面设置步骤为：&lt;code&gt;编辑&lt;/code&gt; -&amp;gt; &lt;code&gt;图形属性&lt;/code&gt;。&lt;/p&gt;
 </description>
     </item>
     
@@ -467,7 +467,7 @@ export_fig(&#39;xxx.pdf&#39;,&#39;-pdf&#39;,fh);
 &lt;p&gt;You can download the &lt;a href=&#34;https://mrdongdonglin.github.io/codes/matplotlib_case.py&#34; target=&#34;_blank&#34;&gt;code&lt;/a&gt; of this case.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://matplotlib.org/&#34; target=&#34;_blank&#34;&gt;Matplotlib&lt;/a&gt; is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://matplotlib.org/&#34;&gt;Matplotlib&lt;/a&gt; is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.&lt;/p&gt;
 
 &lt;h1 id=&#34;installation&#34;&gt;Installation&lt;/h1&gt;
 
@@ -477,13 +477,13 @@ export_fig(&#39;xxx.pdf&#39;,&#39;-pdf&#39;,fh);
 python -mpip install -U matplotlib
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;I suggest that you install &lt;a href=&#34;https://www.anaconda.com/download/&#34; target=&#34;_blank&#34;&gt;Anaconda&lt;/a&gt;, &lt;code&gt;Anaconda&lt;/code&gt; is a welcome Python data science platform, it includes many Python packages like &lt;code&gt;Numpy&lt;/code&gt;, &lt;code&gt;SciPy&lt;/code&gt; and &lt;code&gt;Matplotlib&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I suggest that you install &lt;a href=&#34;https://www.anaconda.com/download/&#34;&gt;Anaconda&lt;/a&gt;, &lt;code&gt;Anaconda&lt;/code&gt; is a welcome Python data science platform, it includes many Python packages like &lt;code&gt;Numpy&lt;/code&gt;, &lt;code&gt;SciPy&lt;/code&gt; and &lt;code&gt;Matplotlib&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The following parts of this blog will show you how to plot and improve a figure with &lt;code&gt;Matplotlib&lt;/code&gt; step by step.&lt;/p&gt;
 
 &lt;h1 id=&#34;a-simple-case&#34;&gt;A simple case&lt;/h1&gt;
 
-&lt;p&gt;Here is a simple case from the &lt;a href=&#34;http://matplotlib.org/gallery/index.html&#34; target=&#34;_blank&#34;&gt;gallery&lt;/a&gt; of &lt;code&gt;Matplotlib&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here is a simple case from the &lt;a href=&#34;http://matplotlib.org/gallery/index.html&#34;&gt;gallery&lt;/a&gt; of &lt;code&gt;Matplotlib&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
 import matplotlib.pyplot as plt
@@ -496,7 +496,7 @@ plt.plot(t, t, &#39;r--&#39;, t, 2*t, &#39;bs&#39;)
 plt.show()
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In my github repository &lt;a href=&#34;https://github.com/MrDongdongLin/Learn-Python&#34; target=&#34;_blank&#34;&gt;Learn Python&lt;/a&gt;, the procedure is described that &lt;code&gt;how to remove the axes and the white margin of an image object that ploted by pyplot?&lt;/code&gt;. Just use &lt;code&gt;fig = plt.figure()&lt;/code&gt; to produce a figure, then save it with&lt;/p&gt;
+&lt;p&gt;In my github repository &lt;a href=&#34;https://github.com/MrDongdongLin/Learn-Python&#34;&gt;Learn Python&lt;/a&gt;, the procedure is described that &lt;code&gt;how to remove the axes and the white margin of an image object that ploted by pyplot?&lt;/code&gt;. Just use &lt;code&gt;fig = plt.figure()&lt;/code&gt; to produce a figure, then save it with&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fig.savefig(&amp;quot;pyplot.png&amp;quot;, bbox_inches=&#39;tight&#39;, pad_inches = 0)
 &lt;/code&gt;&lt;/pre&gt;
@@ -678,7 +678,7 @@ def PowerOfTen(n):
       <guid>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</guid>
       <description>
 
-&lt;p&gt;上一篇文章&lt;a href=&#34;https://mrdongdonglin.github.io/post/math/power-of-ten/&#34; target=&#34;_blank&#34;&gt;Power of ten&lt;/a&gt;中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。&lt;/p&gt;
+&lt;p&gt;上一篇文章&lt;a href=&#34;https://mrdongdonglin.github.io/post/math/power-of-ten/&#34;&gt;Power of ten&lt;/a&gt;中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。&lt;/p&gt;
 
 &lt;h1 id=&#34;简化方法&#34;&gt;简化方法&lt;/h1&gt;
 
@@ -747,7 +747,7 @@ def PowerOfTen(n):
       <guid>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</guid>
       <description>
 
-&lt;p&gt;本文前两节非原创，由&lt;a href=&#34;http://www.exploringbinary.com/seeing-powers-of-five-in-powers-of-two-and-vice-versa/&#34; target=&#34;_blank&#34;&gt;此&lt;/a&gt;部分翻译而来。&lt;/p&gt;
+&lt;p&gt;本文前两节非原创，由&lt;a href=&#34;http://www.exploringbinary.com/seeing-powers-of-five-in-powers-of-two-and-vice-versa/&#34;&gt;此&lt;/a&gt;部分翻译而来。&lt;/p&gt;
 
 &lt;p&gt;当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。&lt;/p&gt;
 
@@ -933,7 +933,7 @@ bishift(1.0,-3); % 输出0
 
 &lt;h1 id=&#34;pari的python包-cypari&#34;&gt;PARI的python包 - cypari&lt;/h1&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34; target=&#34;_blank&#34;&gt;PARI/GP&lt;/a&gt;是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线&amp;hellip;) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:PARI&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:PARI&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34;&gt;PARI/GP&lt;/a&gt;是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线&amp;hellip;) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:PARI&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:PARI&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;安装Python Pari Library&lt;/li&gt;
@@ -958,7 +958,7 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 &lt;hr /&gt;
 
 &lt;ol&gt;
-&lt;li id=&#34;fn:PARI&#34;&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34; target=&#34;_blank&#34;&gt;http://pari.math.u-bordeaux.fr/&lt;/a&gt;
+&lt;li id=&#34;fn:PARI&#34;&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34;&gt;http://pari.math.u-bordeaux.fr/&lt;/a&gt;
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:PARI&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
@@ -1149,7 +1149,7 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 &lt;hr /&gt;
 
 &lt;ol&gt;
-&lt;li id=&#34;fn:jcr&#34;&gt;&lt;a href=&#34;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&#34; target=&#34;_blank&#34;&gt;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&lt;/a&gt;
+&lt;li id=&#34;fn:jcr&#34;&gt;&lt;a href=&#34;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&#34;&gt;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&lt;/a&gt;
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:jcr&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
