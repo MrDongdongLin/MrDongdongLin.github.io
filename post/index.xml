@@ -11,6 +11,49 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>How to write a paper</title>
+      <link>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</guid>
+      <description>
+
+&lt;h2 id=&#34;rm-latex&#34;&gt;$\rm \LaTeX$&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://mrdongdonglin.github.io/files/tex/LaTeX.pdf&#34; target=&#34;_blank&#34;&gt;A guide to the LaTeX typesetting system&lt;/a&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:wikibooks&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:wikibooks&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;During this guide we have seen what is possible to do and how this can be achieved, but the question is: I want to write a proper text with LaTeX, what to do then? Where should I start from? This is a short step-by-step guide about how to start a document properly, keeping a good high-level structure. This is all about organizing your files using the modular capabilities of LaTeX. This way it will be very easy to make modifications even when the document is almost finished. These are all just suggestions, but you might take inspiration from that to create your own document.&lt;/p&gt;
+
+&lt;p&gt;Refer to &lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX/Modular_Documents&#34;&gt;https://en.wikibooks.org/wiki/LaTeX/Modular_Documents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Create your own packages: &lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX/Creating_Packages&#34;&gt;https://en.wikibooks.org/wiki/LaTeX/Creating_Packages&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;writing&#34;&gt;Writing&lt;/h2&gt;
+
+&lt;a href=&#34;https://mrdongdonglin.github.io/files/tex/write-chinese.pdf&#34; target=&#34;_blank&#34;&gt;Recipe for a Quality Scientific Paper: Fulfill Readers&amp;rsquo; and Reviewers&amp;rsquo; Expectations&lt;/a&gt;
+
+&lt;a href=&#34;https://mrdongdonglin.github.io/files/tex/typefaces.pdf&#34; target=&#34;_blank&#34;&gt;Typefaces for Symbols in Scientific Manuscripts&lt;/a&gt;
+
+&lt;p&gt;How to write an abstract: &lt;a href=&#34;https://users.ece.cmu.edu/~koopman/essays/abstract.html&#34;&gt;https://users.ece.cmu.edu/~koopman/essays/abstract.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;How to write a conclusion: &lt;a href=&#34;https://leo.stcloudstate.edu/acadwrite/conclude.html&#34;&gt;https://leo.stcloudstate.edu/acadwrite/conclude.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;more-tools&#34;&gt;More tools&lt;/h2&gt;
+
+&lt;p&gt;Refer to &lt;a href=&#34;http://www.ee.cityu.edu.hk/~cqli/htdr/htdr.htm&#34;&gt;http://www.ee.cityu.edu.hk/~cqli/htdr/htdr.htm&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:wikibooks&#34;&gt;&lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX&#34;&gt;https://en.wikibooks.org/wiki/LaTeX&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:wikibooks&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>latexdiff</title>
       <link>https://mrdongdonglin.github.io/post/latexdiff/</link>
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0800</pubDate>
