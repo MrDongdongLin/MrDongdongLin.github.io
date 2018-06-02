@@ -11,6 +11,20 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>How to make thesis ppt</title>
+      <link>https://mrdongdonglin.github.io/post/how-to-make-ppt/</link>
+      <pubDate>Sat, 02 Jun 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/how-to-make-ppt/</guid>
+      <description>&lt;a href=&#34;https://mrdongdonglin.github.io/files/privacy_v0.9.pptx&#34; target=&#34;_blank&#34;&gt;privacy_v0.9&lt;/a&gt;
+
+&lt;a href=&#34;https://mrdongdonglin.github.io/files/privacy_v1.0.pptx&#34; target=&#34;_blank&#34;&gt;privacy_v1.0&lt;/a&gt;
+
+&lt;a href=&#34;https://mrdongdonglin.github.io/files/privacy_v1.5.pptx&#34; target=&#34;_blank&#34;&gt;privacy_v1.5&lt;/a&gt;
+</description>
+    </item>
+    
+    <item>
       <title>How to write a paper</title>
       <link>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</link>
       <pubDate>Sun, 15 Apr 2018 00:00:00 +0800</pubDate>
@@ -20,7 +34,7 @@
 
 &lt;h2 id=&#34;rm-latex&#34;&gt;$\rm \LaTeX$&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://mrdongdonglin.github.io/files/tex/LaTeX.pdf&#34; target=&#34;_blank&#34;&gt;A guide to the LaTeX typesetting system&lt;/a&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:wikibooks&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:wikibooks&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://mrdongdonglin.github.io/files/tex/LaTeX.pdf&#34; target=&#34;_blank&#34;&gt;A guide to the LaTeX typesetting system&lt;/a&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:wikibooks&#34;&gt;&lt;a href=&#34;#fn:wikibooks&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;During this guide we have seen what is possible to do and how this can be achieved, but the question is: I want to write a proper text with LaTeX, what to do then? Where should I start from? This is a short step-by-step guide about how to start a document properly, keeping a good high-level structure. This is all about organizing your files using the modular capabilities of LaTeX. This way it will be very easy to make modifications even when the document is almost finished. These are all just suggestions, but you might take inspiration from that to create your own document.&lt;/p&gt;
 
@@ -445,11 +459,11 @@ export_fig(&#39;xxx.pdf&#39;,&#39;-pdf&#39;,fh);
       <guid>https://mrdongdonglin.github.io/post/lyapunov-exponent/</guid>
       <description>
 
-&lt;p&gt;In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Lyapunov&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:Lyapunov&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Lyapunov&#34;&gt;&lt;a href=&#34;#fn:Lyapunov&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.g., phase space compactness).&lt;/p&gt;
 
-&lt;p&gt;In the following, the procedure of calculating the largest Lyapunov exponent by Wolf&amp;rsquo;s algorithm&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Wolf&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:Wolf&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; will be introduced.&lt;/p&gt;
+&lt;p&gt;In the following, the procedure of calculating the largest Lyapunov exponent by Wolf&amp;rsquo;s algorithm&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Wolf&#34;&gt;&lt;a href=&#34;#fn:Wolf&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; will be introduced.&lt;/p&gt;
 
 &lt;h1 id=&#34;delay-reconstruction&#34;&gt;Delay reconstruction&lt;/h1&gt;
 
@@ -976,7 +990,7 @@ bishift(1.0,-3); % 输出0
 
 &lt;h1 id=&#34;pari的python包-cypari&#34;&gt;PARI的python包 - cypari&lt;/h1&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34;&gt;PARI/GP&lt;/a&gt;是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线&amp;hellip;) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:PARI&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:PARI&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34;&gt;PARI/GP&lt;/a&gt;是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线&amp;hellip;) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:PARI&#34;&gt;&lt;a href=&#34;#fn:PARI&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;安装Python Pari Library&lt;/li&gt;
@@ -1003,197 +1017,6 @@ print float(f&amp;gt;&amp;gt;4) # 输出0.0625
 &lt;ol&gt;
 &lt;li id=&#34;fn:PARI&#34;&gt;&lt;a href=&#34;http://pari.math.u-bordeaux.fr/&#34;&gt;http://pari.math.u-bordeaux.fr/&lt;/a&gt;
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:PARI&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>国奖</title>
-      <link>https://mrdongdonglin.github.io/post/others/%E5%9B%BD%E5%A5%96/</link>
-      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
-      
-      <guid>https://mrdongdonglin.github.io/post/others/%E5%9B%BD%E5%A5%96/</guid>
-      <description>
-
-&lt;p&gt;20xx年国家奖学金评选正式开始了，A君手里一篇论文审了大半年终于见刊，A君的导师告诉A君，按往年的情况，你这篇一区论文可碾压其他选手。A君对这些其实不太了解，但是看去年的国奖获得者，一篇SCI四区都能得奖，我这个再怎么说也不比四区差吧？怀着这样的心情，A君参加了国奖评选。&lt;/p&gt;
-
-&lt;h1 id=&#34;交材料&#34;&gt;交材料&lt;/h1&gt;
-
-&lt;p&gt;很有趣，校学工处和院网站&lt;code&gt;各发了一则&lt;/code&gt;关于上交申报国奖材料的通知，里面需要的材料竟然都&lt;code&gt;不一致&lt;/code&gt;！A君查看了群消息，&lt;code&gt;发现没有相关网址&lt;/code&gt;。T老师收到材料的时候说&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这个材料要打五份，你这里只有一份。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A君懵逼，签字的导师不在学校呀，咋整？导师说这是逼造假模仿啊。经过XXX（过程省略），A君终于貌似交齐了材料。&lt;/p&gt;
-
-&lt;p&gt;然而事情不是想象中那么简单，A君还是被通知论文材料差四份，诶？您不是说只要交一份论文就好了嘛（黑人问号脸）？不过经过XXX（过程省略），A君最终还是交好了材料。&lt;/p&gt;
-
-&lt;h1 id=&#34;答辩&#34;&gt;答辩&lt;/h1&gt;
-
-&lt;p&gt;尔后，A君收到一条短信通知，内容写着今天下午14:40答辩，请于XX楼等候。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;好的！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A君13:30来到了XX楼，在实验室等到了17:00（这有点准时啊）。收到电话通知，请准备好相关材料过来答辩。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;好的！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;到XX会议室门口，发现里面还有学生没出来，A君稍微等待了一会儿，然后到A君了，推门，进去。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;你这个论文是几区的？我们查出来是三区的，你怎么写二区的？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;来自Y老师严肃的提问。A君暗想，哇塞，刺激，我导师还说是一区的呢，我填的时候写的二区。A君解释道&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我有查分区并截图了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;然后把导师截的图片放到屏幕上，L老师半天没看懂，分区在哪儿？A君只好指出&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这个Q2就是了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://mrdongdonglin.github.io/img/其他/JCR分区.png&#34; alt=&#34;JCR2016&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;但是我们查出来是三区的。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Y老师很有原则，想按照&lt;code&gt;“统一标准”&lt;/code&gt;来评定，他和L老师说&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们还是按照2015年的分区表来吧，某些期刊会有些波动，有的之前不是SCI，后来升到SCI的了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Y老师还是挺好的，考虑到有些学生的成果是SCI的，只是期刊还没升级而已。A君已经是SCI了，还要挤兑那些不是SCI的吗（话说这届里有谁发表了2015年升SCI的文章吗）？&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;好，那你这个就是三区，你可以走了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A君离开了会议室，心想着国奖估计没戏了，反正也没有太过执着于一定要得到这个奖，没有就没有吧，于是就去吃饭了。&lt;/p&gt;
-
-&lt;p&gt;A君到了饭馆，点了一份四季豆炒肉盖码饭，屁股还没坐热，电话来了&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;请马上到XX会议室参加国奖答辩。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A君匆匆让师门帮忙打包，自己飞也似的抵达了XX楼XX会议室。咦？还没到我啊？好吧，那我等一下。&lt;/p&gt;
-
-&lt;p&gt;然后师门打包好了饭，A君吃完了饭，刚好轮到他答辩。&lt;/p&gt;
-
-&lt;p&gt;参与评审的老师们也很辛苦，到19:00还没吃饭，后面还有三四位同学，大家先吃饭吧。&lt;/p&gt;
-
-&lt;p&gt;时间来到了19:30，轮到A君答辩。&lt;/p&gt;
-
-&lt;p&gt;L老师针对文章提了几个问题，A君作了详细回答。&lt;/p&gt;
-
-&lt;p&gt;Y老师也提了几个问题：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;你这文章是不是你写的？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;我写了一些，主要是导师帮忙改的。（可能是致命回答）&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;你文章中的方法运用了什么数学原理或者方法论？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;主要是XXX，XXX，……&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我是要你回答运用了什么数学原理或者公式没有？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;额，没有，主要是算法。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;哪里提出了算法？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;额，这里，这里和这里。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;是你提出来的吗？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;额，也不算是，是导师和我讨论的时候发现的，然后我花了一天时间实现的。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我不要你模棱两可的回答，你就告诉我是或者不是！这文章是不是你写的？（A君不明白Y老师为啥总怀疑这文章不是A君写的）。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;额，我写了一些，主要是导师帮忙改的。（A君有点不想再回答了）&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;你的贡献大还是导师的贡献大？你贡献占多少比例？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;额，一半一半吧！（可能是致命回答）&lt;/p&gt;
-
-&lt;p&gt;临走Y老师意味深长地告诉A君&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这到时候要找你导师核实的！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;后记&#34;&gt;后记&lt;/h1&gt;
-
-&lt;p&gt;A君看了评选结果，他落选了，获奖的两位同学各持有一份SCI二区论文，其中一位还是学生干部（亲近我党有时候还是挺重要的）。&lt;code&gt;A君对这两位同学获奖并没有任何意见，没获奖心里其实也没多大失落感。不是很喜欢和人争，得不到就算了吧。&lt;/code&gt;所以A君希望这事就这么过去了就好了。&lt;/p&gt;
-
-&lt;p&gt;然而隔天导师电话A君&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;听说国奖答辩你表现的不好，你没说你文章是一区的吗？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A君说，按他们2015年分区，这是三区的（模仿某评审的语气）。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;还有我不是特意叮嘱你了  要强调导师是第一作者吗？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;……&lt;/p&gt;
-
-&lt;p&gt;挂了电话，A君有点怀疑人生。&lt;/p&gt;
-
-&lt;p&gt;这里有一些细节：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;A君文章2016年投稿的。&lt;/li&gt;
-&lt;li&gt;评审分区表示2015年的。&lt;/li&gt;
-&lt;li&gt;今年是2017年。&lt;/li&gt;
-&lt;li&gt;Y老师咄咄逼人，A君不敢说文章不是他写的。&lt;/li&gt;
-&lt;li&gt;其实很多东西可以是双重标准，比如分区，还有影响因子。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;最重要的后记&#34;&gt;最重要的后记&lt;/h1&gt;
-
-&lt;p&gt;没评上国奖无所谓，A君还是有收获的：自古套路得人心。不要再谈国奖了，A君有心里阴影了。&lt;/p&gt;
-
-&lt;h1 id=&#34;最最重要的后记&#34;&gt;最最重要的后记&lt;/h1&gt;
-
-&lt;p&gt;之前受导师影响，A君对分区什么的嗤之以鼻，因为这根本不能说明一篇文章的好坏。但是经过这个国奖评选，A君非得弄明白这JCR分区到底怎么查的，毕竟天朝还是挺笃信这个的，上网一搜，貌似还挺简单的，访问JCR期刊分区数据在线平台&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:jcr&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:jcr&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;即可。&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
-&lt;li id=&#34;fn:jcr&#34;&gt;&lt;a href=&#34;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&#34;&gt;http://www.fenqubiao.com/?AspxAutoDetectCookieSupport=1&lt;/a&gt;
- &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:jcr&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>

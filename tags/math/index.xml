@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Math on Starlin</title>
+    <link>https://mrdongdonglin.github.io/tags/math/</link>
+    <description>Recent content in Math on Starlin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <lastBuildDate>Wed, 15 Nov 2017 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://mrdongdonglin.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Largest Lypunov Exponent</title>
+      <link>https://mrdongdonglin.github.io/post/lyapunov-exponent/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/lyapunov-exponent/</guid>
+      <description>In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories1.
+It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.</description>
+    </item>
+    
+    <item>
+      <title>Power of Ten Simplify</title>
+      <link>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</guid>
+      <description> 上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。
+简化方法 首先还是将$10^n$分解为$2^n\cdot 5^n$，而$2^n$在计算机中相当于左移$n$位，右边补0，对结果中1的数量没有影响，因此，这里仅考虑$5^n$。下面的表格列举$n={1,2,3,4}$时，$5^n$与其二进制数的表示形式。
+   n decimal binary     1 5 101   2 25 11001   3 125 1111101   4 625 1001110001    实际上，
+$$5^n=5^{n-1}\cdot4+5^{n-1}.$$
+例如，25=0b11001=0b101&amp;lt;&amp;lt;2+0b101，即0b11001=0b10100+0b101。于是计算$10^n$中“1”的数量的程序可以这么写（以下程序计算出小于n范围内所有正整数的的$10^n$中“1”的数量并保存在数组oneBit中）：
+def OneBitInPowerOfTen(n): oneBit = [] oneBit.append(1) num = 1 for x in xrange(1, n): num += num &amp;lt;&amp;lt; 2 oneBit.append(sum(map(int, bin(num)[2:]))) return oneBit  </description>
+    </item>
+    
+    <item>
+      <title>Seeing Powers of Five in Powers of Two and Vice Versa</title>
+      <link>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</guid>
+      <description>本文前两节非原创，由此部分翻译而来。
+当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。
+这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。
+5的正次幂与2的负次幂 这里给一些例子（前八次幂）：
+   n $5^n$ $2^{-n}$     1 5 0.5   2 25 0.25   3 125 0.125   4 625 0.0625   5 3125 0.03125   6 15625 0.015625   7 78125 0.0078125   8 390625 0.00390625    可以看到，除了小数位和前面的0之外，$5^n$与$2^{-n}$的重要数字位是相同的，这是因为 $$ \begin{align} 2^{-n} &amp;amp;= \frac{1}{2^n} = \left(\frac{1}{2}\right)^n \\
+&amp;amp;= \left(\frac{5}{10}\right)^n = \frac{5^n}{10^n}. \end{align} $$</description>
+    </item>
+    
+  </channel>
+</rss>

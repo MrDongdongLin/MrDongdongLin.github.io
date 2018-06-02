@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Others on Starlin</title>
+    <link>https://mrdongdonglin.github.io/tags/others/</link>
+    <description>Recent content in Others on Starlin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <lastBuildDate>Sat, 02 Jun 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://mrdongdonglin.github.io/tags/others/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to make thesis ppt</title>
+      <link>https://mrdongdonglin.github.io/post/how-to-make-ppt/</link>
+      <pubDate>Sat, 02 Jun 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/how-to-make-ppt/</guid>
+      <description>privacy_v0.9 privacy_v1.0 privacy_v1.5 </description>
+    </item>
+    
+    <item>
+      <title>latexdiff</title>
+      <link>https://mrdongdonglin.github.io/post/latexdiff/</link>
+      <pubDate>Wed, 17 Jan 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/latexdiff/</guid>
+      <description> 用途 这里提供本文所需的脚本和批处理文件，还有清理tex多余文件的脚本工具TexClear.bat（其实就是几个删除命令而已啦）也一并附上。
+如果你拥有两个版本以上的tex源文件，例如：xxx_v1.0和xxx_v2.0，你可以通过latexdiff这个工具来比较这两个版本的差异。就像这样：
+使用教程  安装依赖环境Perl：http://downloads.activestate.com/ActivePerl/releases/ 下载脚本latexdiff.pl：http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff 将你需要比较的两个tex源文件以及源文件依赖的figures、bib源文件放入同一文件夹内。 新建一个bat批处理文件，写入内容  latexdiff.pl -t UNDERLINE xxx_v1.0.tex xxx_v2.0.tex &amp;gt; xxx_diff.tex pdflatex xxx_diff bibtex xxx_diff bibtex xxx_diff pdflatex xxx_diff pdflatex xxx_diff   执行批处理文件，生成xxx_diff.pdf，打开该文件，恭喜你，get到了一个技能。  动图教程 </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Starlin</title>
+    <link>https://mrdongdonglin.github.io/tags/python/</link>
+    <description>Recent content in Python on Starlin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <lastBuildDate>Wed, 15 Nov 2017 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://mrdongdonglin.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Seeing Powers of Five in Powers of Two and Vice Versa</title>
+      <link>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</guid>
+      <description>本文前两节非原创，由此部分翻译而来。
+当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。
+这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。
+5的正次幂与2的负次幂 这里给一些例子（前八次幂）：
+   n $5^n$ $2^{-n}$     1 5 0.5   2 25 0.25   3 125 0.125   4 625 0.0625   5 3125 0.03125   6 15625 0.015625   7 78125 0.0078125   8 390625 0.00390625    可以看到，除了小数位和前面的0之外，$5^n$与$2^{-n}$的重要数字位是相同的，这是因为 $$ \begin{align} 2^{-n} &amp;amp;= \frac{1}{2^n} = \left(\frac{1}{2}\right)^n \\
+&amp;amp;= \left(\frac{5}{10}\right)^n = \frac{5^n}{10^n}. \end{align} $$</description>
+    </item>
+    
+  </channel>
+</rss>

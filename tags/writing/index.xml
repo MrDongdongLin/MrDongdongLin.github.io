@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Writing on Starlin</title>
+    <link>https://mrdongdonglin.github.io/tags/writing/</link>
+    <description>Recent content in Writing on Starlin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <lastBuildDate>Sun, 15 Apr 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://mrdongdonglin.github.io/tags/writing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to write a paper</title>
+      <link>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</guid>
+      <description>$\rm \LaTeX$ A guide to the LaTeX typesetting system1
+During this guide we have seen what is possible to do and how this can be achieved, but the question is: I want to write a proper text with LaTeX, what to do then? Where should I start from? This is a short step-by-step guide about how to start a document properly, keeping a good high-level structure. This is all about organizing your files using the modular capabilities of LaTeX.</description>
+    </item>
+    
+  </channel>
+</rss>
