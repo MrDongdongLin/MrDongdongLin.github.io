@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Starlin</title>
+    <title>Posts on Donny</title>
     <link>https://mrdongdonglin.github.io/post/</link>
-    <description>Recent content in Posts on Starlin</description>
+    <description>Recent content in Posts on Donny</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <copyright>&amp;copy; 2018 Donny</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://mrdongdonglin.github.io/post/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,7 @@
       <pubDate>Sat, 02 Jun 2018 00:00:00 +0800</pubDate>
       
       <guid>https://mrdongdonglin.github.io/post/how-to-make-ppt/</guid>
-      <description>privacy_v0.9 privacy_v1.0 privacy_v1.5 privacy thesis </description>
+      <description></description>
     </item>
     
     <item>
@@ -37,7 +37,7 @@ During this guide we have seen what is possible to do and how this can be achiev
       <pubDate>Wed, 17 Jan 2018 00:00:00 +0800</pubDate>
       
       <guid>https://mrdongdonglin.github.io/post/latexdiff/</guid>
-      <description> 用途 这里提供本文所需的脚本和批处理文件，还有清理tex多余文件的脚本工具TexClear.bat（其实就是几个删除命令而已啦）也一并附上。
+      <description> 用途 提供本文所需的脚本和批处理文件，还有清理tex多余文件的脚本工具TexClear.bat（其实就是几个删除命令而已啦）也一并附上。
 如果你拥有两个版本以上的tex源文件，例如：xxx_v1.0和xxx_v2.0，你可以通过latexdiff这个工具来比较这两个版本的差异。就像这样：
 使用教程  安装依赖环境Perl：http://downloads.activestate.com/ActivePerl/releases/ 下载脚本latexdiff.pl：http://mirror.hmc.edu/ctan/support/latexdiff/latexdiff 将你需要比较的两个tex源文件以及源文件依赖的figures、bib源文件放入同一文件夹内。 新建一个bat批处理文件，写入内容  latexdiff.pl -t UNDERLINE xxx_v1.0.tex xxx_v2.0.tex &amp;gt; xxx_diff.tex pdflatex xxx_diff bibtex xxx_diff bibtex xxx_diff pdflatex xxx_diff pdflatex xxx_diff   执行批处理文件，生成xxx_diff.pdf，打开该文件，恭喜你，get到了一个技能。  动图教程 </description>
     </item>
@@ -48,7 +48,7 @@ During this guide we have seen what is possible to do and how this can be achiev
       <pubDate>Fri, 12 Jan 2018 00:00:00 +0800</pubDate>
       
       <guid>https://mrdongdonglin.github.io/post/compression/spiht/</guid>
-      <description>An example of SPIHT </description>
+      <description></description>
     </item>
     
     <item>
@@ -112,10 +112,10 @@ It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE),
       <pubDate>Wed, 15 Nov 2017 00:00:00 +0800</pubDate>
       
       <guid>https://mrdongdonglin.github.io/post/matplotlib/</guid>
-      <description>You can download the code of this case.
- Matplotlib is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.
+      <description>Matplotlib is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.
 Installation Matplotlib is easy to install with Python tool pip
-python -mpip install -U pip python -mpip install -U matplotlib  I suggest that you install Anaconda, Anaconda is a welcome Python data science platform, it includes many Python packages like Numpy, SciPy and Matplotlib.</description>
+python -mpip install -U pip python -mpip install -U matplotlib  I suggest that you install Anaconda, Anaconda is a welcome Python data science platform, it includes many Python packages like Numpy, SciPy and Matplotlib.
+The following parts of this blog will show you how to plot and improve a figure with Matplotlib step by step.</description>
     </item>
     
     <item>
@@ -225,7 +225,7 @@ Y老师也提了几个问题：
       
       <guid>https://mrdongdonglin.github.io/post/others/%E9%9D%A2%E7%BB%8F/</guid>
       <description>我从2017年5月份开始找实习，正式开始投简历应该是6月份，直到九月份实习结束，这里记录一些我的面试经历。
-制作简历 找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击简历，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司……
+制作简历 找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司……
 深信服 深信服笔试考的是C语言，题目不难，但是考的很细、很深，我最喜欢他们家的笔试题。深信服笔试选择题一共30道，内容包括字符串处理、指针运用、内存泄漏、字节对齐等等，还包含编译原理文法、正则表达式、加解密各一题。填空题15道，根据面试岗位不同而题目也有所不同，我当时投的windows开发，结果填空题考windows API我一个都不会- -。编程题三道，深信服我做过两套他们的卷子，选择题基本上差不多，而编程题都不一样，包括哈夫曼树、链表冒泡排序、字符串正则匹配（还有一套题目我忘了）。
 深信服的笔试通过后我跪在了面试上，第一次面试，该犯的错都犯了……这里列举一些我犯过的错误： - “这个我不熟悉”，“那个我不太会” —— 回家等消息。 - “学习开源代码啊？我大概要三周吧！” —— 将近一个月啊！同志。 - ……
 面试的时候还问了虚函数、字符串处理、图像处理。

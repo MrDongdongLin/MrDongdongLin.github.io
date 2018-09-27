@@ -1,399 +1,288 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/how-to-make-ppt/</loc>
-      <lastmod>2018-06-02T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/hero/</loc>
+    <lastmod>2017-10-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</loc>
-      <lastmod>2018-04-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/about/</loc>
+    <lastmod>2017-11-15T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/project/xtuthesis/</loc>
-      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/publications_selected/</loc>
+    <lastmod>2016-04-20T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/latexdiff/</loc>
-      <lastmod>2018-01-17T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/publications/</loc>
+    <lastmod>2016-04-20T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/compression/spiht/</loc>
-      <lastmod>2018-01-12T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/talks/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/matlab/</loc>
-      <lastmod>2017-11-30T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/posts/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/others/%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F/</loc>
-      <lastmod>2017-11-28T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/projects/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/project/matlab-isea/</loc>
-      <lastmod>2017-11-15T18:24:45+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/teaching/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/project/matlab-ieae/</loc>
-      <lastmod>2017-11-15T18:24:41+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/tags/</loc>
+    <lastmod>2017-09-20T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication/cryptanalysis-ieae/</loc>
-      <lastmod>2017-11-15T18:08:17+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/contact/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/lyapunov-exponent/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/how-to-make-ppt/</loc>
+    <lastmod>2018-06-02T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/matplotlib/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/writing/how-to-write-scientific-paper/</loc>
+    <lastmod>2018-04-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/math/power-of-ten/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/project/xtuthesis/</loc>
+    <lastmod>2018-02-27T16:00:41+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/latexdiff/</loc>
+    <lastmod>2018-01-17T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/compression/spiht/</loc>
+    <lastmod>2018-01-12T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/others/%E5%9B%BD%E5%A5%96/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/matlab/</loc>
+    <lastmod>2017-11-30T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/others/%E6%B6%82%E6%B6%82%E5%86%99%E5%86%99/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/others/%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F/</loc>
+    <lastmod>2017-11-28T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/others/%E9%9D%A2%E7%BB%8F/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/project/matlab-isea/</loc>
+    <lastmod>2017-11-15T18:24:45+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication/cryptanalysis-isea/</loc>
-      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/project/matlab-ieae/</loc>
+    <lastmod>2017-11-15T18:24:41+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/academic/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication/cryptanalysis-ieae/</loc>
+    <lastmod>2017-11-15T18:08:17+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/lyapunov-exponent/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/talk/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/matplotlib/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/talk/example-talk/</loc>
-      <lastmod>2017-01-01T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/math/power-of-ten/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/post/</loc>
-      <lastmod>2017-01-01T00:00:00+08:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/math/power-of-ten-simplify/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication_types/0/</loc>
-      <lastmod>2017-11-15T18:08:17+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/math/seeing-powers-of-five-in-powers-of-two-and-vice-versa/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication_types/2/</loc>
-      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/others/%E5%9B%BD%E5%A5%96/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/algebra/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/others/%E6%B6%82%E6%B6%82%E5%86%99%E5%86%99/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/categories/</loc>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/others/%E9%9D%A2%E7%BB%8F/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/cryptanalysis/</loc>
-      <lastmod>2017-11-15T18:24:45+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication/cryptanalysis-isea/</loc>
+    <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/image-processing-image-comression/</loc>
-      <lastmod>2018-01-12T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/academic/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/latex/</loc>
-      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/latex/</loc>
-      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/talk/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/math/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/talk/example-talk/</loc>
+    <lastmod>2017-01-01T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/matlab/</loc>
-      <lastmod>2017-11-30T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/post/</loc>
+    <lastmod>2017-01-01T00:00:00+08:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/others/</loc>
-      <lastmod>2018-06-02T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication_types/0/</loc>
+    <lastmod>2017-11-15T18:08:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/project/</loc>
-      <lastmod>2018-02-27T16:00:41+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication_types/2/</loc>
+    <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/publication_types/</loc>
-      <lastmod>2017-11-15T18:08:17+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/algebra/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/python/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/research/</loc>
-      <lastmod>2017-11-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/cryptanalysis/</loc>
+    <lastmod>2017-11-15T18:24:45+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/</loc>
-      <lastmod>2017-10-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/</loc>
+    <lastmod>2017-10-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/home/</loc>
+    <lastmod>2017-10-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://mrdongdonglin.github.io/tags/writing/</loc>
-      <lastmod>2018-04-15T00:00:00+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/image-processing-image-comression/</loc>
+    <lastmod>2018-01-12T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/latex/</loc>
+    <lastmod>2018-02-27T16:00:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/latex/</loc>
+    <lastmod>2018-02-27T16:00:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/math/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/matlab/</loc>
+    <lastmod>2017-11-30T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/others/</loc>
+    <lastmod>2018-06-02T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/project/</loc>
+    <lastmod>2018-02-27T16:00:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/publication_types/</loc>
+    <lastmod>2017-11-15T18:08:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/python/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/research/</loc>
+    <lastmod>2017-11-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mrdongdonglin.github.io/tags/writing/</loc>
+    <lastmod>2018-04-15T00:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
   
 </urlset>

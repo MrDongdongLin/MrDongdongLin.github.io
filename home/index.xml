@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Homes on Starlin</title>
+    <title>Homes on Donny</title>
     <link>https://mrdongdonglin.github.io/home/</link>
-    <description>Recent content in Homes on Starlin</description>
+    <description>Recent content in Homes on Donny</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2018 Starlin</copyright>
+    <copyright>&amp;copy; 2018 Donny</copyright>
     <lastBuildDate>Sun, 15 Oct 2017 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://mrdongdonglin.github.io/home/index.xml" rel="self" type="application/rss+xml" />
@@ -29,9 +29,8 @@
       
       <guid>https://mrdongdonglin.github.io/home/about/</guid>
       <description> Biography Publication  Chengqing Li, Dongdong Lin, and Jinhu Lv, “Cryptanalyzing an image-scrambling encryption algorithm of pixel bits,” IEEE MultiMedia, vol. 3, pp. 64–71, 2017.
- Chengqing Li, Dongdong Lin, Jinhu Lv and Feng Hao, “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography,” https://arxiv.org/pdf/1711.01858.pdf?, 2017.
-  个人简历 中文简历 英文简历
-$\rm \LaTeX$ https://github.com/MrDongdongLin/xtuthesis
+ Chengqing Li, Dongdong Lin, Jinhu Lv and Feng Hao, “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography,” https://arxiv.org/pdf/1711.01858.pdf, 2017.
+  个人简历 $\rm \LaTeX$ https://github.com/MrDongdongLin/xtuthesis
 WeChat </description>
     </item>
     
