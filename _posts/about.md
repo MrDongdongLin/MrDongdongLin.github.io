@@ -8,9 +8,9 @@
 
 ## 个人简历
 
-[中文简历](/files/cv-ddlin-cn.pdf)
+[中文简历](files/cv-ddlin-cn.pdf)
 
-[English CV](/files/cv-ddlin-en.pdf)
+[English CV](files/cv-ddlin-en.pdf)
 
 ## $\rm \LaTeX$
 
