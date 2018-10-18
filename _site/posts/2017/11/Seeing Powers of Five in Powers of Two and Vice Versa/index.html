@@ -1,0 +1,609 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Seeing Powers of Five in Powers of Two and Vice Versa - Donny</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Donny">
+<meta property="og:title" content="Seeing Powers of Five in Powers of Two and Vice Versa">
+
+
+  <link rel="canonical" href="https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/">
+  <meta property="og:url" content="https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/">
+
+
+
+  <meta property="og:description" content="本文前两节非原创，由此部分翻译而来。">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-11-15T00:00:00-08:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Donny",
+      "url" : "https://academicpages.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://academicpages.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Donny Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://academicpages.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://academicpages.github.io/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="https://academicpages.github.io/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="https://academicpages.github.io/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="https://academicpages.github.io/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="https://academicpages.github.io/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="https://academicpages.github.io/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="https://academicpages.github.io/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="https://academicpages.github.io/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="https://academicpages.github.io/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="https://academicpages.github.io/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="https://academicpages.github.io/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="https://academicpages.github.io/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="https://academicpages.github.io/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="https://academicpages.github.io/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="https://academicpages.github.io/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://academicpages.github.io/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="https://academicpages.github.io/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://academicpages.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://academicpages.github.io/">Donny</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://academicpages.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://academicpages.github.io/portfolio/">Portfolio</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://academicpages.github.io/year-archive/">Blog Posts</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://academicpages.github.io/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://academicpages.github.io/images/avatar.png" class="author__avatar" alt="Donny Lin">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Donny Lin</h3>
+    <p class="author__bio">My research interests include: cryptanalysis, privacy protection and image encryption</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Hunan, China</li>
+      
+      
+      
+      
+        <li><a href="mailto:dongdonglin8@gmail.com"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://bitbucket.org/dongdonglin"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+      
+      
+        <li><a href="https://github.com/MrDongdongLin"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Seeing Powers of Five in Powers of Two and Vice Versa">
+    <meta itemprop="description" content="本文前两节非原创，由此部分翻译而来。">
+    <meta itemprop="datePublished" content="November 15, 2017">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Seeing Powers of Five in Powers of Two and Vice Versa
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  less than 1 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2017-11-15T00:00:00-08:00">November 15, 2017</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>本文前两节非原创，由<a href="http://www.exploringbinary.com/seeing-powers-of-five-in-powers-of-two-and-vice-versa/">此</a>部分翻译而来。</p>
+
+<p>当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。</p>
+
+<p><img src="/img/PO2s PO5.jpg" alt="PO2s PO5" /></p>
+
+<p>这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。</p>
+
+<h1 id="5的正次幂与2的负次幂">5的正次幂与2的负次幂</h1>
+<p>这里给一些例子（前八次幂）：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>n</th>
+      <th>$5^n$</th>
+      <th>$2^{-n}$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>5</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>25</td>
+      <td>0.25</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>125</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>625</td>
+      <td>0.0625</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>3125</td>
+      <td>0.03125</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>15625</td>
+      <td>0.015625</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>78125</td>
+      <td>0.0078125</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>390625</td>
+      <td>0.00390625</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>可以看到，除了小数位和前面的0之外，$5^n$与$2^{-n}$的重要数字位是相同的，这是因为
+<script type="math/tex">% <![CDATA[
+\begin{align}
+    2^{-n} &= \frac{1}{2^n} = \left(\frac{1}{2}\right)^n \\\\\\
+           &= \left(\frac{5}{10}\right)^n = \frac{5^n}{10^n}.
+    \end{align} %]]></script></p>
+
+<h1 id="5的负次幂与2的正次幂">5的负次幂与2的正次幂</h1>
+<p>同样的，我们有</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>n</th>
+      <th>$2^n$</th>
+      <th>$5^{-n}$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>8</td>
+      <td>0.008</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>16</td>
+      <td>0.0016</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>32</td>
+      <td>0.00032</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>64</td>
+      <td>0.000064</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>128</td>
+      <td>0.0000128</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>256</td>
+      <td>0.00000256</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="浮点数右移问题">浮点数右移问题</h1>
+<p>我尝试了几门语言，<code class="highlighter-rouge">python</code>，<code class="highlighter-rouge">Go</code>，<code class="highlighter-rouge">C</code>，<code class="highlighter-rouge">C++</code>，<code class="highlighter-rouge">Matlab</code>，都无法完成浮点数右移操作，执行的指令分别是</p>
+<ul>
+  <li>Python:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="mf">1.0</span><span class="o">&gt;&gt;</span><span class="mi">3</span> <span class="c"># 该指令无法执行</span>
+<span class="k">print</span> <span class="mi">1</span><span class="o">&gt;&gt;</span><span class="mi">3</span>   <span class="c"># 输出0</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Go:</li>
+</ul>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">1.0</span><span class="o">&gt;&gt;</span><span class="m">3</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="x"> 
+</span><span class="p">}</span><span class="x">
+</span><span class="c">// 输出0</span><span class="x">
+</span></code></pre></div></div>
+
+<ul>
+  <li>C/C++:</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">&gt;&gt;</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="c1">// 输出0
+</span></code></pre></div></div>
+
+<ul>
+  <li>Matlab:</li>
+</ul>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bishift</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">);</span>   <span class="c1">% 输出0</span>
+<span class="n">bishift</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">);</span> <span class="c1">% 输出0</span>
+</code></pre></div></div>
+
+<h1 id="pari的python包---cypari">PARI的python包 - cypari</h1>
+<p><a href="http://pari.math.u-bordeaux.fr/">PARI/GP</a>是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线…) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库<sup id="fnref:PARI"><a href="#fn:PARI" class="footnote">1</a></sup>。</p>
+
+<ul>
+  <li>安装Python Pari Library</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">cypari</span>
+</code></pre></div></div>
+
+<ul>
+  <li>在Python中使用</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">cypari</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">pari</span><span class="p">(</span><span class="s">'1.0'</span><span class="p">)</span>
+<span class="k">print</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">)</span> <span class="c"># 输出0.0625</span>
+</code></pre></div></div>
+
+<p>太棒了！</p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:PARI">
+      <p>http://pari.math.u-bordeaux.fr/ <a href="#fnref:PARI" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://academicpages.github.io/tags/#algebra" class="page__taxonomy-item" rel="tag">algebra</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://academicpages.github.io/tags/#math" class="page__taxonomy-item" rel="tag">math</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://academicpages.github.io/tags/#python" class="page__taxonomy-item" rel="tag">python</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://academicpages.github.io/posts/2017/11/Seeing Powers of Five in Powers of Two and Vice Versa/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://academicpages.github.io/posts/2017/11/Matplotlib/" class="pagination--pager" title="Matplotlib
+">Previous</a>
+    
+    
+      <a href="https://academicpages.github.io/posts/2017/11/Power of Ten Simplify/" class="pagination--pager" title="Power of Ten Simplify
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/MrDongdongLin"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+      <li><a href="http://bitbucket.org/dongdonglin"><i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> Bitbucket</a></li>
+    
+    <li><a href="https://academicpages.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Donny. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://academicpages.github.io/assets/js/main.min.js"></script>
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
