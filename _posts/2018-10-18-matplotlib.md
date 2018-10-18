@@ -6,6 +6,7 @@ tags:
   - math
 ---
 
+The codes of this case can be cownloaded [here](/codes/matplotlib_case.py)
 
 [Matplotlib](http://matplotlib.org/) is a Python plot library which produces publication quality figures. This blog will introduce that how to plot and improve a figure.
 
