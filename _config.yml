@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Donny"
+title                    : "Donny's Blog"
 title_separator          : "-"
 name                     : &name "Donny"
 description              : &description "All work and no play makes Jack a dull boy"
