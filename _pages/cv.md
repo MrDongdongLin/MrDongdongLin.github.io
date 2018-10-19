@@ -39,18 +39,18 @@ Work experience
 
 Projects
 ======
-* Cryptanalysis of ISEA: https://github.com/MrDongdongLin/Cryptanalysis_ISEA
+* Cryptanalysis of ISEA: <https://github.com/MrDongdongLin/Cryptanalysis_ISEA>
   * This project includes codes of the paper “Cryptanalyzing an image encryption algorithm based on pixel bits”.
 
-* Cryptanalysis of IEAE: https://github.com/MrDongdongLin/Cryptanalysis_IEAE
+* Cryptanalysis of IEAE: <https://github.com/MrDongdongLin/Cryptanalysis_IEAE>
   * This project includes codes of the paper “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography”.
 
-* A $\LaTeX$ template: https://github.com/MrDongdongLin/xtuthesis, https://www.ctan.org/pkg/xtuthesis
-  * This project includes a $\LaTeX$ template and a Microsoft Word template that provides normative format for graduation thesis of Xiangtan University, among them, the $\LaTeX$ template has been received by CTAN.
+* A $\rm \LaTeX$ template: <https://github.com/MrDongdongLin/xtuthesis>, <https://www.ctan.org/pkg/xtuthesis>
+  * This project includes a $\rm \LaTeX$ template and a Microsoft Word template that provides normative format for graduation thesis of Xiangtan University, among them, the $\rm \LaTeX$ template has been received by CTAN.
 
 Skills
 ======
-* Strong typesetting ability of both $\LaTeX$ and Microsoft Word, two papers and my graduation thesis are available: Cryptanalysis of ISEA, Cryptanalysis of IEAE, and Graduation Thesis.
+* Strong typesetting ability of both $\rm \LaTeX$ and Microsoft Word, two papers and my graduation thesis are available: [Cryptanalysis of ISEA](https://github.com/MrDongdongLin/Cryptanalysis_ISEA), [Cryptanalysis of IEAE](https://github.com/MrDongdongLin/Cryptanalysis_IEAE), and [Master Thesis](https://github.com/MrDongdongLin/xtuthesis).
 * Strong presentation and public speaking skills.
 * Technical skills include Matlab programming, Python programming and C/C++ programming, and some software engineering.
 * Strong skills in mathematics, statistics, and data analysis.
