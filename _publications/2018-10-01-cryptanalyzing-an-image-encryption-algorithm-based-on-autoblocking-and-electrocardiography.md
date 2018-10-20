@@ -6,7 +6,7 @@ permalink: /publication/Cryptanalyzing an image encryption algorithm based on au
 date: 2018-10-01
 venue: 'IEEE MultiMedia'
 paperurl: 'https://ieeexplore.ieee.org/document/8495009'
-citation: 'C. Li, D. Lin, J. Lu, and F. Hao, “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography,” IEEE MultiMedia, 2018.'
+citation: 'C. Li, D. Lin, J. Lü, and F. Hao, “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography,” IEEE MultiMedia, 2018.'
 ---
 
 [Download paper here](https://mrdongdonglin.github.io/files/ieae.pdf)

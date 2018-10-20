@@ -6,7 +6,7 @@ permalink: /publication/Cryptanalyzing an image-scrambling encryption algorithm 
 date: 2017-08-01
 venue: 'IEEE Multimedia'
 paperurl: 'https://mrdongdonglin.github.io/files/isea.pdf'
-citation: 'C. Li, D. Lin, and J. Lu, “Cryptanalyzing an image-scrambling encryption algorithm of pixel bits,” ¨ IEEE MultiMedia, vol. 3, pp. 64–71, 2017.'
+citation: 'C. Li, D. Lin, and J. Lü, “Cryptanalyzing an image-scrambling encryption algorithm of pixel bits,” ¨ IEEE MultiMedia, vol. 3, pp. 64–71, 2017.'
 ---
 
 [Download paper here](https://mrdongdonglin.github.io/files/isea.pdf)
