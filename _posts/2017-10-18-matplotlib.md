@@ -1,7 +1,7 @@
 ---
 title: 'Matplotlib'
-date: 2017-11-15
-permalink: /posts/2017/11/Matplotlib/
+date: 2017-10-18
+permalink: /posts/2017/10/Matplotlib/
 tags:
   - math
 ---

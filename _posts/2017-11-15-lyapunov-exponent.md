@@ -22,7 +22,7 @@ Given a time series, delay reconstruction builds an $n$-dimensional "orbit" out 
 
 - Example: If $n$ is chosen as 3, $\tau$ is chosen as 5, and the time series consists of the values: $x_1, x_2, x_3,\cdots$, then the delay reconstructed orbit would consist of the following sequence of points in 3-space:
 
-$$(x\_1, x\_6, x\_{11}), (x\_2, x\_7, x\_{12}), (x\_3, x\_8, x\_{13}), \cdots.$$
+$$(x_1, x_6, x_{11}), (x_2, x_7, x_{12}), (x_3, x_8, x_{13}), \cdots.$$
 
 That is, delay reconstruction produces the $n$-tuples:
 
@@ -35,11 +35,11 @@ The procedure of calculating the largest Lyapunov exponent $\lambda$ can be desc
 
 - Connect both points as they move a short distance along the orbit. Calculate the new separation $L(t_1)$.
 
-- If $L(t\_1)$ becomes too large, keep one of the points and choose an appropriate replacement for other point.
+- If $L(t_1)$ becomes too large, keep one of the points and choose an appropriate replacement for other point.
 
 - Repeat Steps 1–3 after s propagations, the largest Lyapunov exponent $\lambda$ should be calculated via
 
-$$\lambda=\frac{1}{t\_q-t\_0}\sum\_{k=1}^{q}\left(\frac{L'(t\_k)}{L(t\_{k-1})}\right).$$
+$$\lambda=\frac{1}{t_q-t_0}\sum_{k=1}^{q}\left(\frac{L'(t_k)}{L(t_{k-1})}\right).$$
 
 The following figure shows the above procedure.
 
