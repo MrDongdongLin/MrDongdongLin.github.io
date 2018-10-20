@@ -1,5 +1,5 @@
 ---
-title: "Cryptanalyzing an image-scrambling encryption algorithm of pixel bits"
+title: "Cryptanalyzing an image-scrambling encryption algorithm of pixel bits (ESI Highly Cited Paper)"
 collection: publications
 permalink: /publication/Cryptanalyzing an image-scrambling encryption algorithm of pixel bits
 # excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
@@ -13,8 +13,8 @@ citation: 'C. Li, D. Lin, and J. Lu, “Cryptanalyzing an image-scrambling encry
 
 ```
 @ARTICLE{Cqli:Scramble:IM17,
-  author =       {Chengqing Li and Dongdong Lin and Jinhu L\"u},
-  title =        {Cryptanalyzing an Image-Scrambling Encryption Algorithm of Pixel Bits},
+  author =       {Chengqing Li and Dongdong Lin and Jinhu Lü},
+  title =        {Cryptanalyzing an image-scrambling encryption algorithm of pixel bits},
   journal =      {IEEE MultiMedia},
   year =         {2017},
   volume =       {3},
