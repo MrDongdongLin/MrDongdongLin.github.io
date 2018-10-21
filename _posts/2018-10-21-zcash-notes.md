@@ -1,7 +1,7 @@
 ---
 title: 'Learn Zcash'
-date: 2018-06-02
-permalink: /posts/2017/11/learn zcash/
+date: 2018-10-21
+permalink: /posts/2018/10/learn zcash/
 tags:
   - bitcoins
   - zero-knowledge proof
