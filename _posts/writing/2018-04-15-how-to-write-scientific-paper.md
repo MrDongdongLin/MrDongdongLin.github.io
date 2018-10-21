@@ -7,6 +7,8 @@ tags:
   - writing
 ---
 
+This article records some tips of how to write a paper of journal style.
+
 ## $\rm \LaTeX$
 
 A guide to the LaTeX typesetting system[^wikibooks]
