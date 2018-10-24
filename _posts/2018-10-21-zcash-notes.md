@@ -38,7 +38,7 @@ For example, Alice owns numbers of $x$ and $y$, where $x+y=7$. Now she wants to 
 - Because function $E$ satisfied the properties of HH, Bob can calculate $E(x+y)$ according to $E(x)$ and $E(y)$.
 - Then Bob can calculate $E(7)$ and verify if $E(x+y)=E(7)$.
 
-More specifically, zk-SNARKs uses the _discrete logarithm problem_ to construct an HH. The _discrete logarithm problem_ is believed to be hard in $\mathbb{Z}_p^*$. This means that when $p$ is large, given an lelment $h$ in $\mathbb{Z}_p^*$, it is difficult to find the integer $a$ in $\{0,1,\cdots,p-2\}$ such that $g^a=h\bmod p$.
+More specifically, zk-SNARKs uses the _discrete logarithm problem_ to construct an HH. The _discrete logarithm problem_ is believed to be hard in $\mathbb{Z}_p^\*$. This means that when $p$ is large, given an lelment $h$ in $\mathbb{Z}_p^\*$, it is difficult to find the integer $a$ in $\{0,1,\cdots,p-2\}$ such that $g^a=h\bmod p$.
 
 ## Blind Evaluation of Polynomials
 
