@@ -16,9 +16,9 @@ Imagine that you must prove you are at least 18 years old. Instead of whipping o
 
 __Proofs__ In mathematics and in life, we often want to convince or prove things to others. Typically, if I know that $X$ is true, and I want convince you of that, I try to present all the facts I know and the inferences from that fact imply that $X$ is true.
 
-__Zero-knowledge proofs__ In a _zero knowledge proof_ Alice will prove to Bob that a statement $X$ is true, Bob will completely convinced that $X$ is true but will not learn anything as a result of this process. That is, Bob will gain zero knowledge [^1].
+__Zero-knowledge proofs__ In a _zero knowledge proof_ Alice will prove to Bob that a statement $X$ is true, Bob will completely convinced that $X$ is true but will not learn anything as a result of this process. That is, Bob will gain zero knowledge [^[zk]].
 
-[^1]: https://www.cs.princeton.edu/courses/archive/fall07/cos433/lec15.pdf
+[^zk]: https://www.cs.princeton.edu/courses/archive/fall07/cos433/lec15.pdf
 
 # Zero-Knowledge Succint Non-Interactive Arguments of Knowledge
 
@@ -28,9 +28,9 @@ In [Zcash Protocol Specification](https://github.com/zcash/zips/raw/master/proto
 
 __Computation $\Rightarrow$ Arithmetic Circuit $\Rightarrow$ R1CS $\Rightarrow$ QAP $\Rightarrow$ zk-SNARK__
 
-The first step in turning our transaction validity function into a mathematical representation is to break down the logical steps into the smallest possible operations, creating an “arithmetic circuit”. Our next step is to build what is called a Rank 1 Constraint System, or R1CS, to check that the values are “traveling correctly”. In this example, the R1CS will confirm, for instance, that the value coming out of the multiplication gate where $b$ and $c$ went in is $b\cdot c$. [[2]]
+The first step in turning our transaction validity function into a mathematical representation is to break down the logical steps into the smallest possible operations, creating an “arithmetic circuit”. Our next step is to build what is called a Rank 1 Constraint System, or R1CS, to check that the values are “traveling correctly”. In this example, the R1CS will confirm, for instance, that the value coming out of the multiplication gate where $b$ and $c$ went in is $b\cdot c$. [^R1CS]
 
-[2]: https://eprint.iacr.org/2012/215.pdf
+[^R1CS]: https://eprint.iacr.org/2012/215.pdf
 
 ## Homomorphic Hiding
 
