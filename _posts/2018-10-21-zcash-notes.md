@@ -8,7 +8,7 @@ tags:
   - privacy
 ---
 
-In this article, I will make some noetes about how [Zcash](https://github.com/zcash/zcash) works.
+In this article, I will make some notes about how [Zcash](https://github.com/zcash/zcash) works.
 
 # Introduction
 
@@ -20,9 +20,17 @@ __Zero-knowledge proofs__ In a _zero knowledge proof_ Alice will prove to Bob th
 
 [^1]: https://www.cs.princeton.edu/courses/archive/fall07/cos433/lec15.pdf
 
-# Zero-knowledge Succint Non-interactive Arguments of Knowledge
+# Zero-Knowledge Succint Non-Interactive Arguments of Knowledge
 
-In [Zcash Protocol Specification](https://github.com/zcash/zips/raw/master/protocol/protocol.pdf), zero-knowledge succint non-interactive arguments of knowledge (zk-SNARKs) is a kind of zero-knowledge cryptography which provides secure transparent payment scheme. zk-SNARKs is described in detail on thw website: <https://z.cash/technology/zksnarks>. Here, I just make some notes about its key technologies.
+In [Zcash Protocol Specification](https://github.com/zcash/zips/raw/master/protocol/protocol.pdf), zero-knowledge succint non-interactive arguments of knowledge (zk-SNARKs) is a kind of zero-knowledge cryptography which provides secure transparent payment scheme. zk-SNARKs is described in detail on the website: <https://z.cash/technology/zksnarks>. Here, I just make some notes about its key technologies.
+
+## How zk-SNARKs are constructed in Zcash
+
+__Computation $\Rightarrow$ Arithmetic Circuit $\Rightarrow$ R1CS $\Rightarrow$ QAP $\Rightarrow$ zk-SNARK__
+
+The first step in turning our transaction validity function into a mathematical representation is to break down the logical steps into the smallest possible operations, creating an “arithmetic circuit”. Our next step is to build what is called a Rank 1 Constraint System, or R1CS, to check that the values are “traveling correctly”. In this example, the R1CS will confirm, for instance, that the value coming out of the multiplication gate where $b$ and $c$ went in is $b\cdot c$. [[2]]
+
+[2]: https://eprint.iacr.org/2012/215.pdf
 
 ## Homomorphic Hiding
 
