@@ -102,7 +102,7 @@ Note that, as only hidings were sent, neither Alice learned $s$ [^2], nor Bob le
 
 [^1]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
 
-[^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,\E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
+[^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
 
 ## The Knowledge of Coefficient Test and Assumption
 
