@@ -16,6 +16,7 @@ In this article, I will make some notes about how [Zcash](https://github.com/zca
   - [Homomorphic Hiding](#homomorphic-hiding)
   - [Blind Evaluation of Polynomials](#blind-evaluation-of-polynomials)
     - [Polynomials and linear combinations](#polynomials-and-linear-combinations)
+    - [Blind evaluation of a polynomial](#blind-evaluation-of-a-polynomial)
   - [The Knowledge of Coefficient Test and Assumption](#the-knowledge-of-coefficient-test-and-assumption)
   - [How to make Blind Evaluation of Polynomials Verifiable](#how-to-make-blind-evaluation-of-polynomials-verifiable)
   - [From Computations to Polynomials](#from-computations-to-polynomials)
@@ -76,7 +77,32 @@ Recall that a polynomial $P$ of degree $d$ over $\mathbb{F}_p$ is an expression 
   P(X) = a_0 + a_1\cdot X + a_2\cdot X^2 + \cdots + a_d\cdot X^d,
 \end{equation}
 
-for some $a_0,\cdots,a_d\in \mathbb{F}_p$. One can calculate $P$ for a point $s\in \mathbb{F}_p$ with Eq.~\eqref{eq:polynomial}.
+for some $a_0,\cdots,a_d\in \mathbb{F}_p$. One can calculate $P$ for a point $s\in \mathbb{F}_p$ with Eq. \eqref{eq:polynomial}.
+
+Suppose a polynomial $P=ax+by$, given $a,b,E(x),E(y)$, one can calculate $E(ax+by)$ from
+$$
+E(ax+by) = g^{ax+by} = g^{ax}\cdot g^{by} = (g^x)^a\cdot (g^y)^b = E(x)^a\cdot E(y)^b.
+$$
+
+### Blind evaluation of a polynomial
+
+Suppose Alice has a polynomial $P$ of degree $d$, and Bob has a point $s\in \mathbb{F}_p$ that he chose randomly. Bob wishes to learn $E(P(s))$, i.e., the HH of the evaluation of $P$ at $s$. Two simple ways to do this are:
+
+- Alice sends $P$ to Bob, and he computes $E(P(s))$ by himself.
+- Bob sends $s$ to Alice; she computes $E(P(s))$ and sends it to Bob.
+
+However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [^1].
+
+Using HH, we can perform blind evaluation as follows.
+
+1. Bob sends to Alice the hidings $E(1),E(s),\cdots,E(s^d)$.
+2. Alice computes $E(P(s))$ from the elements sent in the first step, and sends $E(P(s))$ to Bob. (Alice can do this since $E$ supports linear combinations, and $P(s)$ is linear combination of $1,s,\cdots,s^d$.)
+
+Note that, as only hidings were sent, neither Alice learned $s$ [^2], nor Bob learned $P$.
+
+[^1]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
+
+[^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,\E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
 
 ## The Knowledge of Coefficient Test and Assumption
 
