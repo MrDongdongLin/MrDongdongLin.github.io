@@ -67,7 +67,7 @@ More specifically, zk-SNARKs uses the _discrete logarithm problem_ to construct 
 
 ## Blind Evaluation of Polynomials
 
-We denote by $\mathbb{F}_p$ the field of size $p$; that is, the elements of $\mathbb{F}_p$ are $\{0,1,cdots,p-1\}$ and addition and multiplication are done $\bmod p$ as explained in  [Part 1](#homomorphic-hiding).
+We denote by $\mathbb{F}_p$ the field of size $p$; that is, the elements of $\mathbb{F}_p$ are $\{0,1,\cdots,p-1\}$ and addition and multiplication are done $\bmod p$ as explained in  [Part 1](#homomorphic-hiding).
 
 ### Polynomials and linear combinations
 
@@ -91,7 +91,7 @@ Suppose Alice has a polynomial $P$ of degree $d$, and Bob has a point $s\in \mat
 - Alice sends $P$ to Bob, and he computes $E(P(s))$ by himself.
 - Bob sends $s$ to Alice; she computes $E(P(s))$ and sends it to Bob.
 
-However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [^1].
+However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [paper][3].
 
 Using HH, we can perform blind evaluation as follows.
 
@@ -100,7 +100,7 @@ Using HH, we can perform blind evaluation as follows.
 
 Note that, as only hidings were sent, neither Alice learned $s$ [^2], nor Bob learned $P$.
 
-[^1]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
+[paper]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
 
 [^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
 
