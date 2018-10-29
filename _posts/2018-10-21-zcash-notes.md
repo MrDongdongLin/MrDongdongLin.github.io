@@ -18,6 +18,7 @@ In this article, I will make some notes about how [Zcash](https://github.com/zca
     - [Polynomials and linear combinations](#polynomials-and-linear-combinations)
     - [Blind evaluation of a polynomial](#blind-evaluation-of-a-polynomial)
   - [The Knowledge of Coefficient Test and Assumption](#the-knowledge-of-coefficient-test-and-assumption)
+    - [The KC Test](#the-kc-test)
   - [How to make Blind Evaluation of Polynomials Verifiable](#how-to-make-blind-evaluation-of-polynomials-verifiable)
   - [From Computations to Polynomials](#from-computations-to-polynomials)
   - [The Pinocchio Protocol](#the-pinocchio-protocol)
@@ -91,7 +92,7 @@ Suppose Alice has a polynomial $P$ of degree $d$, and Bob has a point $s\in \mat
 - Alice sends $P$ to Bob, and he computes $E(P(s))$ by himself.
 - Bob sends $s$ to Alice; she computes $E(P(s))$ and sends it to Bob.
 
-However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [paper][3].
+However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [^1].
 
 Using HH, we can perform blind evaluation as follows.
 
@@ -100,11 +101,34 @@ Using HH, we can perform blind evaluation as follows.
 
 Note that, as only hidings were sent, neither Alice learned $s$ [^2], nor Bob learned $P$.
 
-[3]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
+[^1]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
 
 [^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
 
 ## The Knowledge of Coefficient Test and Assumption
+
+In [Part 2](#blind-evaluation-of-polynomials), Alice is able to compute $E(P(s))$. However, no one can guarantee that Alice will indeed send it to Bob. So we need a way to "force" Alice to follow the protocol correctly --- the _Knowledge of Coefficient (KC) Test_.
+
+### The KC Test
+
+For $\alpha\in \mathbb{F}_p$, let us call a pair of elements $(a,b)$ in $G$ an $\alpha$-pair if $a\neq b$ and $b=\alpha\cdot a$.
+
+The KC Test proceeds as follows.
+
+1. Bob chooses random $\alpha\in \mathbb{F}_p^*$ and $a\in G$. He computes $b=\alpha\cdot a$.
+2. He sends to Alice the "chanllenge" pair $(a,b)$. Note that $(a,b)$ is an $\alpha$-pair.
+3. Alice must now respond with a different pair $(a',b')$ that is also an $\alpha$-pair.
+4. Bob accepts Alice's response only if $(a',b')$ is indeed an $\alpha$-pair. (As he knows $\alpha$ he can check if $b'=\alpha\cdot a$.)
+
+So how can Alice successfully respond to the challenge without knowing $\alpha$? Here's the natural way to do it: Alice simply chooses some $\gamma\in \mathbb{F}_p^*$, and responds with $(a',b')=(\gamma\cdot a,\gamma\cdot b)$.
+
+Since $b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$, indeed $(a',b')$ is an $\alpha$-pair as required.
+
+The Knowledge of Coefficient Assumption [^kca] (KCA) states that this is always the case, namely:
+
+KCA: If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$.
+
+[^kca]: This is typically called the Knowledge of Exponent Assumption in the literature, as traditionally it was used for groups written multiplicatively.
 
 ## How to make Blind Evaluation of Polynomials Verifiable
 
