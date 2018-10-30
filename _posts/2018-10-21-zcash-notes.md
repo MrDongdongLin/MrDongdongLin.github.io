@@ -151,7 +151,7 @@ Let us briefly describe the conducted protocol:
 
 假设由$g$生成测度为$p$的群$G$，那么 _d-power Knowledge of Coefficient Assumption (d-KCA)_ 可表述为
 
-d-KCA: _假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。_
+d-KCA: *假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。*
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-键值对必须符合一定的“线性结构”。
 
