@@ -126,7 +126,7 @@ So how can Alice successfully respond to the challenge without knowing $\alpha$?
 
 Since $b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$, indeed $(a',b')$ is an $\alpha$-pair as required.
 
-The Knowledge of Coefficient Assumption [^kca] (KCA) states that this is always the case, namely:
+The Knowledge of Coefficient Assumption [^kca](KCA) states that this is always the case, namely:
 
 KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$_.
 
@@ -147,7 +147,7 @@ Let us briefly describe the conducted protocol:
 
 在[The KC Test](#the-kc-test)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-键值对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-键值对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_ia_i,\sum_{i=1}^d c_ib_i)$，则$(a',b')$即最终需要验证的$\alpha$-键值对。
+现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，
 
 假设由$g$生成测度为$p$的群$G$，那么 _d-power Knowledge of Coefficient Assumption (d-KCA)_ 可表述为
 
