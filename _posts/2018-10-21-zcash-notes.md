@@ -10,121 +10,106 @@ tags:
 
 In this article, I will make some notes about how [Zcash](https://github.com/zcash/zcash) works.
 
-- [Introduction](#introduction)
+- [背景知识](#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86)
 - [Zero-Knowledge Succint Non-Interactive Arguments of Knowledge](#zero-knowledge-succint-non-interactive-arguments-of-knowledge)
-  - [How zk-SNARKs are constructed in Zcash](#how-zk-snarks-are-constructed-in-zcash)
-  - [Homomorphic Hiding](#homomorphic-hiding)
-  - [Blind Evaluation of Polynomials](#blind-evaluation-of-polynomials)
-    - [Polynomials and linear combinations](#polynomials-and-linear-combinations)
-    - [Blind evaluation of a polynomial](#blind-evaluation-of-a-polynomial)
-  - [The Knowledge of Coefficient Test and Assumption](#the-knowledge-of-coefficient-test-and-assumption)
-    - [The KC Test](#the-kc-test)
-  - [How to make Blind Evaluation of Polynomials Verifiable](#how-to-make-blind-evaluation-of-polynomials-verifiable)
-    - [An Extended KCA](#an-extended-kca)
+  - [Zcash如何构造zk-SNARKs协议？](#zcash%E5%A6%82%E4%BD%95%E6%9E%84%E9%80%A0zk-snarks%E5%8D%8F%E8%AE%AE)
+  - [同态隐藏](#%E5%90%8C%E6%80%81%E9%9A%90%E8%97%8F)
+  - [盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)
+    - [多项式和线性组合](#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%92%8C%E7%BA%BF%E6%80%A7%E7%BB%84%E5%90%88)
+    - [盲评价一个多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E4%B8%80%E4%B8%AA%E5%A4%9A%E9%A1%B9%E5%BC%8F)
+  - [知识系数测试和假设](#%E7%9F%A5%E8%AF%86%E7%B3%BB%E6%95%B0%E6%B5%8B%E8%AF%95%E5%92%8C%E5%81%87%E8%AE%BE)
+    - [KC测试](#kc%E6%B5%8B%E8%AF%95)
+  - [如何为可验证多项式进行盲评价](#%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8F%AF%E9%AA%8C%E8%AF%81%E5%A4%9A%E9%A1%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%9B%B2%E8%AF%84%E4%BB%B7)
+    - [扩展的KCA](#%E6%89%A9%E5%B1%95%E7%9A%84kca)
     - [可验证的盲评价多项式协议](#%E5%8F%AF%E9%AA%8C%E8%AF%81%E7%9A%84%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%8D%8F%E8%AE%AE)
-  - [From Computations to Polynomials](#from-computations-to-polynomials)
+  - [从计算到多项式](#%E4%BB%8E%E8%AE%A1%E7%AE%97%E5%88%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F)
   - [The Pinocchio Protocol](#the-pinocchio-protocol)
   - [Pairings of Elliptic Curves](#pairings-of-elliptic-curves)
 
-# Introduction
+# 背景知识
 
-Imagine that you must prove you are at least 18 years old. Instead of whipping out your ID, the math underlying zero-knowledge proofs can allow you to make someone 100 percent certain that you are older than 18 without revealing a shred of other information about yourself. Not your name, address, a photo---nothing.
+知乎上有一个[高赞回答](https://www.zhihu.com/question/37290469/answer/107612456)简单介绍了什么是区块链。实际上，区块链是一个去中心化的分布式账本数据库，本身是一串使用密码学相关联所产生的数据块，每一个数据块包含了多次虚拟币网络交易有效确认的信息。
 
-__Proofs__ In mathematics and in life, we often want to convince or prove things to others. Typically, if I know that $X$ is true, and I want convince you of that, I try to present all the facts I know and the inferences from that fact imply that $X$ is true.
+目前的电子交易比如支付宝、微信是在第三方的参与下才能完成的。此时发生的交易过程是这样的：Alice在某宝上买了一样东西，给马云打了一笔钱，马云通知bob发货，Bob发货给Alice，Alice确认后马云把钱打给Bob。
 
-__Zero-knowledge proofs__ In a _zero knowledge proof_ Alice will prove to Bob that a statement $X$ is true, Bob will completely convinced that $X$ is true but will not learn anything as a result of this process. That is, Bob will gain zero knowledge. [^zk]
+而使用区块链技术的虚拟币交易最大的特点是去中心化，也就是在没有第三方的参与下，Alice和Bob在网络上执行一笔交易。在虚拟币交易中，根据网络的共识规则，首先必须确定交易的有效性，即让大家知道Alice和Bob发生了一笔交易，该笔交易是可以验证的。然而验证方并不能获取关于Alice和Bob交易的任何细节，这是为了防止Eve在暗中假冒Alice或者Bob。
 
-[^zk]: https://www.cs.princeton.edu/courses/archive/fall07/cos433/lec15.pdf
+实际上，交易的媒介是不是软妹币已经不重要了，因此虚拟币诸如比特币和本文要介绍的零币就开始流通了。一笔交易被称之为一个区块，每一个区块都拥有前一区块的哈希值，并且有发起人的数字签名。
 
 # Zero-Knowledge Succint Non-Interactive Arguments of Knowledge
 
-In [Zcash Protocol Specification](https://github.com/zcash/zips/raw/master/protocol/protocol.pdf), zero-knowledge succint non-interactive arguments of knowledge (zk-SNARKs) is a kind of zero-knowledge cryptography which provides secure transparent payment scheme. zk-SNARKs is described in detail on the website: <https://z.cash/technology/zksnarks>. The followings are some notes about its key technologies.
+在[Zcash白皮书](https://github.com/zcash/zips/raw/master/protocol/protocol.pdf)中提到，Zcash使用一种基于零知识证明的协议zero-knowledge succint non-interactive arguments of knowledge (zk-SNARKs)以保证交易的安全性。关于zk-SNARKs详细的描述可参考<https://z.cash/technology/zksnarks>，本文仅对协议的一部分进行中文翻译。
 
-## How zk-SNARKs are constructed in Zcash
+## Zcash如何构造zk-SNARKs协议？
 
-In the following section, we give a brief overview of how the rules for determining a valid transaction get transformed into equations that can then be evaluated on a candidate solution without revealing any sensitive information to the parties verifying the equations.
+本节将详述zk-SNARKs协议的构造过程。实际上，该协议的工作流程可简化为
 
-__Computation $\Rightarrow$ Arithmetic Circuit $\Rightarrow$ R1CS $\Rightarrow$ QAP $\Rightarrow$ zk-SNARK__
+Computation $\Rightarrow$ Arithmetic Circuit $\Rightarrow$ R1CS $\Rightarrow$ QAP $\Rightarrow$ zk-SNARK
 
-The first step in turning our transaction validity function into a mathematical representation is to break down the logical steps into the smallest possible operations, creating an “arithmetic circuit”.
+在交易过程中，交易确认功能被划分为最小逻辑操作单元，并转化为数学表达式，生成“arithmetic circuit[^translate]”。下一步被称为Rank 1 Constraint System (R1CS)，用于检查值是否“正确行进”，在此步骤中，验证者需要检查很多限定条件，2012年，文献[[1]](https://eprint.iacr.org/2012/215.pdf)的作者提出了名为Quadratic Arithmetic Program (QAP) 的方法条件检验方法，将需检验的单个限定条件由检验数字转化为检验多项式，验证者只需检测两个多项式在随机选定点上值是否一致即可（在Zcash博客中，这里指的是[盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)，虽然我他喵看不懂这一句说的是啥，但我还是要胡乱翻译一下。）
 
-Our next step is to build what is called a Rank 1 Constraint System, or R1CS, to check that the values are “traveling correctly”. In this example, the R1CS will confirm, for instance, that the value coming out of the multiplication gate where $b$ and $c$ went in is $b\cdot c$. In this R1CS representation, the verifier has to check many constraints — one for almost every wire of the circuit. (For technical reasons, it turns out we only have a constraint for wires coming out of multiplication gates.) In a 2012 paper on the topic, Gennaro, Gentry, Parno and Raykova presented a nice way to “bundle all these constraints into one”. This method uses a representation of the circuit called a Quadratic Arithmetic Program (QAP). The single constraint that needs to be checked is now between polynomials rather than between numbers. [^R1CS]
+[^translate]: 有些专业名词就不翻译了，翻译过来反而四不像。
 
-[^R1CS]: https://eprint.iacr.org/2012/215.pdf
+## 同态隐藏
 
-## Homomorphic Hiding
+Zcash使用同态隐藏函数达到零知识证明。同态隐藏函数$E(x)$具有以下性质：
 
-An Homomorphic Hiding (HH) of a number $x$ is a function satisfying the following properties:
+- 对于几乎所有的元素$x$，在给定$E(x)$的情况下难以推出$x$的值。
+- 若$x\neq y$, 则$E(x)\neq E(y)$.
+- 若不同元素$x,y$满足某个算术表达式，比如$x+y$，那么根据$E(x)$和$E(y)$可以计算出$E(x+y)$。
 
-- For most $x'$s, given $E(x)$ it is hard to find $x$.
-- Different inputs lead to different outputs---so if $x\neq y$, then $E(x)\neq E(y)$.
-- if someone knows $E(x)$ and $E(y)$, they can generate the HH of arithmetic expression in $x$ and $y$. For example, they can compute $E(x+y)$ from $E(x)$ and $E(y)$.
+假设Alice需要向Bob证明她拥有数字$x,y$并且$x+y=7$，那么她要做的事是
 
-For example, Alice owns numbers of $x$ and $y$, where $x+y=7$. Now she wants to prove to Bob that $x+y=7$ without telling him the value of $x$ and $y$. The verifying procedure is as follows.
+- Alice计算$E(x)$和$E(y)$，然后发送给Bob。
+- Bob根据$E(x)$和$E(y)$的值计算$E(x+y)$并验证$E(x+y)=E(7)$。
 
-- Alice calculates $E(x)$ and $E(y)$ and sends it to Bob.
-- Because function $E$ satisfied the properties of HH, Bob can calculate $E(x+y)$ according to $E(x)$ and $E(y)$.
-- Then Bob can calculate $E(7)$ and verify if $E(x+y)=E(7)$.
+Zcash协议引进一种名为**离散对数**的函数用以实现同态隐藏。离散对数问题可描述为：给定某个素数$p$和有限域$\mathbb{Z}_p^\*$上的一个本原元$g$，对于整数$h\in\mathbb{Z}_p^\*$，寻找唯一的整数$a\in \mathbb{Z}_p^\*$并使得$g^a=h\bmod p$是非常困难的。
 
-More specifically, zk-SNARKs uses the _discrete logarithm problem_ to construct an HH. The _discrete logarithm problem_ is believed to be hard in $\mathbb{Z}_p^\*$. This means that when $p$ is large, given an lelment $h$ in $\mathbb{Z}_p^\*$, it is difficult to find the integer $a$ in $\{0,1,\cdots,p-2\}$ such that $g^a=h\bmod p$.
+## 盲评价多项式
 
-## Blind Evaluation of Polynomials
+令$\mathbb{F}_p$表示测度为$p$的有限域$\{0,1,\cdots,p-1\}$, 盲评价多项式的概念主要包含两个方面：
 
-We denote by $\mathbb{F}_p$ the field of size $p$; that is, the elements of $\mathbb{F}_p$ are $\{0,1,\cdots,p-1\}$ and addition and multiplication are done $\bmod p$ as explained in  [Part 1](#homomorphic-hiding).
+### 多项式和线性组合
 
-### Polynomials and linear combinations
-
-Recall that a polynomial $P$ of degree $d$ over $\mathbb{F}_p$ is an expression of the form
-
+在有限域$\mathbb{F}_p$上，给定$d$次多项式
 \begin{equation}\label{eq:polynomial}
   P(X) = a_0 + a_1\cdot X + a_2\cdot X^2 + \cdots + a_d\cdot X^d,
 \end{equation}
-
-for some $a_0,\cdots,a_d\in \mathbb{F}_p$. One can calculate $P$ for a point $s\in \mathbb{F}_p$ with Eq. \eqref{eq:polynomial}.
-
-Suppose a polynomial $P=ax+by$, given $a,b,E(x),E(y)$, one can calculate $E(ax+by)$ from
+其中$a_0,\cdots,a_d\in \mathbb{F}_p$. 同时，同态隐藏函数$E(x)=g^x$支持求和运算，即$E(x+y)$的值可由$E(x),E(y)$计算得出，并且它支持加权线性组合。这意味着对于给定的$a,b,E(x),E(y)$，可以计算$E(ax+by)$，因为
 $$
 E(ax+by) = g^{ax+by} = g^{ax}\cdot g^{by} = (g^x)^a\cdot (g^y)^b = E(x)^a\cdot E(y)^b.
 $$
 
-### Blind evaluation of a polynomial
+### 盲评价一个多项式
 
-Suppose Alice has a polynomial $P$ of degree $d$, and Bob has a point $s\in \mathbb{F}_p$ that he chose randomly. Bob wishes to learn $E(P(s))$, i.e., the HH of the evaluation of $P$ at $s$. Two simple ways to do this are:
+假设Alice拥有$d$次多项式$P$，Bob随机选取一点$s\in \mathbb{F}_p$，并期望获得$E(P(s))$的值。其做法为
 
-- Alice sends $P$ to Bob, and he computes $E(P(s))$ by himself.
-- Bob sends $s$ to Alice; she computes $E(P(s))$ and sends it to Bob.
+- Alice将$P$发送给Bob，然后Bob计算$E(P(s))$。
+- Bob将$s$发送给Alice，Alice计算$E(P(s))$并发送给Bob。
 
-However, in the _blind evaluation problem_ we want Bob to learn $E(P(s))$ without learning $P$ --- which precludes the first option; and, most importantly, we don’t want Alice to learn $s$, which rules out the second [^1].
+然而，**盲评价**要求Bob在不知道$P$的情况下获得$E(P(s))$的值，并且要求Alice不能知道$s$的值。这可以通过同态隐藏来实现
 
-Using HH, we can perform blind evaluation as follows.
+1. Bob发送$E(1),E(s),\cdots,E(s^d)$给Alice。
+2. Alice根据Bob发送过来的数据计算$E(P(s))$，并发送给Bob。
 
-1. Bob sends to Alice the hidings $E(1),E(s),\cdots,E(s^d)$.
-2. Alice computes $E(P(s))$ from the elements sent in the first step, and sends $E(P(s))$ to Bob. (Alice can do this since $E$ supports linear combinations, and $P(s)$ is linear combination of $1,s,\cdots,s^d$.)
+## 知识系数测试和假设
 
-Note that, as only hidings were sent, neither Alice learned $s$ [^2], nor Bob learned $P$.
+问题来了，在[盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)阶段，谁也不能保证Alice老老实实地计算$E(P(s))$的值并发送给Bob, 此时需要某个方法使得Alice遵从协议的规定，该方法名为 _Knowledge of Coefficient (KC) Test_。
 
-[^1]: The main reason we don’t want to send $P$ to Bob, is simply that it is large – (d+1) elements, where, for example, d~2000000 in the current Zcash protocol; this ultimately has to do with the “Succinct” part of SNARKs. It is true that the sequence of hidings Bob is sending to Alice above is just as long, but it will turn out this sequence can be “hard-coded” in the parameters of the system, whereas Alice’s message will be different for each SNARK proof.
+### KC测试
 
-[^2]: Actually, the hiding property only guarantees $s$ not being recoverable from $E(s)$, but here we want to claim it is also not recoverable from the sequence $E(s),\cdots,E(s^d)$ that potentially contains more information about $s$. This follows from the d-power Diffie-Hellman assumption, which is needed in several SNARK security proofs.
+令同态隐藏函数$g$的定义域为$G$，其测度为$p$。对于$\forall\alpha\in \mathbb{F}_p$, 取$G$中的一对元素$(a,b)$令其满足$a\neq b$和$b=\alpha\cdot a$，则称这对元素为$\alpha$-对.
 
-## The Knowledge of Coefficient Test and Assumption
+KC测试的过程包括如下四步：
 
-In [Part 2](#blind-evaluation-of-polynomials), Alice is able to compute $E(P(s))$. However, no one can guarantee that Alice will indeed send it to Bob. So we need a way to "force" Alice to follow the protocol correctly --- the _Knowledge of Coefficient (KC) Test_.
+1. Bob随机选取$\alpha\in \mathbb{F}_p^\*$，$a\in G$，计算$b=\alpha\cdot a$。
+2. Bob将$\alpha$-对$(a,b)$发送给Alice。
+3. Alice必须返回另一对$\alpha$-对$(a',b')$给Bob。
+4. 当且仅当$(a',b')$也为$alpha$-对时，Bob才会接受Alice的回应。
 
-### The KC Test
+那么Alice如何做到在不知道$\alpha$的情况下生成另一对$\alpha$-对$(a',b')$的呢？很简单：Alice首先选择$\gamma\in \mathbb{F}_p^\*$, 然后计算$(a',b')=(\gamma\cdot a,\gamma\cdot b)$。
 
-For $\alpha\in \mathbb{F}_p$, let us call a pair of elements $(a,b)$ in $G$ an $\alpha$-pair if $a\neq b$ and $b=\alpha\cdot a$.
-
-The KC Test proceeds as follows.
-
-1. Bob chooses random $\alpha\in \mathbb{F}_p^*$ and $a\in G$. He computes $b=\alpha\cdot a$.
-2. He sends to Alice the "chanllenge" pair $(a,b)$. Note that $(a,b)$ is an $\alpha$-pair.
-3. Alice must now respond with a different pair $(a',b')$ that is also an $\alpha$-pair.
-4. Bob accepts Alice's response only if $(a',b')$ is indeed an $\alpha$-pair. (As he knows $\alpha$ he can check if $b'=\alpha\cdot a$.)
-
-So how can Alice successfully respond to the challenge without knowing $\alpha$? Here's the natural way to do it: Alice simply chooses some $\gamma\in \mathbb{F}_p^*$, and responds with $(a',b')=(\gamma\cdot a,\gamma\cdot b)$.
-
-Since $b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$, indeed $(a',b')$ is an $\alpha$-pair as required.
+因为$b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$，所以$(a',b')$是$\alpha$-对。
 
 The Knowledge of Coefficient Assumption [^kca](KCA) states that this is always the case, namely:
 
@@ -132,42 +117,38 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 [^kca]: This is typically called the Knowledge of Exponent Assumption in the literature, as traditionally it was used for groups written multiplicatively.
 
-## How to make Blind Evaluation of Polynomials Verifiable
-
-Let us briefly describe the conducted protocol:
+## 如何为可验证多项式进行盲评价
 
 假设Alice手中掌握着$d$次多项式$P$: $P(s)=a_0 + a_1\cdot s + \cdots + a_d\cdot s^d$，另一方Bob手中掌握着其随机选取的点$s\in \mathbb{F}_p$。现在，需要构造一个协议，使得Bob可以验证$E(P(s))$的值，并且满足两个条件：
 
 1. __Blindness__: 一方面，Alice无法得知点$s$的值；另一方面，Bob也无法得知多项式$P$的形式。
 2. __Verifiability__: 当Alice发送虚假数据，即不使用多项式$P$计算$E(P(s))$的值时，Bob接受该数据的概率可忽略不计。
 
-这就是所谓的 _verifiable blind evaluation of a polynomial_. 按照[Part 1](#homomorphic-hiding)，则条件1可以达成。而为了达成条件2，需要对[Part 2](#blind-evaluation-of-polynomials)的 _the Knowledge of Coefficient Assumption (KCA)_ 进行扩展。
+这就是所谓的 _verifiable blind evaluation of a polynomial_. 按照[同态隐藏](#%E5%90%8C%E6%80%81%E9%9A%90%E8%97%8F)，则条件1可以达成。而为了达成条件2，需要对[盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)的 _the Knowledge of Coefficient Assumption (KCA)_ 进行扩展。
 
-### An Extended KCA
+### 扩展的KCA
 
-在[The KC Test](#the-kc-test)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-键值对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-键值对$(a',b')$，此时Alice可以计算$\alpha$的值。
+在[KC测试](#kc%E6%B5%8B%E8%AF%95)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_ia_i,\sum_{i=1}^d c_ib_i)$，则$(a',b')$即最终需要验证的$\alpha$-键值对。
+现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_ia_i,\sum_{i=1}^d c_ib_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
 
-假设由$g$生成测度为$p$的群$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
+假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。
+d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-键值对必须符合一定的“线性结构”。
 
 ### 可验证的盲评价多项式协议
 
-假设同态隐藏映射HH为$E(x)=x\cdot g$，根据上述规则由$g$生成群$G$：
+假设同态隐藏映射为$E(x)=x\cdot g$，为简单起见，由特定同态隐藏映射$E$构造的协议为：
 
-为简单起见，由特定同态隐藏映射$E$构造的协议为：
-
-1. Bob随机选取$\alpha\in\mathbb{F}_p^*$并将元素集合$(1,s,\cdots, s^d)$和$(\alpha,\alpha s,\cdots, \alpha s^d)$代入HH计算所得同态隐藏值$g,s\cdot g,\cdots, s^d\cdot g$和$\alpha\cdot g,\alpha s\cdot g,\cdots, \alpha s^d\cdot g$发送给Alice。
+1. Bob随机选取$\alpha\in\mathbb{F}_p^\*$并将元素集合$(1,s,\cdots, s^d)$和$(\alpha,\alpha s,\cdots, \alpha s^d)$代入$E$计算所得同态隐藏值$g,s\cdot g,\cdots, s^d\cdot g$和$\alpha\cdot g,\alpha s\cdot g,\cdots, \alpha s^d\cdot g$发送给Alice。
 2. Alice根据Bob发送过来的数据计算$a=P(s)\cdot g$和$b=\alpha P(s)\cdot g$然后将结果发送给Bob。
 3. Bob检验$b=\alpha\cdot a$，当且仅当等式成立Bob才会接受协议成立。
 
 此时我们称该协议是可验证的盲评价多项式的协议。
 
-## From Computations to Polynomials
+## 从计算到多项式
 
 ## The Pinocchio Protocol
 
