@@ -147,11 +147,11 @@ Let us briefly describe the conducted protocol:
 
 在[The KC Test](#the-kc-test)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-键值对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-键值对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，，则$(a',b')$即最终需要验证的$\alpha$-键值对。
+现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_ia_i,\sum_{i=1}^d c_ib_i)$，则$(a',b')$即最终需要验证的$\alpha$-键值对。
 
-假设由$g$生成测度为$p$的群$G$，那么 _d-power Knowledge of Coefficient Assumption (d-KCA)_ 可表述为
+假设由$g$生成测度为$p$的群$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: *假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得。*
+d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-键值对必须符合一定的“线性结构”。
 
