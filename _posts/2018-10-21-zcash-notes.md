@@ -20,6 +20,8 @@ In this article, I will make some notes about how [Zcash](https://github.com/zca
   - [The Knowledge of Coefficient Test and Assumption](#the-knowledge-of-coefficient-test-and-assumption)
     - [The KC Test](#the-kc-test)
   - [How to make Blind Evaluation of Polynomials Verifiable](#how-to-make-blind-evaluation-of-polynomials-verifiable)
+    - [An Extended KCA](#an-extended-kca)
+    - [可验证的盲评价多项式协议](#%E5%8F%AF%E9%AA%8C%E8%AF%81%E7%9A%84%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%8D%8F%E8%AE%AE)
   - [From Computations to Polynomials](#from-computations-to-polynomials)
   - [The Pinocchio Protocol](#the-pinocchio-protocol)
   - [Pairings of Elliptic Curves](#pairings-of-elliptic-curves)
@@ -126,11 +128,44 @@ Since $b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'
 
 The Knowledge of Coefficient Assumption [^kca] (KCA) states that this is always the case, namely:
 
-KCA: If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$.
+KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$_.
 
 [^kca]: This is typically called the Knowledge of Exponent Assumption in the literature, as traditionally it was used for groups written multiplicatively.
 
 ## How to make Blind Evaluation of Polynomials Verifiable
+
+Let us briefly describe the conducted protocol:
+
+假设Alice手中掌握着$d$次多项式$P$: $P(s)=a_0 + a_1\cdot s + \cdots + a_d\cdot s^d$，另一方Bob手中掌握着其随机选取的点$s\in \mathbb{F}_p$。现在，需要构造一个协议，使得Bob可以验证$E(P(s))$的值，并且满足两个条件：
+
+1. __Blindness__: 一方面，Alice无法得知点$s$的值；另一方面，Bob也无法得知多项式$P$的形式。
+2. __Verifiability__: 当Alice发送虚假数据，即不使用多项式$P$计算$E(P(s))$的值时，Bob接受该数据的概率可忽略不计。
+
+这就是所谓的 _verifiable blind evaluation of a polynomial_. 按照[Part 1](#homomorphic-hiding)，则条件1可以达成。而为了达成条件2，需要对[Part 2](#blind-evaluation-of-polynomials)的 _the Knowledge of Coefficient Assumption (KCA)_ 进行扩展。
+
+### An Extended KCA
+
+在[The KC Test](#the-kc-test)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-键值对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-键值对$(a',b')$，此时Alice可以计算$\alpha$的值。
+
+现在假设Bob发送了多个$\alpha$-键值对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$c_1,\cdots,c_d\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_ia_i,\sum_{i=1}^d c_ib_i)$，则$(a',b')$即最终需要验证的$\alpha$-键值对。
+
+假设由$g$生成测度为$p$的群$G$，那么 _d-power Knowledge of Coefficient Assumption (d-KCA)_ 可表述为
+
+d-KCA: _假设Bob随机选取$\alpha\in \mathbb{F}_p^*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_is^i\cdot g=a'$。_
+
+在d-KCA的假设下，Bob发送给Alice的$\alpha$-键值对必须符合一定的“线性结构”。
+
+### 可验证的盲评价多项式协议
+
+假设同态隐藏映射HH为$E(x)=x\cdot g$，根据上述规则由$g$生成群$G$：
+
+为简单起见，由特定同态隐藏映射$E$构造的协议为：
+
+1. Bob随机选取$\alpha\in\mathbb{F}_p^*$并将元素集合$(1,s,\cdots, s^d)$和$(\alpha,\alpha s,\cdots, \alpha s^d)$代入HH计算所得同态隐藏值$g,s\cdot g,\cdots, s^d\cdot g$和$\alpha\cdot g,\alpha s\cdot g,\cdots, \alpha s^d\cdot g$发送给Alice。
+2. Alice根据Bob发送过来的数据计算$a=P(s)\cdot g$和$b=\alpha P(s)\cdot g$然后将结果发送给Bob。
+3. Bob检验$b=\alpha\cdot a$，当且仅当等式成立Bob才会接受协议成立。
+
+此时我们称该协议是可验证的盲评价多项式的协议。
 
 ## From Computations to Polynomials
 
