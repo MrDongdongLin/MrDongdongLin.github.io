@@ -111,7 +111,7 @@ KC测试的过程包括如下四步：
 
 因为$b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$，所以$(a',b')$是$\alpha$-对。
 
-The Knowledge of Coefficient Assumption (KCA)[^kca] states that this is always the case, namely:
+The Knowledge of Coefficient Assumption (KCA)[^kca]states that this is always the case, namely:
 
 KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$_.
 
@@ -130,11 +130,11 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 在[KC测试](#kc%E6%B5%8B%E8%AF%95)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$\{c_i\}_{i=1}^d \in\mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_i a_i,\sum_{i=1}^d c_i b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
+现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$\{c_1,\cdots,c_d\}$，并定义$(a',b')=(\sum_{i=1}^d c_i a_i,\sum_{i=1}^d c_i b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
 
 假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_i\}_{i=0}^d \in\mathbb{F}_p$，使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
+d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-对必须符合一定的“线性结构”。
 
