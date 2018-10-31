@@ -130,11 +130,11 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 在[KC测试](#kc%E6%B5%8B%E8%AF%95)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择，并定义$(a',b')=(\sum_{i=1}^d c_i\cdot a_i,\sum_{i=1}^d c_i\cdot b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
+现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$\{c_1,\cdots,c_d\}\in \mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_i\cdot a_i,\sum_{i=1}^d c_i\cdot b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
 
 假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$c_0,\cdots,c_d\in \mathbb{F}_p$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
+d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-键值对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-键值对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}\in \mathbb{F}_p$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-键值对必须符合一定的“线性结构”。
 
@@ -142,7 +142,7 @@ d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，
 
 假设同态隐藏映射为$E(x)=x\cdot g$，为简单起见，由特定同态隐藏映射$E$构造的协议为：
 
-1. Bob随机选取$\alpha\in\mathbb{F}_p^\*$并将元素集合$(1,s,\cdots, s^d)$和$(\alpha,\alpha s,\cdots, \alpha s^d)$代入$E$计算所得同态隐藏值$g,s\cdot g,\cdots, s^d\cdot g$和$\alpha\cdot g,\alpha s\cdot g,\cdots, \alpha s^d\cdot g$发送给Alice。
+1. Bob随机选取$\alpha\in\mathbb{F}_p^\*$并将元素集合$\{1,s,\cdots, s^d\}$和$\{\alpha,\alpha s,\cdots, \alpha s^d\}$代入$E$计算所得同态隐藏值$g,s\cdot g,\cdots, s^d\cdot g$和$\alpha\cdot g,\alpha s\cdot g,\cdots, \alpha s^d\cdot g$发送给Alice。
 2. Alice根据Bob发送过来的数据计算$a=P(s)\cdot g$和$b=\alpha P(s)\cdot g$然后将结果发送给Bob。
 3. Bob检验$b=\alpha\cdot a$，当且仅当等式成立Bob才会接受协议成立。
 
