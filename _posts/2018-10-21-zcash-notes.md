@@ -22,7 +22,9 @@ In this article, I will make some notes about how [Zcash](https://github.com/zca
   - [如何为可验证多项式进行盲评价](#%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8F%AF%E9%AA%8C%E8%AF%81%E5%A4%9A%E9%A1%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%9B%B2%E8%AF%84%E4%BB%B7)
     - [扩展的KCA](#%E6%89%A9%E5%B1%95%E7%9A%84kca)
     - [可验证的盲评价多项式协议](#%E5%8F%AF%E9%AA%8C%E8%AF%81%E7%9A%84%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%8D%8F%E8%AE%AE)
-  - [从计算到多项式](#%E4%BB%8E%E8%AE%A1%E7%AE%97%E5%88%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F)
+  - [从表达式到多项式](#%E4%BB%8E%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F)
+    - [从表达式到R1CS](#%E4%BB%8E%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0r1cs)
+    - [从R1CS到QAP](#%E4%BB%8Er1cs%E5%88%B0qap)
   - [The Pinocchio Protocol](#the-pinocchio-protocol)
   - [Pairings of Elliptic Curves](#pairings-of-elliptic-curves)
 
@@ -148,7 +150,84 @@ d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，
 
 此时我们称该协议是可验证的盲评价多项式的协议。
 
-## 从计算到多项式
+## 从表达式到多项式
+
+这一节的内容可以参考V神的博客<https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649>。首先，zk-SNARKs协议不能直接应用于计算，需要将问题转化为正确的“形式”，即Quadratic Arithmetic Program (QAP)，可以参考论文<https://eprint.iacr.org/2012/215.pdf>，该论文内容相当复杂，本文仅给出一个简单的例子。
+
+### 从表达式到R1CS
+
+假设Alice想要向Bob证明她知道$c_1,c_2,c_3\in \mathbb{F}_p$并使得$(c_1\cdot c_2)\cdot (c_1+c_3)=7$。在这过程中，Bob始终对$c_1,c_2,c_3$“零知识”。首先，将表达式$(c_1\cdot c_2)\cdot (c_1+c_3)=7$转化为门电路的形式
+
+![arthmetic-circuit](/img/blockchain/CircuitDrawing-1.png)
+
+表达式$(c_1\cdot c_2)\cdot (c_1+c_3)$现在变成
+
+> $s_1=c_1\cdot c_2$  
+> $s_2=c_1+c_3$  
+> $s_3=s_1\cdot s_2$
+
+下一步，将其转化为Rand-1 Constraint System (R1CS)，它是一系列三元向量组$<a,b,c>$。R1CS的解$s$满足
+\begin{equation}\label{eq:constraint}
+s\*a\cdot s\*b - s\*c = 0,
+\end{equation}
+此处$\*$表示的是内积运算。对于上述例子而言，R1CS定义三元向量组中的向量形式为$(const,c_1,c_2,c_3,s_1,s_2,s_3)$，对于解向量$s$而言，`const`的值永远为`1`。
+
+对于第一个门$s_1=c_1\cdot c_2$，可得满足约束条件$\eqref{eq:constraint}$的向量组
+
+```
+a=[0,1,0,0,0,0,0]
+b=[0,0,1,0,0,0,0]
+c=[0,0,0,0,1,0,0]
+```
+
+同理，第二个门和第三个门对应的向量组分别为
+
+```
+a=[1,0,0,0,0,0,0]
+b=[0,1,0,1,0,0,0]
+c=[0,0,0,0,0,1,0]
+```
+
+和
+
+```
+a=[0,0,0,0,1,0,0]
+b=[0,0,0,0,0,1,0]
+c=[0,0,0,0,0,0,1]
+```
+
+现在我们得到了三个约束的R1CS
+
+```
+A
+[0,1,0,0,0,0,0]
+[1,0,0,0,0,0,0]
+[0,0,0,0,1,0,0]
+
+B
+[0,0,1,0,0,0,0]
+[0,1,0,1,0,0,0]
+[0,0,0,0,0,1,0]
+
+C
+[0,0,0,0,1,0,0]
+[0,0,0,0,0,1,0]
+[0,0,0,0,0,0,1]
+```
+
+### 从R1CS到QAP
+
+引入拉格朗日插值法：
+
+对某个多项式函数，给定$k+1$个取值点  
+$(x_0,y_0),\cdots,(x_k,y_k)$,  
+其拉格朗日多项式为  
+$$L(x):=\sum_{j=0}^k y_j\cdot l_j (x)$$,
+其中
+\begin{align*}
+ l_j(x)&:=\prod_{i=0,i\neq j}^k \frac{x-x_i}{x_j-x_i} \\
+       &=\frac{x-x_0}{xj-x_0} \cdots \frac{x-x_j-1}{xj-x_j-1} \frac{x-x_j+1}{xj-x_j+1} \cdots \frac{x-x_k}{xj-x_k}.
+\end{align*}
 
 ## The Pinocchio Protocol
 
