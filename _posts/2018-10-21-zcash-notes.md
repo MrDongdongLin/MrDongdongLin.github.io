@@ -111,7 +111,7 @@ KC测试的过程包括如下四步：
 
 因为$b'=\gamma\cdot b=\gamma\alpha\cdot a=\alpha(\gamma\cdot a)=\alpha\cdot a'$，所以$(a',b')$是$\alpha$-对。
 
-The Knowledge of Coefficient Assumption [^kca](KCA) states that this is always the case, namely:
+The Knowledge of Coefficient Assumption (KCA)[^kca] states that this is always the case, namely:
 
 KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ with non-negligible probability over Bob’s choices of $a,\alpha$, then she knows $\gamma$ such that $a'=\gamma\cdot a$_.
 
