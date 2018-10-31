@@ -130,7 +130,7 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 在[KC测试](#kc%E6%B5%8B%E8%AF%95)一节中，对于单个值$\alpha$而言，Bob发送了一些$\alpha$-对$(a,b=\alpha\cdot a)$给Alice，并要求Alice生成并回发一些其他的$\alpha$-对$(a',b')$，此时Alice可以计算$\alpha$的值。
 
-现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$\{c_1,c_2,\cdots,c_d\}\in\mathbb{F}_p$，并定义$(a',b')=(\sum_{i=1}^d c_i a_i,\sum_{i=1}^d c_i b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
+现在假设Bob发送了多个$\alpha$-对$(a_1,b_1),\cdots,(a_d,b_d)$，Alice可以选择$\{c_1,c_2,\cdots,c_d\}$，并定义$(a',b')=(\sum_{i=1}^d c_i a_i,\sum_{i=1}^d c_i b_i)$，则$(a',b')$即最终需要验证的$\alpha$-对。
 
 假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
