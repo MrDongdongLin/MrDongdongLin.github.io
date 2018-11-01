@@ -389,17 +389,17 @@ $y_3\equiv k\cdot (x_1-x_3) - y_1 \pmod p$
 3. $2P$
 
 \begin{array}{l}
- \left( 1 \right) - P = \left( {3, - 10\bmod 23} \right) = \left( {3,13} \right) \\\\\\
-  \\\\\\
- \left( 2 \right)k = \frac{{7 - 10}}{{9 - 3}} =  - {2^{ - 1}}\bmod 23 \\\\\\
- 2 \cdot {2^{ - 1}} = 1\bmod 23 \Rightarrow {2^{ - 1}} = 12 \\\\\\
- k =  - 12\bmod 23 = 11 \\\\\\
- P + Q = \left( {{{11}^2} - 3 - 9\bmod 23,11 \times \left( {3 - \left( { - 6} \right)} \right)\bmod 23} \right) = \left( {17,20} \right) \\\\\\
-  \\\\\\
- \left( 3 \right)k = \frac{{3 \times {3^2} + 1}}{{2 \times 10}}\bmod 23 = 7 \cdot {5^{ - 1}}\bmod 23 \\\\\\
- 5 \cdot {5^{ - 1}} = 1\bmod 23 \Rightarrow {5^{ - 1}} = 14 \\\\\\
- k = 7 \cdot 14\bmod 23 = 6 \\\\\\
- 2P = \left( {{6^2} - 3 - 3\bmod 23,6 \times \left( {3 - 7} \right)\bmod 23} \right) = \left( {7,12} \right) \\\\\\
+ (1) - P = ( (3, - 10\bmod 23) ) = ( (3,13) ) \\\\\\
+     \\\\\\
+ (2) k = \frac{7 - 10}{9 - 3} =  - 2^{-1} \bmod 23 \\\\\\
+     2 \cdot 2^{-1} = 1 \bmod 23 \Rightarrow 2^{-1} = 12 \\\\\\
+     k =  - 12 \bmod 23 = 11 \\\\\\
+     P + Q = ( 11^2 - 3 - 9 \bmod 23, 11 \cdot ( 3 - (- 6)) \bmod 23 ) = ( 17,20 ) \\\\\\
+     \\\\\\
+ (3) k = \frac{3 \cdot {3^2} + 1}{2 \cdot 10} \bmod 23 = 7 \cdot 5^{-1} \bmod 23 \\\\\\
+     5 \cdot 5^{-1} = 1 \bmod 23 \Rightarrow 5^{-1} = 14 \\\\\\
+     k = 7 \cdot 14 \bmod 23 = 6 \\\\\\
+     2P = ( 6^2 - 3 - 3 \bmod 23, 6 \cdot (3 - 7) \bmod 23 ) = ( 7,12 ) \\\\\\
 \end{array}
 
 ### 有限域椭圆曲线点的阶
