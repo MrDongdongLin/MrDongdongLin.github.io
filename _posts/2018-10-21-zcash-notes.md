@@ -137,7 +137,7 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: 假设Bob随机选取$\alpha\in \mathbb{F}_p^\*$且$s\in \mathbb{F}_p$，并给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
+d-KCA: 假设Bob从$\mathbb{F}_p^\*$中随机选取$\alpha$，并且从$\mathbb{F}_p$中随机选取$s$，然后给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-对必须符合一定的“线性结构”。
 
@@ -218,21 +218,24 @@ C
 
 ### 从R1CS到QAP
 
-引入拉格朗日插值法：
+引入拉格朗日插值法：  
+对某个多项式函数，给定$k+1$个取值点
 
-对某个多项式函数，给定$k+1$个取值点  
-$(x_0,y_0),\cdots,(x_k,y_k)$,  
-其拉格朗日多项式为  
+$(x_0,y_0),\cdots,(x_k,y_k)$,
+
+其拉格朗日多项式为
+
 $$L(x):=\sum_{j=0}^k y_j\cdot l_j (x)$$,
+
 其中
 \begin{align}
- l_j(x)&:=\prod_{i=0,i\neq j}^k \frac{x-x_i}{x_j-x_i} \\
+ l_j(x)&:=\prod_{i=0,i\neq j}^k \frac{x-x_i}{x_j-x_i} \\\\\\
        &=\frac{x-x_0}{xj-x_0} \cdots \frac{x-x_j-1}{xj-x_j-1} \frac{x-x_j+1}{xj-x_j+1} \cdots \frac{x-x_k}{xj-x_k}.
 \end{align}
 
 zk-SNARKs协议使用拉格朗日插值法将R1CS转化为QAP形式。该过程使用拉格朗日插值法将`A,B,C`由列数为6的三元向量组分别转化为行数为6的多项式系数矩阵。例如，向量组`A`的第一列为`[0,1,0]`，分别对应`1,2,3`行的`y`值，即求过点$(1,0),(2,1),(3,0)$的多项式。将这三个点代入拉格朗日多项式公式得
 \begin{align}
-L(x) &= \sum_{j=0}^3 y_j\cdot l_j (x) = l_2(x)
+L(x) &= \sum_{j=0}^3 y_j\cdot l_j (x) = l_2(x) \\\\\\
      &= 0.5\cdot x^2 - 2x + 1.5
 \end{align}
 
