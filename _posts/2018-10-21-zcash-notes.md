@@ -225,7 +225,9 @@ $(x_0,y_0),\cdots,(x_k,y_k)$,
 
 其拉格朗日多项式为
 
-$$L(x):=\sum_{j=0}^k y_j\cdot l_j (x)$$,
+\begin{equation}\label{eq:lagelangri}
+  L(x):=\sum_{j=0}^k y_j\cdot l_j (x),
+\end{equation}
 
 其中
 \begin{align\*}
