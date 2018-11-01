@@ -127,7 +127,7 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 1. __Blindness__: 一方面，Alice无法得知点$s$的值；另一方面，Bob也无法得知多项式$P$的形式。
 2. __Verifiability__: 当Alice发送虚假数据，即不使用多项式$P$计算$E(P(s))$的值时，Bob接受该数据的概率可忽略不计。
 
-这就是所谓的 _verifiable blind evaluation of a polynomial_. 按照[同态隐藏](#%E5%90%8C%E6%80%81%E9%9A%90%E8%97%8F)，则条件1可以达成。而为了达成条件2，需要对[盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)的 _the Knowledge of Coefficient Assumption (KCA)_ 进行扩展。
+这就是所谓的 verifiable blind evaluation of a polynomial. 按照[同态隐藏](#%E5%90%8C%E6%80%81%E9%9A%90%E8%97%8F)，则条件1可以达成。而为了达成条件2，需要对[盲评价多项式](#%E7%9B%B2%E8%AF%84%E4%BB%B7%E5%A4%9A%E9%A1%B9%E5%BC%8F)的 the Knowledge of Coefficient Assumption (KCA) 进行扩展。
 
 ### 扩展的KCA
 
@@ -137,7 +137,7 @@ KCA: _If Alice returns a valid response $(a',b')$ to Bob’s challenge $(a,b)$ w
 
 假设由$g$生成测度为$p$的域$G$，那么d-power Knowledge of Coefficient Assumption (d-KCA)可表述为
 
-d-KCA: 假设Bob从$\mathbb{F}_p^\*$中随机选取$\alpha$，并且从$\mathbb{F}_p$中随机选取$s$，然后给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
+d-KCA: 假设Bob从$\mathbb{F}_p^\*$中随机选取$\alpha$，并且从$\mathbb{F}_{p}$中随机选取$s$，然后给Alice发送了$\alpha$-对$(g,\alpha\cdot g),(s\cdot g,\alpha s\cdot g),\cdots,(s^d\cdot g,\alpha s^d\cdot g)$。假设Alice生成了另一对$\alpha$-对$(a',b')$。那么Alice有极大概率可以选择$\{c_0,\cdots,c_d\}$使得$\sum_{i=0}^d c_i\cdot s^i\cdot g=a'$。
 
 在d-KCA的假设下，Bob发送给Alice的$\alpha$-对必须符合一定的“线性结构”。
 
