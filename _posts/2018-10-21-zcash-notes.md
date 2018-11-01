@@ -228,16 +228,16 @@ $(x_0,y_0),\cdots,(x_k,y_k)$,
 $$L(x):=\sum_{j=0}^k y_j\cdot l_j (x)$$,
 
 其中
-\begin{align}
+\begin{align\*}
  l_j(x)&:=\prod_{i=0,i\neq j}^k \frac{x-x_i}{x_j-x_i} \\\\\\
        &=\frac{x-x_0}{xj-x_0} \cdots \frac{x-x_j-1}{xj-x_j-1} \frac{x-x_j+1}{xj-x_j+1} \cdots \frac{x-x_k}{xj-x_k}.
-\end{align}
+\end{align\*}
 
 zk-SNARKs协议使用拉格朗日插值法将R1CS转化为QAP形式。该过程使用拉格朗日插值法将`A,B,C`由列数为6的三元向量组分别转化为行数为6的多项式系数矩阵。例如，向量组`A`的第一列为`[0,1,0]`，分别对应`1,2,3`行的`y`值，即求过点$(1,0),(2,1),(3,0)$的多项式。将这三个点代入拉格朗日多项式公式得
-\begin{align}
+\begin{align\*}
 L(x) &= \sum_{j=0}^3 y_j\cdot l_j (x) = l_2(x) \\\\\\
      &= 0.5\cdot x^2 - 2x + 1.5
-\end{align}
+\end{align\*}
 
 于是我们得到A系数矩阵的第一行为$[1.5,2,0.5]$. 安利一个网站<https://www.symbolab.com/>，只需输入`expand\:\frac{x-1}{2-1}\cdot \frac{x-3}{3-1}`，即可求得展开多项式
 
