@@ -377,7 +377,7 @@ $\mathbb{F}\_p$上的椭圆曲线同样有加法
 2. $P(x,y)$的负元是 $(x,-y mod p)= (x,p-y)$ ，有$P+(-P)= O\infty$
 3. $P(x_1,y_1)$, $Q(x_2,y_2)$的和$R(x_3,y_3)$ 有如下关系：
 
-$x_3\equiv k_2-x_1-x_2 \pmod p$  
+$x_3\equiv k^2-x_1-x_2 \pmod p$  
 $y_3\equiv k\cdot (x_1-x_3) - y_1 \pmod p$  
 若$P=Q$, 则$k=(3x^2 + a)/2y_1 \pmod p$  
 若$P\neq Q$, 则$k = (y_2 - y_1)/(x_2-x_1) \pmod p$
