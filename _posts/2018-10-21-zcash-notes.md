@@ -34,6 +34,8 @@ In this article, I will make some notes about how [Zcash](https://github.com/zca
     - [有限域椭圆曲线点的阶](#%E6%9C%89%E9%99%90%E5%9F%9F%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E7%82%B9%E7%9A%84%E9%98%B6)
     - [椭圆曲线加密](#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)
     - [zk-SNARKs协议中的椭圆曲线配对](#zk-snarks%E5%8D%8F%E8%AE%AE%E4%B8%AD%E7%9A%84%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E9%85%8D%E5%AF%B9)
+      - [如何在不泄露$s$的情况下证明$A(x)\* B(x)-C(x) = H\* Z(x)$](#%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%8D%E6%B3%84%E9%9C%B2s%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%AF%81%E6%98%8Eax-bx-cx--h-zx)
+      - [如何使用椭圆曲线配对来证明$A(x)\* B(x) - C(x) = H\* Z(x)$等式成立？](#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E9%85%8D%E5%AF%B9%E6%9D%A5%E8%AF%81%E6%98%8Eax-bx---cx--h-zx%E7%AD%89%E5%BC%8F%E6%88%90%E7%AB%8B)
   - [Pinocchio协议](#pinocchio%E5%8D%8F%E8%AE%AE)
 
 # 背景知识
@@ -423,6 +425,44 @@ $K$为公开密钥（public key)
 
 ### zk-SNARKs协议中的椭圆曲线配对
 
-终于来到本节的重点，Zcash是如何运用椭圆曲线加密算法来构造zk-SNARKs协议的呢？
+双线性配对：
+
+$e(P,Q+R)=e(P,Q)\* e(P,R)$  
+$e(P+Q,R)=e(P,R)\* e(Q,R)$
+
+对于$S,T$, 有
+
+1. $e(aS,bT)=e(S,T)^{a,b}, \forall a,b\in \mathbb{Z}$.
+2. $e(S,O)=e(O,S)=1$.
+3. $e(S,-T)=e(-S,T)=e(S,T)^{-1}$.
+4. If $e(S,R)=1, \forall R\in G_1$, then $S=O$.
+
+#### 如何在不泄露$s$的情况下证明$A(x)\* B(x)-C(x) = H\* Z(x)$
+
+首先，若$Q=P\* k$, $S=R\* k$, 则$e(Q,R)=e(P,S)$  
+证明：$e(Q,R)=e(P\* k, R)= e(P,R)^k = e(P,R\* k)=e(P,S)$.
+
+假设Alice给Bob提供10个点$(P_1,Q_1),(P_2,Q_2),\cdots,(P_{10},Q_{10})$, 其中$Q_i=P_i\* k$, k只有Alice知道；此时Bob给Alice提供$(R,S)$两个点，并且$e(Q_i,R)=e(P_i,S)$，那么此时Alice获取到了什么信息呢？
+
+由于从$P_i, Q_i$获得$k$是离散对数难题，Alice可以推断Bob不可能得到$k$，而是通过线性组合的方式得到了$(R,S)$, 即$R= i_1\* P_1 + i_2\* P_2 + \cdots + i_{10}\* P_{10}$, $S= i_1\* Q_1 + i_2\* Q_2 + \cdots + i_{10}\cdot Q_{10}$, 此时$e(Q_i, R) = e(P_i,S)$成立。
+
+QAP和椭圆曲线配对的关系：将$s$视为$(i_1,i_2,\cdots,i_{10})$, 取$Ai(x)$在$x=r$处的值，通过椭圆曲线生成点$G$，可得点$P=Ai(x)\* G$，因此可以使用椭圆曲线配对来表示QAP.
+
+#### 如何使用椭圆曲线配对来证明$A(x)\* B(x) - C(x) = H\* Z(x)$等式成立？
+
+首先添加如下点到公共可信集合中
+
+- $G\* A_1(t), G\* A_1(t)\* k_a$
+- $G\* A_2(t), G\* A_2(t)\* k_a$
+- $\vdots$
+- $G\* B_1(t), G\* B_1(t)\* k_a$
+- $G\* B_2(t), G\* B_2(t)\* k_a$
+- $\vdots$
+- $G\* C_1(t), G\* C_1(t)\* k_a$
+- $G\* C_2(t), G\* C_2(t)\* k_a$
+- $vdots$
+
+证明者提供$A_i(x),B_i(x),C_i(x)$的线性组合
+
 
 ## Pinocchio协议
