@@ -15,3 +15,8 @@ Microsoft: <https://www.microsoft.com/en-us/research/publication/ml-confidential
 Huawei, University of Waterloo, RAS conference...
 
 Machine learning - Cryptography - Zero-knowledge proofs - Homomorphic encryption - Blockchain - ...
+
+papers:
+
+[Towards Construction Based Data Hiding: From Secrets to Fingerprint Images](https://ieeexplore.ieee.org/document/8510853)
+
