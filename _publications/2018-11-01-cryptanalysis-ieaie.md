@@ -9,7 +9,7 @@ paperurl: 'https://ieeexplore.ieee.org/document/8548554'
 citation: 'C. Li, D. Lin, B. Feng, J. Lü, and F. Hao, “Cryptanalysis of a chaotic image encryption algorithm based on information entropy,” IEEE Access, 2018.'
 ---
 
-[Download paper here](https://mrdongdonglin.github.io/files/ieae.pdf)
+[Download paper here](https://mrdongdonglin.github.io/files/ieaie.pdf)
 
 ```tex
 @ARTICLE{Cqli:entropy:Arxiv,
