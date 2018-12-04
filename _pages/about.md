@@ -10,7 +10,7 @@ redirect_from:
 
 # News
 
-Crytanalysis of IEAIE: https://www.overleaf.com/project/5bbf01ffb46d2f5c4003afda
+Crytanalysis of IEAIE: <https://ieeexplore.ieee.org/document/8548554>
 
 # Publication
 
