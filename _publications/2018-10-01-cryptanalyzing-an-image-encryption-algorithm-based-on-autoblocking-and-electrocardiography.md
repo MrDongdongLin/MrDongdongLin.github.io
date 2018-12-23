@@ -17,5 +17,6 @@ citation: 'C. Li, D. Lin, J. Lü, and F. Hao, “Cryptanalyzing an image encrypt
   title =        {Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography},
   journal =      {IEEE MultiMedia},
   year =         {2018},
+  doi =          {10.1109/MMUL.2018.2873472},
 }
 ```

@@ -18,6 +18,6 @@ citation: 'C. Li, D. Lin, and J. Lü, “Cryptanalyzing an image-scrambling encr
   journal =      {IEEE MultiMedia},
   year =         {2017},
   volume =       {3},
-  pages =        {64--71},
+  pages =        {64-71},
 }
 ```

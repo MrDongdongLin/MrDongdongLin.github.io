@@ -17,5 +17,8 @@ citation: 'C. Li, D. Lin, B. Feng, J. Lü, and F. Hao, “Cryptanalysis of a cha
   title =        {Cryptanalysis of a chaotic image encryption algorithm based on information entropy},
   journal =      {IEEE Access},
   year =         {2018},
+  vol =          {6},
+  pages =        {75834-75842},
+  doi =          {10.1109/ACCESS.2018.2883690},
 }
 ```
