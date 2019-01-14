@@ -11,6 +11,7 @@ redirect_from:
 
 Publications
 ============
+
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
@@ -21,19 +22,19 @@ Work experience
 * Short-Term Research Activity, Hunan University. September 2018
   * Hunan University
   * Cryptanalysis of an image encryption algorithm based on information entropy.
-  * Assist Prof. Chengqing Li in his research about cryptanalyzing an image encryption algorithm based on information entropy. We have already finished this work and have a paper submitted to IEEE Access.
+  * Assist Prof. Chengqing Li in his research of cryptanalyzing an image encryption algorithm based on information entropy. This work has been published in IEEE Access.
 
 * Short-Term Research Activity, Hunan University. December 2017
   * Hunan University
   * Digital Image Forensics with Visual Descriptor and Deep Learning.
-  * Assisted Hu et al. with the research of identifying Natural Images and Computer Graphics. This research has been published at <https://link.springer.com/chapter/10.1007/978-3-319-72389-1_30>.
+  * Assist Hu et al. with the research of identifying Natural Images and Computer Graphics. This research has been published in <https://link.springer.com/chapter/10.1007/978-3-319-72389-1_30>.
 
 * Short-Term Research Activity, University of Surrey. December 2016
   * University of Surrey
-  * Collaborated with [Shujun Li](http://www.hooklee.com/) (Chief of Research) in a short-term research activity and the task focus on Reducing Redundancy of JPEG images, while retaining quality and compatibility with recovering unknown DCT coefficients.
+  * Collaborate with [Shujun Li](http://www.hooklee.com/) (Chief of Research) in a short-term research activity, and the task focus on Reducing Redundancy of JPEG images, while retaining quality and compatibility with recovering unknown DCT coefficients.
   * Supervisor: Professor [Shujun Li](http://www.hooklee.com/)
 
-* Developmental Engineer, ZhiWei-ChinaDDOS, Hunan, China.	August 2017
+* Developmental Engineer, ZhiWei-ChinaDDOS, Hunan, China. August 2017
   * Project: Real-Time Protection System for Website.
   * Worked with program manager, to develop a real-time protection system for website. Numerous data are collected and analyzed to view that the HTTP traffic is normal or not.
   
@@ -49,15 +50,17 @@ Projects
   * This project includes codes of the paper “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography”.
 
 * A $\rm \LaTeX$ template: <https://github.com/MrDongdongLin/xtuthesis>, <https://www.ctan.org/pkg/xtuthesis>
-  * This project includes a $\rm \LaTeX$ template and a Microsoft Word template that provides normative format for graduation thesis of Xiangtan University, among them, the $\rm \LaTeX$ template has been received by CTAN.
+  * This project includes a $\rm \LaTeX$ template and a Microsoft Word template, which provide normative format for graduation thesis of Xiangtan University, among them, the $\rm \LaTeX$ template has been received by CTAN.
 
 Education
 =========
+
 * M.Sc. Computer Science in Xiangtan University September 2015-July 2018
 * B.S. Computer Science	in Xiangtan University September 2011-July 2015
 
 Skills
 ======
+
 * Strong typesetting ability of both $\rm \LaTeX$ and Microsoft Word, two papers and my graduation thesis are available: [Cryptanalysis of ISEA](https://github.com/MrDongdongLin/Cryptanalysis_ISEA), [Cryptanalysis of IEAE](https://github.com/MrDongdongLin/Cryptanalysis_IEAE), and [Master Thesis](https://github.com/MrDongdongLin/xtuthesis).
 * Strong presentation and public speaking skills.
 * Technical skills include Matlab programming, Python programming and C/C++ programming, and some software engineering.

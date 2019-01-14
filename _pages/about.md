@@ -8,9 +8,9 @@ redirect_from:
   - /about.html
 ---
 
-# News
+<!-- # News
 
-Crytanalysis of IEAIE: <https://ieeexplore.ieee.org/document/8548554>
+Crytanalysis of IEAIE: <https://ieeexplore.ieee.org/document/8548554> -->
 
 # Publication
 

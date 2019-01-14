@@ -5,7 +5,7 @@ permalink: /publication/Cryptanalyzing an image encryption algorithm based on au
 # excerpt: 'This paper is about the number 2. The number 3 is left for future work.'
 date: 2018-10-01
 venue: 'IEEE MultiMedia'
-paperurl: 'https://ieeexplore.ieee.org/document/8495009'
+paperurl: 'http://dx.doi.org/10.1109/MMUL.2018.2873472'
 citation: 'C. Li, D. Lin, J. Lü, and F. Hao, “Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography,” IEEE MultiMedia, 2018.'
 ---
 
@@ -13,7 +13,7 @@ citation: 'C. Li, D. Lin, J. Lü, and F. Hao, “Cryptanalyzing an image encrypt
 
 ```tex
 @ARTICLE{Cqli:Autoblocking:Arxiv,
-  author =       {Chengqing Li, Dongdong Lin, Jinhu Lü and Feng Hao},
+  author =       {Chengqing Li and Dongdong Lin and Jinhu L\"u and Feng Hao},
   title =        {Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography},
   journal =      {IEEE MultiMedia},
   year =         {2018},
