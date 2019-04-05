@@ -16,7 +16,7 @@ Crytanalysis of IEAIE: <https://ieeexplore.ieee.org/document/8548554> -->
 
 - Chengqing Li, __Dongdong Lin__, Bingbing Feng, Jinhu Lü, Feng Hao, "Cryptanalysis of a chaotic image encryption algorithm based on information entropy," _IEEE Access_, vol. 6, pp. 75834-75842, 2018.
 
-- Chengqing Li, __Dongdong Lin__, Jinhu Lü, Feng Hao, "Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography," _IEEE MultiMedia_, 2018.
+- Chengqing Li, __Dongdong Lin__, Jinhu Lü, Feng Hao, "Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography," _IEEE MultiMedia_, vol. 25, pp. 46-56, 2018.
 
 - Chengqing Li, __Dongdong Lin__, Jinhu Lü, "Cryptanalyzing an image-scrambling encryption algorithm of pixel bits," _IEEE MultiMedia_, vol. 3, pp. 64–71, 2017.
 
