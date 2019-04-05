@@ -12,7 +12,7 @@ tags:
 
 有兴趣的可以下载我的硕士毕业论文进行审阅，欢迎提出修改意见。此处是[下载链接](files/thesis.docx)
 
-有关文字段落格式，比如大纲级别，段落前后间距磅数，分页等格式可以直接下载我写好的样式文件然后统一更改（附有gif教程）。下载地址：<https://github.com/MrDongdongLin/xtuthesis/tree/master/word_template>
+有关文字段落格式，比如大纲级别，段落前后间距磅数，分页等格式可以直接下载我写好的样式文件然后统一更改（附有gif教程）。此处是[下载地址](https://github.com/MrDongdongLin/xtuthesis/tree/master/word_template)
 
 ## 基本设置
 
