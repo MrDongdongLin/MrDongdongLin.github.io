@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="word,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面一眨眼，距离我赶硕士毕业论文的时间已经过去一年了。我最开始是使用latex排版的，因为我觉得用latex排出来的公式好看，后来听说学校论文查重用pdf可能会有乱码问题，于是我又用word重排了一遍。最后交由我导师把关，修改了几次。个人觉得我的排版技术得到了飞跃性地提升:-) 然而当时学的许多排版技巧我差不多忘光了-.-b 这次重新打开我的硕士毕业论文，再回忆一下，记点笔记，说不定有用呢。">
+<meta name="keywords" content="word">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用word优雅地排版---学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/writing/2019-04-05-how-to-typesetting-word-document/index.html">
+<meta property="og:site_name" content="Donny&#39;s blog">
+<meta property="og:description" content="写在前面一眨眼，距离我赶硕士毕业论文的时间已经过去一年了。我最开始是使用latex排版的，因为我觉得用latex排出来的公式好看，后来听说学校论文查重用pdf可能会有乱码问题，于是我又用word重排了一遍。最后交由我导师把关，修改了几次。个人觉得我的排版技术得到了飞跃性地提升:-) 然而当时学的许多排版技巧我差不多忘光了-.-b 这次重新打开我的硕士毕业论文，再回忆一下，记点笔记，说不定有用呢。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/thesis/视图设置.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/显示空格.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/文字宽度.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/文字宽度调整.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/四字符.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/空格宽度.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/下划线长度1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/下划线长度2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/中英文字间距1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/中英文字间距2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/figure.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/eq1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/eq2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/引用公式1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/引用公式2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/引用公式3.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/公式不全1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/公式不全2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/公式不全3.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/伪代码.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/插入形状.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/斜线表格.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/bib1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/bib2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/style1.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/style2.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/tableofcontent.png">
+<meta property="og:image" content="http://yoursite.com/img/thesis/page.png">
+<meta property="og:updated_time" content="2019-04-09T06:29:17.859Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用word优雅地排版---学习笔记">
+<meta name="twitter:description" content="写在前面一眨眼，距离我赶硕士毕业论文的时间已经过去一年了。我最开始是使用latex排版的，因为我觉得用latex排出来的公式好看，后来听说学校论文查重用pdf可能会有乱码问题，于是我又用word重排了一遍。最后交由我导师把关，修改了几次。个人觉得我的排版技术得到了飞跃性地提升:-) 然而当时学的许多排版技巧我差不多忘光了-.-b 这次重新打开我的硕士毕业论文，再回忆一下，记点笔记，说不定有用呢。">
+<meta name="twitter:image" content="http://yoursite.com/img/thesis/视图设置.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/05/writing/2019-04-05-how-to-typesetting-word-document/">
+
+
+
+
+
+  <title>使用word优雅地排版---学习笔记 | Donny's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-publication">
+          <a href="/publication/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sticky-note"></i> <br>
+            
+            论文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cv">
+          <a href="/cv/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            博客
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/05/writing/2019-04-05-how-to-typesetting-word-document/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny Lin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用word优雅地排版---学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-05T00:00:00+08:00">
+                2019-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>一眨眼，距离我赶硕士毕业论文的时间已经过去一年了。我最开始是使用latex排版的，因为我觉得用latex排出来的公式好看，后来听说学校论文查重用pdf可能会有乱码问题，于是我又用word重排了一遍。最后交由我导师把关，修改了几次。个人觉得我的排版技术得到了飞跃性地提升:-) 然而当时学的许多排版技巧我差不多忘光了-.-b 这次重新打开我的硕士毕业论文，再回忆一下，记点笔记，说不定有用呢。</p>
+<a id="more"></a>
+<p>有兴趣的可以下载我的硕士毕业论文进行审阅，欢迎提出修改意见。此处是<a href="/files/thesis.docx">下载链接</a></p>
+<p>有关文字段落格式，比如大纲级别，段落前后间距磅数，分页等格式可以直接下载我写好的样式文件然后统一更改（附有gif教程）。此处是<a href="https://github.com/MrDongdongLin/xtuthesis/tree/master/word_template" target="_blank" rel="noopener">下载链接</a></p>
+<h2 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h2><ul>
+<li><strong>显示网格线以及导航目录</strong></li>
+</ul>
+<p>打开word文档 -&gt; 视图 -&gt; 勾选标尺，网格线，导航窗格。</p>
+<p><img src="/img/thesis/视图设置.png" alt="view"></p>
+<ul>
+<li><strong>显示空格</strong></li>
+</ul>
+<p>文件 -&gt; 选项 -&gt; 显示 -&gt; 显示所有格式标记。</p>
+<p><img src="/img/thesis/显示空格.png" alt="view"></p>
+<h2 id="文字宽度"><a href="#文字宽度" class="headerlink" title="文字宽度"></a>文字宽度</h2><ul>
+<li>如下图，<strong>四个字和三个字的宽度如何保持一致？</strong>选中需要调整的三个字符，点击调整文字宽度为4字符即可</li>
+</ul>
+<p><img src="/img/thesis/文字宽度.png" alt="view"><br><img src="/img/thesis/文字宽度调整.png" alt="view"><br><img src="/img/thesis/四字符.png" alt="view"></p>
+<ul>
+<li><strong>通过调整空格宽度来调整下划线长度</strong></li>
+</ul>
+<p><img src="/img/thesis/空格宽度.png" alt="view"></p>
+<ul>
+<li><strong>添加不透明文本框统一下划线长度</strong></li>
+</ul>
+<p>有时候调整空格宽度还是太麻烦了，眼睛也看不准。这时候可以通过添加一个不透明的文本框遮盖过长的下划线使其保持长度一致。</p>
+<p><img src="/img/thesis/下划线长度1.png" alt="view"><br><img src="/img/thesis/下划线长度2.png" alt="view"></p>
+<ul>
+<li><strong>缩小中英文单词之间的间距</strong></li>
+</ul>
+<p>当我们的文档出现中英文混合编排的时候，英文单词两边与中文文字的间距有时候显得过宽了。调整方法：打开段落设置 -&gt; 中文版式 -&gt; 去掉勾选自动调整中文与西文之间的间隙。</p>
+<p><img src="/img/thesis/中英文字间距1.png" alt="view"><br><img src="/img/thesis/中英文字间距2.png" alt="view"></p>
+<h2 id="插入图片以及添加说明文字"><a href="#插入图片以及添加说明文字" class="headerlink" title="插入图片以及添加说明文字"></a>插入图片以及添加说明文字</h2><p>如果论文中插入的图片乱跑，在主体内容中形成<strong>大段的空白</strong>怎么办？这一点是不能容忍的。一般来说可以通过调整图片的位置来解决这个问题，那万一图片和对应的caption不在同一页又该怎么办？通过查阅资料，我参考了<a href="https://www.zhihu.com/question/30521304/answer/48445567" target="_blank" rel="noopener">知乎的一个回答</a>来解决这个问题。</p>
+<p>解决办法：添加一个两行一列的表格 -&gt; 将图片和对应的caption加进去 -&gt; 设置表格属性 -&gt; 行 -&gt; 去掉勾选允许跨页断行 -&gt; 设置表格为无边框。</p>
+<p><img src="/img/thesis/figure.png" alt="view"></p>
+<h2 id="公式排版"><a href="#公式排版" class="headerlink" title="公式排版"></a>公式排版</h2><ul>
+<li><strong>从tex源码编辑</strong></li>
+</ul>
+<p>由于我之前是用latex进行排版的，文字可以复制到word中，那公式怎么办？如果你的word安装了最新版的mathtype，这一点就不难解决。首先将tex文件中的内容复制到word中，然后全选，点击mathtype -&gt; Toggle Tex 一键将tex公式源码转化为公式。值得注意的是，mathtype并不能完全识别tex源码，这里可能还需要费点体力，不过相比自己用mathtype直接打公式，这种方式不知道快了多少倍。</p>
+<p><img src="/img/thesis/eq1.png" alt="view"><br><img src="/img/thesis/eq2.png" alt="view"></p>
+<ul>
+<li><strong>带编号的公式及其引用</strong></li>
+</ul>
+<p>特别提醒：<font color="#ff0000">a. 不是所有公式都要带编号！需要在文中引用的公式才需要带编号。b. 公式是句子的一部分！！不要用冒号引出公式！</font>这两点极为重要，很多人都会犯错，甚至检查的人也不知道要这么做……</p>
+<p>带编号的公式可以用mathtype添加，在你的大纲都编辑好的情况下（也就是章节标题设为一级，节标题设为二级等等），打开mathtype -&gt; 勾选chapter number，equation number和enclosure即可。</p>
+<p><img src="/img/thesis/引用公式1.png" alt="view"></p>
+<p>在正文中需要引用的地方，点击mathtype -&gt; insert reference -&gt; 文中出现equation reference goes here -&gt; 双击对应公式后的标号即可。</p>
+<p><img src="/img/thesis/引用公式2.png" alt="view"><br><img src="/img/thesis/引用公式3.png" alt="view"></p>
+<ul>
+<li><strong>行内公式显示不全</strong></li>
+</ul>
+<p>如下图，若行间距为固定磅数，导致行内公式显示不全怎么办？只需将行间距磅数调整为单倍行距即可。</p>
+<p><img src="/img/thesis/公式不全1.png" alt="view"><br><img src="/img/thesis/公式不全2.png" alt="view"><br><img src="/img/thesis/公式不全3.png" alt="view"></p>
+<h2 id="伪代码排版"><a href="#伪代码排版" class="headerlink" title="伪代码排版"></a>伪代码排版</h2><p>伪代码的排版因不同人的习惯而异，如下图，我个人喜欢用表格来排。这里的对齐竖线是通过插入形状完成的。</p>
+<p><img src="/img/thesis/伪代码.png" alt="view"><br><img src="/img/thesis/插入形状.png" alt="view"></p>
+<h2 id="表格排版"><a href="#表格排版" class="headerlink" title="表格排版"></a>表格排版</h2><p>表格的排版没什么好说的，比较简单，这里只介绍如何制作斜线表头。</p>
+<ul>
+<li><strong>斜线表头</strong></li>
+</ul>
+<p>可以在边框中选择斜框线，或者插入直线形状也可以。个人觉得后一种方法比较好，比较好打文字。</p>
+<p><img src="/img/thesis/斜线表格.png" alt="view"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>我敢断言，<font color="#ff0000">参考文献没有排好的话，一篇论文的质量也好不到哪儿去</font>。参考文献的选择以及排版都极其重要。这里介绍一下如何用word较为方便地排版参考文献（只能说较为方便，因为它跟latex比起来还是差远了！）</p>
+<p>需要的工具：Endnote，你学校对应的style文件，后缀为.ens（我用的是符合GBT7714-2005标准的格式文件”20140616HUST_PhD_thesis.ens”。）</p>
+<p><strong>a. 使用endnote导入ens文件。</strong></p>
+<p><strong>b. 首先，准备好事先整理的bib文件，通过Endnote导入bib文件中的条目。</strong></p>
+<p><img src="/img/thesis/bib1.png" alt="view"><br><img src="/img/thesis/bib2.png" alt="view"></p>
+<p><strong>c. 光标停留在word中需要插入参考文献的位置</strong></p>
+<p><strong>d. 在endnote软件中选中对应的参考文献，点击insert citation完成插入</strong></p>
+<p><strong>e. 对参考文献的格式（比如缩进）进行微调直至完全符合标准。</strong></p>
+<h2 id="自定义样式的制作"><a href="#自定义样式的制作" class="headerlink" title="自定义样式的制作"></a>自定义样式的制作</h2><p>制作样式有一个好处，就是在大篇幅文本的排版中不需要逐段对格式进行调整，可以节省大量的排版时间，并减少出错的机率。如下图，点击红圈处新样式开始制作。</p>
+<p><img src="/img/thesis/style1.png" alt="view"></p>
+<p>以一级节标题为例，根据学校制定的标准调整行间距磅数，缩进，字体等。具体可在左下角格式下拉框中逐一设置。</p>
+<p><img src="/img/thesis/style2.png" alt="view"></p>
+<h2 id="目录的制作"><a href="#目录的制作" class="headerlink" title="目录的制作"></a>目录的制作</h2><p>目录放在最后生成。在正文内容填充完毕之后，选择引用 -&gt; 插入目录。在插入目录之前先调整格式，如下图所示。</p>
+<p><img src="/img/thesis/tableofcontent.png" alt="view"></p>
+<h2 id="页码的制作"><a href="#页码的制作" class="headerlink" title="页码的制作"></a>页码的制作</h2><p>插入页码大家都会，问题是如何让正文的阿拉伯数字页码编号与cover的古罗马数字编号各自从第一页开始？只需在你需要开始新的第一页的页眉或者页脚处将链接至前一页页眉去掉即可。</p>
+<p><img src="/img/thesis/page.png" alt="view"></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>Word排版虽然不如latex来的方便，但是绝不是说word排版不如latex好看。总之在排版过程中要密切注意字体、空格、行间距等细节问题，细节都处理不好的话，论文也写不好。关于写论文需要注意的问题就更多了，不能一言以蔽之。平时要多练习，然后多记笔记，不然一段时间不练可能就忘掉了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat/portrait.jpg" alt="Donny Lin wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎订阅我的微信公众号，获取学习资料！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/money/wechatpay.jpg" alt="Donny Lin 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/money/alipay.jpg" alt="Donny Lin 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/word/" rel="tag"># word</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/31/2018-10-31-machine-learning-encrypted-data/" rel="next" title="Machine Learning Over Encrypted Data">
+                <i class="fa fa-chevron-left"></i> Machine Learning Over Encrypted Data
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Donny Lin">
+            
+              <p class="site-author-name" itemprop="name">Donny Lin</p>
+              <p class="site-description motion-element" itemprop="description">My research interests include: cryptanalysis, image privacy protection and deep learning</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MrDongdonglin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:dongdonglin8@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=zh-CN" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2476147885" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本设置"><span class="nav-number">2.</span> <span class="nav-text">基本设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文字宽度"><span class="nav-number">3.</span> <span class="nav-text">文字宽度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入图片以及添加说明文字"><span class="nav-number">4.</span> <span class="nav-text">插入图片以及添加说明文字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公式排版"><span class="nav-number">5.</span> <span class="nav-text">公式排版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪代码排版"><span class="nav-number">6.</span> <span class="nav-text">伪代码排版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表格排版"><span class="nav-number">7.</span> <span class="nav-text">表格排版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义样式的制作"><span class="nav-number">9.</span> <span class="nav-text">自定义样式的制作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录的制作"><span class="nav-number">10.</span> <span class="nav-text">目录的制作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页码的制作"><span class="nav-number">11.</span> <span class="nav-text">页码的制作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">12.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Donny Lin</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
