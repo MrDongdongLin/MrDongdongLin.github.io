@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="math,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -77,18 +77,17 @@
 
 
 
-<meta name="description" content="上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。">
-<meta name="keywords" content="math">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Power of Ten Simplify">
-<meta property="og:url" content="http://yoursite.com/2017/11/15/math/2017-11-15-power-of-ten-simplify/index.html">
+<meta name="description" content="My research interests include: cryptanalysis, image privacy protection and deep learning">
+<meta property="og:type" content="website">
+<meta property="og:title" content="photo">
+<meta property="og:url" content="http://yoursite.com/photo/index.html">
 <meta property="og:site_name" content="Donny">
-<meta property="og:description" content="上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。">
+<meta property="og:description" content="My research interests include: cryptanalysis, image privacy protection and deep learning">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-09T11:34:57.345Z">
+<meta property="og:updated_time" content="2019-04-10T04:51:53.989Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Power of Ten Simplify">
-<meta name="twitter:description" content="上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。">
+<meta name="twitter:title" content="photo">
+<meta name="twitter:description" content="My research interests include: cryptanalysis, image privacy protection and deep learning">
 
 
 
@@ -118,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/15/math/2017-11-15-power-of-ten-simplify/">
+  <link rel="canonical" href="http://yoursite.com/photo/">
 
 
 
 
 
-  <title>Power of Ten Simplify | Donny</title>
+  <title>photo | Donny</title>
   
 
 
@@ -291,264 +290,33 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/15/math/2017-11-15-power-of-ten-simplify/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Donny Lin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Donny">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Power of Ten Simplify</h1>
-        
+	<h1 class="post-title" itemprop="name headline">photo</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T00:00:00+08:00">
-                2017-11-15
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
-            </span>
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  273
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>上一篇文章<a href="https://mrdongdonglin.github.io/posts/2017/11/Power%20of%20Ten/" target="_blank" rel="noopener">Power of ten</a>中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。</p>
-<a id="more"></a>
-<h1 id="简化方法"><a href="#简化方法" class="headerlink" title="简化方法"></a>简化方法</h1><p>首先还是将$10^n$分解为$2^n\cdot 5^n$，而$2^n$在计算机中相当于左移$n$位，右边补0，对结果中1的数量没有影响，因此，这里仅考虑$5^n$。下面的表格列举$n={1,2,3,4}$时，$5^n$与其二进制数的表示形式。</p>
-<table>
-<thead>
-<tr>
-<th>n</th>
-<th>decimal</th>
-<th>binary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>5</td>
-<td>101</td>
-</tr>
-<tr>
-<td>2</td>
-<td>25</td>
-<td>11001</td>
-</tr>
-<tr>
-<td>3</td>
-<td>125</td>
-<td>1111101</td>
-</tr>
-<tr>
-<td>4</td>
-<td>625</td>
-<td>1001110001</td>
-</tr>
-</tbody>
-</table>
-<p>实际上，</p>
-<p>$$5^n=5^{n-1}\cdot4+5^{n-1}.$$</p>
-<p>例如，<code>25=0b11001=0b101&lt;&lt;2+0b101</code>，即<code>0b11001=0b10100+0b101</code>。于是计算$10^n$中“1”的数量的程序可以这么写（以下程序计算出小于<code>n</code>范围内所有正整数的的$10^n$中“1”的数量并保存在数组<code>oneBit</code>中）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">OneBitInPowerOfTen</span><span class="params">(n)</span>:</span></span><br><span class="line">    oneBit = []</span><br><span class="line">    oneBit.append(<span class="number">1</span>)</span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">        num += num &lt;&lt; <span class="number">2</span></span><br><span class="line">        oneBit.append(sum(map(int, bin(num)[<span class="number">2</span>:])))</span><br><span class="line">    <span class="keyword">return</span> oneBit</span><br></pre></td></tr></table></figure>
-
+      <div class="post-body">
+        
+        
+          
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-      <div>
-        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
-    <img id="wechat_subscriber_qcode" src="/images/wechat/portrait.jpg" alt="Donny Lin wechat" style="width: 200px; max-width: 100%;">
-    <div>欢迎订阅我的微信公众号，获取学习资料！</div>
-</div>
-
-      </div>
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/money/wechatpay.jpg" alt="Donny Lin 微信支付">
-        <p>微信支付</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/money/alipay.jpg" alt="Donny Lin 支付宝">
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/math/" rel="tag"># math</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/11/15/math/2017-11-15-Seeing-Powers-of-Five-in-Powers-of-Two-and-Vice-Versa/" rel="next" title="Seeing Powers of Five in Powers of Two and Vice Versa">
-                <i class="fa fa-chevron-left"></i> Seeing Powers of Five in Powers of Two and Vice Versa
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/28/others/2017-11-28-一起吃过的美食/" rel="prev" title="一起吃过的美食">
-                一起吃过的美食 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-        
-<script>
-  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-
-      
-    </div>
   </div>
 
 
@@ -581,17 +349,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -672,22 +431,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简化方法"><span class="nav-number">1.</span> <span class="nav-text">简化方法</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -1235,26 +978,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
