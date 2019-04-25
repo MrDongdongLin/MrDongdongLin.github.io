@@ -8,13 +8,13 @@
         <category>research</category>
       </categories>
       <tags>
-        <tag>academic</tag>
         <tag>PPT</tag>
+        <tag>academic</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[期刊分区、h指数、文章引用数]]></title>
-    <url>%2Fresearch%2Fresearch%2Fsci-expanded%2F</url>
+    <url>%2Fresearch%2Fsci-expanded%2F</url>
     <content type="text"><![CDATA[指标不是目标，不要盲目笃信！ 期刊分区http://blog.sciencenet.cn/blog-482416-890627.html 主要分两种：JCR分区和中科院分区，JCR分区可在WoS上查，中科院分区我不知道，我也没兴趣查。 h指数https://en.wikipedia.org/wiki/H-index h-index ，又称为h指数或h因子（h-factor），是一种评价学术成就的新方法。h代表“高引用次数”（high citations），一名科研人员的h指数是指他至多有h篇论文分别被引用了至少h次。h指数能够比较准确地反映一个人的学术成就。一个人的h指数越高，则表明他的论文影响力越大。例如，某人的h指数是20，这表示他已发表的论文中，每篇被引用了至少20次的论文总共有20篇。 文章引用数Google Scholar谷歌学术更新快、资源搜集全面，并且引用次数是最高的。 SCI他引在WoS上看到的引用次数会比Google Scholar少，因为WoS收录的期刊并非特别全面。那么怎么在WoS上检索自己的文章被他人引用的次数（不包含自引）？]]></content>
       <categories>
         <category>research</category>
@@ -28,52 +28,52 @@
   </entry>
   <entry>
     <title><![CDATA[Custom loss function with tensorflow]]></title>
-    <url>%2Fdeep-learning%2Fdeeplearning%2Ftensorflow-custom-loss%2F</url>
-    <content type="text"><![CDATA[Sharing Variablesss]]></content>
+    <url>%2Fdeep-learning%2Ftensorflow-custom-loss%2F</url>
+    <content type="text"><![CDATA[tf.nn &amp; tf.layers &amp; tf.contrib.layers https://zhuanlan.zhihu.com/p/45199737 https://blog.csdn.net/holmes_MX/article/details/82317742 再来说说这三种库的区别。 tf.nn：最底层的函数，其他各种库可以说都是基于这个底层库来进行扩展的。（用这种就完事了） tf.layers：比tf.nn更高级的库，对tf.nn进行了多方位功能的扩展。用程序员的话来说，就是用tf.nn造的轮子。最大的特点就是库中每个函数都有相应的类（函数名为大写,看了下底层源码，是从kears那迁移过来的）。 tf.keras：如果说tf.layers是轮子，那么keras可以说是汽车。tf.keras是基于tf.layers和tf.nn的高度封装。 每个库有每个库的优势，tf.nn和tf.layers灵活性相对较高，如果需要对底层进行很多操作，这两个库的优势就会很明显。但是如果工业上想搭建已经很成熟的网络并进行训练，那么keras相对来说会更加容易一些。具体需要在实际运用中去体会。 综上所述，这几种库都可以运用，都很不错，具体看运用背景。 tf.nntf.nn是最基础的层，如tf.nn.conv2d, tf.nn.max_pool等，需要编程者自己定义权重。下面给出自己定义的Conv2d函数： 12345678910111213141516171819def myConv2d(input_tensor, conv_size, stride_size ,output_channel, name, regu=None, padding='SAME', act=tf.nn.relu, reuse=False): with tf.variable_scope(name, reuse=reuse): input_channel = input_tensor.get_shape()[-1].value weights = tf.get_variable(name='weights', shape=[conv_size, conv_size, input_channel, output_channel], dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=0.1)) biases = tf.get_variable(name='biases', shape=[output_channel], dtype=tf.float32, initializer=tf.constant_initializer(0.001)) conv = tf.nn.conv2d(input=input_tensor, filter=weights, strides=[1, stride_size, stride_size, 1], padding=padding, use_cudnn_on_gpu=True, name=name) if regu != None and reuse != True: tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(regu)(weights)) print_Layer(conv) if act == None: return tf.nn.bias_add(value=conv, bias=biases) conv_relu = act(tf.nn.bias_add(value=conv, bias=biases)) print_Layer(conv_relu) return conv_relu tf.layerstf.layers是基于tf.nn封装的高级函数，如果自己定义Conv2d，只需要一个函数即可，如下 123456789101112131415161718192021tf.layers.conv2d( inputs, filters, kernel_size, strides=(1, 1), padding='valid', data_format='channels_last', dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer=None, bias_initializer=tf.zeros_initializer(), kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None, trainable=True, name=None, reuse=None) tf.contrib.layerstf.contrib.layers.conv2d也是封装完好的高级函数，具体为： 123456789101112131415161718192021tf.contrib.layers.conv2d( inputs, num_outputs, kernel_size, stride=1, padding='SAME', data_format=None, rate=1, activation_fn=tf.nn.relu, normalizer_fn=None, normalizer_params=None, weights_initializer=initializers.xavier_initializer(), weights_regularizer=None, biases_initializer=tf.zeros_initializer(), biases_regularizer=None, reuse=None, variables_collections=None, outputs_collections=None, trainable=True, scope=None) 封装https://www.cnblogs.com/MY0213/p/9208503.html TensorFlow中的变量一般就是模型的参数。当模型复杂的时候共享变量会无比复杂。 官网给了一个case，当创建两层卷积的过滤器时，每输入一次图片就会创建一次过滤器对应的变量，但是我们希望所有图片都共享同一过滤器变量，一共有4个变量：conv1_weights,conv1_biases,conv2_weights, and conv2_biases。 通常的做法是将这些变量设置为全局变量。但是存在的问题是打破封装性，这些变量必须文档化被其他代码文件引用，一旦代码变化，调用方也可能需要变化。 还有一种保证封装性的方式是将模型封装成类。 不过TensorFlow提供了Variable Scope这种独特的机制来共享变量。这个机制涉及两个主要函数： 封装的CNN使用tf.nn，封装卷积层和全连接层（因为tf.nn没有提供全连接层的的函数）。 1234567891011121314151617181920212223242526272829303132333435363738394041def conv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.01, name="conv2d"): with tf.variable_scope(name): w = tf.get_variable('w', [k_h, k_w, input_.get_shape()[-1], output_dim], initializer=tf.truncated_normal_initializer(stddev=stddev)) conv = tf.nn.conv2d(input_, w, strides=[1, d_h, d_w, 1], padding='SAME') #偏置项，可不加 #biases = tf.get_variable('biases', [output_dim], initializer=tf.constant_initializer(0.0)) #conv = tf.reshape(tf.nn.bias_add(conv, biases) #print(conv) return convdef linear(input_, output_size, scope=None, stddev=0.02, bias_start=0.0, with_w=False): shape = input_.get_shape().as_list() with tf.variable_scope(scope): matrix = tf.get_variable("Matrix", [shape[1], output_size], tf.float32, tf.random_normal_initializer(stddev=stddev)) bias = tf.get_variable("bias", [output_size], initializer=tf.constant_initializer(bias_start)) if with_w: return tf.matmul(input_, matrix) + bias, matrix, bias else: return tf.matmul(input_, matrix) + biasdef model(inputs, reuse=False): with tf.variable_scope("cnn", reuse=reuse): x = conv2d(inputs, 32,3,3,1,1, name="conv1") x = tf.nn.relu(x) x = tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME') x = conv2d(x, 64,3,3,1,1, name='conv2') x = tf.nn.relu(x) x = tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME') x = tf.reshape(x, [-1, 7 * 7 * 64]) x = linear(x, 1024, scope='fc1') x = tf.nn.relu(x) x = tf.nn.dropout(x, keep_prob) outputs = linear(x, 10, scope='fc2') return outputs, tf.nn.softmax(outputs) 学习率衰减https://blog.csdn.net/akadiao/article/details/79560731 多输入输出损失函数Key words: Multiple inputs and outputs, tensorflow, loss funxtion，如何设计复杂的损失函数？ Xr和Xp是两个输入，通过关键字reuse共享model，作用于cnn这个命名空间中。 1234567891011output_logits_real, output_real = model(Xr)output_logits_fake, output_fake = model(Xp, reuse=True)loss_r = 1. * tf.reduce_mean(tf.reduce_sum(Y_r * output_real, -1))loss_p = 1. * tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_logits_fake, labels=Y_p))loss_d = 0.01 * tf.reduce_mean(tf.square(X_r - X_p))total_loss = loss_r+loss_p+loss_dglobal_step = tf.Variable(0, trainable=False) lr_decayed = tf.train.exponential_decay(0.001, global_step, 10000, 0.1, staircase=False)optimizer = tf.train.AdamOptimizer(learning_rate=lr_decayed).minimize(total_loss)]]></content>
       <categories>
         <category>deep learning</category>
       </categories>
       <tags>
-        <tag>tensorflow</tag>
         <tag>deep learning</tag>
         <tag>loss function</tag>
+        <tag>tensorflow</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[Custom loss function with keras]]></title>
-    <url>%2Fdeep-learning%2Fdeeplearning%2Fkeras-custom-loss%2F</url>
+    <url>%2Fdeep-learning%2Fkeras-custom-loss%2F</url>
     <content type="text"><![CDATA[Getting startedhttps://keras-cn.readthedocs.io/https://github.com/keras-team/keras/blob/master/keras/losses.py Sequential modelAn example:123456789from keras.models import Sequentialfrom keras.layers import Dense, Activationmodel = Sequential([ Dense(32, units=784), Activation('relu'), Dense(10), Activation('softmax'),]) Another example:123model = Sequential()model.add(Dense(32, input_shape=(784,)))model.add(Activation('relu')) Functional model1234567891011121314from keras.layers import Input, Densefrom keras.models import Model# This returns a tensorinputs = Input(shape=(784,))# a layer instance is callable on a tensor, and returns a tensorx = Dense(64, activation='relu')(inputs)x = Dense(64, activation='relu')(x)predictions = Dense(10, activation='softmax')(x)# This creates a model that includes# the Input layer and three Dense layersmodel = Model(inputs=inputs, outputs=predictions) Custom loss functionUsage of loss functions12from keras import lossesmodel.compile(loss=losses.mean_squared_error, optimizer='sgd') Use your own loss function123456789101112131415def p_loss(y_true, y_pred): return math_ops.reduce_sum(y_true * y_pred, axis=-1)def r_loss(y_true, y_pred): return K.categorical_crossentropy(y_true, y_pred)model = Model(inputs=[input1, input2], outputs=[output1, output2])losses = &#123; "out1": r_loss, "out2": p_loss,&#125;lossWeights = &#123;"out1": 1.0, "out2": 1.0&#125;model.compile(optimizer=opt, loss=losses, loss_weights=lossWeights, metrics=["accuracy"]) Another examplehttps://zhuanlan.zhihu.com/p/54024591 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576from keras.losses import mean_squared_error, binary_crossentropyimport tensorflow as tfdef my_complex_loss_graph(target, deconv1, output): mse_deconv1 = mean_squared_error(target, deconv1) bce_output = binary_crossentropy(target, output) final_loss = mse_deconv1 + bce_output return K.mean(final_loss)def create_complex_model(mode="train"): assert mode in ("train", "predict"), "only 'train' and 'predict' mode supported" input_img = KL.Input([64, 64, 3]) branch1 = KL.Conv2D(64, (3, 3), strides=(4, 4), activation="relu")(input_img) branch2 = KL.Conv2D(64, (3, 3), strides=(4, 4), activation="relu")(input_img) concat1 = KL.Concatenate(name="concat1")([branch1, branch2]) deconv1 = KL.Deconv2D(1, (3, 3), strides=(4, 4), activation="relu")(concat1) output = KL.Conv2D(1, (1, 1), strides=(1, 1), activation="sigmoid")(deconv1) if mode == "train": #本文最开始提到过，keras generator中yield input, target的target是无法获取 #参考github issues:https://github.com/keras-team/keras/issues/11812 #所以为了取到target,我们必须须把target也当作inputs的一部分传进来即 #yield [input,target], [], 然后再通过KL.Input按顺序获取 target = KL.Input([64, 64, 1], name="target") my_complex_loss = KL.Lambda( lambda x: my_complex_loss_graph(*x), name="complex_loss" )([target, deconv1, output]) inputs = [input_img, target] outputs = [output, my_complex_loss] else: #predict阶段，就不用计算loss了所以这里不加入loss层和metric层 inputs = input_img outputs = output model = KM.Model(inputs=inputs, outputs=outputs) #重点 model._losses = [] model._per_input_losses = &#123;&#125; #通过add_loss来把之前通过KL.Lambda定义的层加入loss，当添加了多个loss层时，optimizer实际优 #化的是多个loss的和 for loss_name in ["complex_loss"]: layer = model.get_layer(loss_name) if layer.output in model.losses: continue loss = tf.reduce_mean(layer.output, keepdims=True) model.add_loss(loss) #其实这里可以添加的不只loss， 有助于监视模型情况的metrics比如f1 score, iou等等也可以通过 #model.metrics_tensors.append()来添加 return model# generate datadef fake_data_generator_2(num_samples): while (1): imgs = np.random.random((num_samples, 64, 64, 3)).astype("float32") masks = np.random.random((num_samples, 64, 64, 1)).astype("float32") inputs = [imgs, masks] targets = [] yield inputs, targets# traintrain_gen = fake_data_generator_2(10)val_gen = fake_data_generator_2(5)model = create_complex_model("train")model.summary()model.compile( optimizer="adam", loss=[None] * len(model.outputs))model.fit_generator( train_gen, epochs=10, steps_per_epoch=50, validation_data=val_gen, validation_steps=5)]]></content>
       <categories>
         <category>deep learning</category>
       </categories>
       <tags>
+        <tag>keras</tag>
         <tag>deep learning</tag>
         <tag>loss function</tag>
-        <tag>keras</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[使用word优雅地排版]]></title>
-    <url>%2Fresearch%2Fwriting%2Fhow-to-typesetting-word-document%2F</url>
+    <url>%2Fresearch%2Fhow-to-typesetting-word-document%2F</url>
     <content type="text"><![CDATA[写在前面一眨眼，距离我赶硕士毕业论文的时间已经过去一年了。我最开始是使用latex排版的，因为我觉得用latex排出来的公式好看，后来听说学校论文查重用pdf可能会有乱码问题，于是我又用word重排了一遍。最后交由我导师把关，修改了几次。个人觉得我的排版技术得到了飞跃性地提升:-) 然而当时学的许多排版技巧我差不多忘光了-.-b 这次重新打开我的硕士毕业论文，再回忆一下，记点笔记，说不定有用呢。 有兴趣的可以下载我的硕士毕业论文进行审阅，欢迎提出修改意见。此处是下载链接 有关文字段落格式，比如大纲级别，段落前后间距磅数，分页等格式可以直接下载我写好的样式文件然后统一更改（附有gif教程）。此处是下载链接 基本设置显示网格线以及导航目录打开word文档 -&gt; 视图 -&gt; 勾选标尺，网格线，导航窗格。 显示空格文件 -&gt; 选项 -&gt; 显示 -&gt; 显示所有格式标记。 正文设置调整文字宽度如下图，四个字和三个字的宽度如何保持一致？选中需要调整的三个字符，点击调整文字宽度为4字符即可 调整空格宽度通过调整空格宽度来调整下划线长度 添加不透明文本框统一下划线长度有时候调整空格宽度还是太麻烦了，眼睛也看不准。这时候可以通过添加一个不透明的文本框遮盖过长的下划线使其保持长度一致。 缩小中英文单词之间的间距当我们的文档出现中英文混合编排的时候，英文单词两边与中文文字的间距有时候显得过宽了。调整方法：打开段落设置 -&gt; 中文版式 -&gt; 去掉勾选自动调整中文与西文之间的间隙。 图片排版如果论文中插入的图片乱跑，在主体内容中形成大段的空白怎么办？这一点是不能容忍的。一般来说可以通过调整图片的位置来解决这个问题，那万一图片和对应的caption不在同一页又该怎么办？通过查阅资料，我参考了知乎的一个回答来解决这个问题。 解决办法：添加一个两行一列的表格 -&gt; 将图片和对应的caption加进去 -&gt; 设置表格属性 -&gt; 行 -&gt; 去掉勾选允许跨页断行 -&gt; 设置表格为无边框。 公式排版从tex源码编辑由于我之前是用latex进行排版的，文字可以复制到word中，那公式怎么办？如果你的word安装了最新版的mathtype，这一点就不难解决。首先将tex文件中的内容复制到word中，然后全选，点击mathtype -&gt; Toggle Tex 一键将tex公式源码转化为公式。值得注意的是，mathtype并不能完全识别tex源码，这里可能还需要费点体力，不过相比自己用mathtype直接打公式，这种方式不知道快了多少倍。 带编号的公式及其引用特别提醒：a. 不是所有公式都要带编号！需要在文中引用的公式才需要带编号。b. 公式是句子的一部分！！不要用冒号引出公式！这两点极为重要，很多人都会犯错，甚至检查的人也不知道要这么做…… 带编号的公式可以用mathtype添加，在你的大纲都编辑好的情况下（也就是章节标题设为一级，节标题设为二级等等），打开mathtype -&gt; 勾选chapter number，equation number和enclosure即可。 在正文中需要引用的地方，点击mathtype -&gt; insert reference -&gt; 文中出现equation reference goes here -&gt; 双击对应公式后的标号即可。 行内公式显示不全如下图，若行间距为固定磅数，导致行内公式显示不全怎么办？只需将行间距磅数调整为单倍行距即可。 伪代码排版伪代码的排版因不同人的习惯而异，如下图，我个人喜欢用表格来排。这里的对齐竖线是通过插入形状完成的。 表格排版表格的排版没什么好说的，比较简单，这里只介绍如何制作斜线表头。 斜线表头可以在边框中选择斜框线，或者插入直线形状也可以。个人觉得后一种方法比较好，比较好打文字。 参考文献我敢断言，参考文献没有排好的话，一篇论文的质量也好不到哪儿去。参考文献的选择以及排版都极其重要。这里介绍一下如何用word较为方便地排版参考文献（只能说较为方便，因为它跟latex比起来还是差远了！） 需要的工具：Endnote，你学校对应的style文件，后缀为.ens（我用的是符合GBT7714-2005标准的格式文件”20140616HUST_PhD_thesis.ens”。） a. 使用endnote导入ens文件。b. 首先，准备好事先整理的bib文件，通过Endnote导入bib文件中的条目。c. 光标停留在word中需要插入参考文献的位置d. 在endnote软件中选中对应的参考文献，点击insert citation完成插入e. 对参考文献的格式（比如缩进）进行微调直至完全符合标准。 自定义样式的制作制作样式有一个好处，就是在大篇幅文本的排版中不需要逐段对格式进行调整，可以节省大量的排版时间，并减少出错的机率。如下图，点击红圈处新样式开始制作。 以一级节标题为例，根据学校制定的标准调整行间距磅数，缩进，字体等。具体可在左下角格式下拉框中逐一设置。 目录的制作目录放在最后生成。在正文内容填充完毕之后，选择引用 -&gt; 插入目录。在插入目录之前先调整格式，如下图所示。 页码的制作插入页码大家都会，问题是如何让正文的阿拉伯数字页码编号与cover的古罗马数字编号各自从第一页开始？只需在你需要开始新的第一页的页眉或者页脚处将链接至前一页页眉去掉即可。 写在最后Word排版虽然不如latex来的方便，但是绝不是说word排版不如latex好看。总之在排版过程中要密切注意字体、空格、行间距等细节问题，细节都处理不好的话，论文也写不好。关于写论文需要注意的问题就更多了，不能一言以蔽之。平时要多练习，然后多记笔记，不然一段时间不练可能就忘掉了。]]></content>
       <categories>
         <category>research</category>
       </categories>
       <tags>
-        <tag>word</tag>
         <tag>academic</tag>
+        <tag>word</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[Machine Learning Over Encrypted Data]]></title>
-    <url>%2Fdeep-learning%2Fdeeplearning%2Fmachine-learning-encrypted-data%2F</url>
+    <url>%2Fdeep-learning%2Fmachine-learning-encrypted-data%2F</url>
     <content type="text"><![CDATA[Blog: https://medium.com/corti-ai/encrypt-your-machine-learning-12b113c879d6 Microsoft: https://www.microsoft.com/en-us/research/publication/ml-confidential-machine-learning-on-encrypted-data-2/ Huawei, University of Waterloo, RSA conference… Machine learning Cryptography Zero-knowledge proofs Homomorphic encryption Blockchain Steganography … papers: Towards Construction Based Data Hiding: From Secrets to Fingerprint Images Machine Learning over Encrypted Data …]]></content>
       <categories>
         <category>deep learning</category>
       </categories>
       <tags>
-        <tag>machine learning</tag>
         <tag>privacy</tag>
+        <tag>machine learning</tag>
         <tag>homomorphic encryption</tag>
       </tags>
   </entry>
@@ -85,14 +85,14 @@
         <category>research</category>
       </categories>
       <tags>
-        <tag>privacy</tag>
         <tag>bitcoins</tag>
         <tag>zero-knowledge proof</tag>
+        <tag>privacy</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[How to write a paper]]></title>
-    <url>%2Fresearch%2Fwriting%2Fhow-to-write-scientific-paper%2F</url>
+    <url>%2Fresearch%2Fhow-to-write-scientific-paper%2F</url>
     <content type="text"><![CDATA[This article records some tips of how to write a paper of journal style. $\rm \LaTeX$A guide to the LaTeX typesetting system^wikibooks During this guide we have seen what is possible to do and how this can be achieved, but the question is: I want to write a proper text with LaTeX, what to do then? Where should I start from? This is a short step-by-step guide about how to start a document properly, keeping a good high-level structure. This is all about organizing your files using the modular capabilities of LaTeX. This way it will be very easy to make modifications even when the document is almost finished. These are all just suggestions, but you might take inspiration from that to create your own document. Refer to https://en.wikibooks.org/wiki/LaTeX/Modular_Documents Create your own packages: https://en.wikibooks.org/wiki/LaTeX/Creating_Packages WritingHow to write an abstract: https://users.ece.cmu.edu/~koopman/essays/abstract.html How to write a conclusion: https://leo.stcloudstate.edu/acadwrite/conclude.html More toolsRefer to http://www.ee.cityu.edu.hk/~cqli/htdr/htdr.htm]]></content>
       <categories>
         <category>research</category>
@@ -104,14 +104,14 @@
   </entry>
   <entry>
     <title><![CDATA[How to use Microsoft Word as elegance as $\rm \LaTeX$?]]></title>
-    <url>%2Fresearch%2Fwriting%2Fhow-to-use-word-as-elegance-as-latex%2F</url>
+    <url>%2Fresearch%2Fhow-to-use-word-as-elegance-as-latex%2F</url>
     <content type="text"><![CDATA[This article records some tips about using Microsoft Word. See example as my master’s thesis. You could also refers to the article in 知乎 for advanced skills. How to type $\rm \LaTeX$ in Word?https://tex.stackexchange.com/questions/24242/write-a-word-with-the-latex-style?rq=1]]></content>
       <categories>
         <category>research</category>
       </categories>
       <tags>
-        <tag>latex</tag>
         <tag>word</tag>
+        <tag>latex</tag>
       </tags>
   </entry>
   <entry>
@@ -138,15 +138,39 @@
   </entry>
   <entry>
     <title><![CDATA[一起吃过的美食]]></title>
-    <url>%2F%E6%97%A5%E5%B8%B8%2Fothers%2F%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F%2F</url>
+    <url>%2F%E6%97%A5%E5%B8%B8%2F%E4%B8%80%E8%B5%B7%E5%90%83%E8%BF%87%E7%9A%84%E7%BE%8E%E9%A3%9F%2F</url>
     <content type="text"><![CDATA[题记：在湘大混了这么久，不管是哪条巷，哪个坑我差不多都溜了一遍。这人出来一走肚子就容易饿，肚子一饿就想吃东西，所以，联建里大大小小，里里外外的饭馆子、小店铺乃至烧烤摊都无一能幸免于我嘴下。前几日我看了一篇湘大美食攻略，觉得有不同见解。我不以湘大各个区域划分来介绍美食，这里单独介绍联建美食，并按美食类别划分，辅以校区内其他我所知的美食加以比对，甄选出我个人所偏好的联建美食。 前菜说到开胃前菜，联建里可谓数不胜数，多如牛毛。不管是什么都可以当作开胃前菜，例如，绝味鸭脖、凉菜、水果等等。联建那条吃货街，里面的小吃之多，足以任君挑选。下面大致列出，排名不分先后。 田园烤鸡 联建入口右手边，田园烤鸡，味道一绝，恐怕湘大无人不知，无人不晓。田园烤鸡不仅闻着诱人，而且吃着更香，香飘一条吃货街，足以勾起你的馋虫。田园烤鸡烤至外焦里嫩，基本没有肥肉，用嘴撕开外表皮，可以看见鲜嫩的鸡肉，表面附有一滴滴晶莹的油。轻轻地咬上一口，在鸡肉上形成一条整齐的纵切面，嘴中的鸡肉香气四溢，想要细细嚼尝的同时鸡肉却已被不自觉的吞下。田园烤鸡吃起来香辣诱人，令人爱不释口。 时间真的能改变很多东西，昔日红极一时的田园烤鸡，如今竟鲜有人问津…… 益阳铁板烧 联建入口左手边，益阳铁板烧，老板看起来很斯文，做的吃的确是火辣激情，当时觉得这铁板烧怎么能这么好吃？来三串五块钱的鱿鱼、一串包菜、一串藕片，辣椒粉、胡椒粉都要，撒上香葱，将美味送入嘴里，又辣又好吃。菜都非常入味，吃的惯了，便一点都不觉得辣了。个人偏好包菜，每次必来一份，其他的菜如火腿什么的我从来不点，也不知味道如何。 益阳铁板烧是真踏马好吃。 其他 再往前，贵哥卤肉卷，并没有什么感觉，因为在市里吃过。但是隔壁的铁板鱿鱼还是挺nice的，和益阳铁板烧的鱿鱼有的一拼，店子开在旁边估计是抢生意了。最近铁板鱿鱼开始卖小龙虾了，这在联建里可不多得，改天得试试。铁板鱿鱼对面有个卖锅盔的摊子，刚开的，和梅干菜扣肉饼一样的做法，不过这摊子比较实在，做出来的饼都很大，价格也不是很贵，只是摊上的梅干菜扣肉味的饼做的不如吃货街入口的梅干菜扣肉饼。吃货街入口的梅干菜扣肉饼也算是一道美味，原来三块五，现在四块，闹哪样？涨价后我就没去买过。 贵哥卤肉卷关门了，锅盔也倒了，梅干菜扣肉饼也涨到五块了…… 往前再迅速推进，最近刚开的一家绝味，全场六折，便宜成狗，味道一般般，在我看来绝味的味道并没有什么不同。再往前一点有家卖泡菜的，隔壁还有一家卖凉菜的。泡菜简直难吃到爆炸，泡的啥味儿都没了，拌的料也是极品，虽然老板极为热情，但是我吃过一次再也没去过，反而是隔壁的凉菜非常nice，最初开店大酬宾，我每天都去买，前一百名还是前八十名送凉皮一份。每次拿五、六块钱凉菜，自己再煮点米饭，吃的停不下来，非常下饭。凉菜的特点就是多汁，微辣，下饭，口感清爽，而且吃不腻，吃了这个凉菜，再多的饭也变得填不饱肚子，只会使你一直吃一直吃，根本停不下来。 全部倒闭了…… 联建夜间的三岔路口有烧烤摊，我吃了，感觉相当一般，完全没有入味，撒在表面的辣椒粉辣到死，下面的菜一点味道都没。烧烤什么的推荐去校南门，卖福利彩票前面的那家，好吃的同时非常入味，入味的同时没有烤焦，对了，这里的烤鱿鱼也是十分美味的。 南门房子全铲平了…… 前菜差不多就到这里，其他的我也怎么吃或者吃了觉得不好吃就不推荐了。 现在联建吃货街吃的太多了，不知道推荐什么了，现在我吃食堂吃的比较多。 汤湖南人不怎么喜欢喝汤，身为一个胡建棱，我其实也不怎么喝汤，但是有汤喝我也是很愉悦的。说到喝汤，马上就有人想到胃动力的汤，我只能说：骚年，一看你就知道不怎么在联建吃饭。以前我觉得胃动力的汤还可以，现在喝起来只能说老板是兑了开水的，不信你打我。最近我在联建下馆子喝到的汤比胃动力的好喝多了。 胃动力还在，以前天天还去吃烤鱼来着。 因味有你 这就不得不提到我最喜欢去的“因味有你”这家饭店了，位于腾升超市后面，“聚缘饭店”旁边。感觉吃了这么多次，不停地变换菜色，这家店子除了茄子煲以外其他的菜都很好吃，并且量又足。这里的三鲜汤很好喝，白菜、火腿、银针菇，十分鲜美。不过联建几家菜馆的三鲜汤都差不多，没有一个厨师能把三鲜汤都给煮难喝了的。我要说的是“因味有你”的筒子骨汤，筒子骨就是猪腿骨，熬制出浓香骨汤，配合以玉米的玉米筒子骨汤是我在联建喝过的最好喝的菜汤，没有之一。首先，筒子骨汤浓，真材实料，不兑开水；其次，它味道鲜美，玉米颗颗饱满，话说我这人最喜欢吃玉米了，虽然有一次店老板给我上了一碗筒子骨汤，里面玉米有点坏掉，但是汤真的好喝，每次饭前我必豪饮一碗。所以，喝汤别只想到胃动力，这样一点都不潮。 这个饭店的菜是真的好吃。 鱼终于到了期待已久的鱼了，虽然我在海边成长，但是我不太喜欢胡建棱料理出来的鱼，味道太清淡。湖南这里是无辣不欢，鱼也不例外。联建里大大小小的鱼我都吃过，什么烤鱼、红烧鱼、跳水鱼、石锅鱼、呛水鱼、水煮活鱼……我无所不知，鲫鱼、草鱼、雄鱼，甚至河鱼，我无所不吃。不得不说，联建菜馆里的鱼都很好吃！接下来我将来盘点一下，排名不分先后，因为都很好吃。 万州烤鱼 你想吃烤鱼？那就要选择万州烤鱼（腾升超市后面），味道一直都不错，老板招待很好，服务一流。联建圆缘园餐厅旁边的重庆美食坊里面也有万州烤鱼，前几日班级聚会去吃了，味道也还不错，与腾升后万州烤鱼平分秋色。这种鱼放在一个平锅上，下面用火烤，配以各种佐料，辣椒是必需的，自己还可以另外涮青菜吃。一般来说，两人吃一份小鱼足矣。烤鱼的肉不能烤太过，不然吃起来很老。记得上次去腾升后面那家万州烤鱼，老板给我上了一条貌似是煎过的鱼，味道大打折扣，加上我个人不是很喜欢烤鱼这种鱼的吃法，毕竟可以吃鱼的菜馆多的是，后来我就没去过了。喜欢吃烤鱼的可以去万州烤鱼，万州的鱼比较小只，几个人一起的话没两口就吃完了…… 不知道万州烤鱼现在怎么样了。 鱼除了拿来烤，其他做法都差不多，还可以片下来做成石锅鱼，我也就是吃过聚缘那家的石锅鱼，石锅鱼吃多了会有点腻，不是很喜欢。其他的做法既然差不多，我就随意列举一下我喜欢吃的几家菜馆做的鱼。 四海益家 “四海益家”的“姜汁焖鲫鱼”，味道很棒！就是那种；老姜去鱼腥效果非常好，汤汁很浓，很有味道；鲫鱼没啥说的，就是刺儿多！ 食尚客 “食尚客”的“呛水鱼”是我在联建吃过的最大的鱼，也是平锅烤，但是不烤焦，放了辣椒、泡椒，口味比较重，但是肉很鲜美，还有洋葱，煮过之后很脆很多汁。 “因味有你”的“红烧鱼”、“平锅河鱼”也是很好吃啊。厨师的火候把握的非常好，鱼煎过，但是不像万州烤鱼上次煎过的那么难吃，加水、收汁要非常娴熟才能做出这么好吃的鱼。“因味有你”的特色在于，厨师会在菜中加上一种野菜，野菜的原味很怪，估计喜欢吃的人不多，但是经过厨师烹饪，野菜竟令人爱不释口。 四海益家是我在联建下的第一家馆子，菜贼好吃。 还有“喜洋洋美食”和“湘大活鱼馆”的鱼也挺好吃的，不过环境体验不是很好。哈哈！吃饭也得讲究环境的嘛，这才是有追求的人生啊。 其他东门卤菜，南苑泡菜（搬到金瀚林了），好多都是回忆啊，还有一些是永远变成回忆了…… 东门卤菜 重庆鸡公煲 螺蛳粉 土豆王国 一品鱼粉 三条龙 豆花妈妈]]></content>
       <categories>
         <category>日常</category>
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[Power of Ten Simplify]]></title>
+    <url>%2Fmath%2Fpower-of-ten-simplify%2F</url>
+    <content type="text"><![CDATA[上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。 简化方法首先还是将$10^n$分解为$2^n\cdot 5^n$，而$2^n$在计算机中相当于左移$n$位，右边补0，对结果中1的数量没有影响，因此，这里仅考虑$5^n$。下面的表格列举$n={1,2,3,4}$时，$5^n$与其二进制数的表示形式。 n decimal binary 1 5 101 2 25 11001 3 125 1111101 4 625 1001110001 实际上， $$5^n=5^{n-1}\cdot4+5^{n-1}.$$ 例如，25=0b11001=0b101&lt;&lt;2+0b101，即0b11001=0b10100+0b101。于是计算$10^n$中“1”的数量的程序可以这么写（以下程序计算出小于n范围内所有正整数的的$10^n$中“1”的数量并保存在数组oneBit中）： 123456789def OneBitInPowerOfTen(n): oneBit = [] oneBit.append(1) num = 1 for x in xrange(1, n): num += num &lt;&lt; 2 oneBit.append(sum(map(int, bin(num)[2:]))) return oneBit]]></content>
+      <categories>
+        <category>math</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Seeing Powers of Five in Powers of Two and Vice Versa]]></title>
+    <url>%2Fmath%2FSeeing-Powers-of-Five-in-Powers-of-Two-and-Vice-Versa%2F</url>
+    <content type="text"><![CDATA[本文前两节非原创，由此部分翻译而来。 当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。 这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。 5的正次幂与2的负次幂这里给一些例子（前八次幂）： n $5^n$ $2^{-n}$ 1 5 0.5 2 25 0.25 3 125 0.125 4 625 0.0625 5 3125 0.03125 6 15625 0.015625 7 78125 0.0078125 8 390625 0.00390625 可以看到，除了小数位和前面的0之外，$5^n$与$2^{-n}$的重要数字位是相同的，这是因为$$ \begin{align} 2^{-n} &amp;= \frac{1}{2^n} = \left(\frac{1}{2}\right)^n \\\ &amp;= \left(\frac{5}{10}\right)^n = \frac{5^n}{10^n}. \end{align}$$ 5的负次幂与2的正次幂同样的，我们有 n $2^n$ $5^{-n}$ 1 2 0.2 2 4 0.04 3 8 0.008 4 16 0.0016 5 32 0.00032 6 64 0.000064 7 128 0.0000128 8 256 0.00000256 浮点数右移问题我尝试了几门语言，python，Go，C，C++，Matlab，都无法完成浮点数右移操作，执行的指令分别是 Python: 12print 1.0&gt;&gt;3 # 该指令无法执行print 1&gt;&gt;3 # 输出0 Go: 12345678package mainimport "fmt"func main() &#123; a := 1.0&gt;&gt;3 fmt.Println(a) &#125;// 输出0 C/C++: 123float a = 1&gt;&gt;3;cout &lt;&lt; a &lt;&lt; endl;// 输出0 Matlab: 12bishift(1,-3); % 输出0bishift(1.0,-3); % 输出0 PARI的python包 - cypariPARI/GP是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线…) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库^PARI。 安装Python Pari Library 1pip install cypari 在Python中使用 1234from cypari import *f = pari('1.0')print float(f&gt;&gt;4) # 输出0.0625 太棒了！]]></content>
+      <categories>
+        <category>math</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>python</tag>
+        <tag>algebra</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Largest Lypunov Exponent]]></title>
-    <url>%2Fmath%2Fmath%2Flyapunov-exponent%2F</url>
+    <url>%2Fmath%2Flyapunov-exponent%2F</url>
     <content type="text"><![CDATA[In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories[^Lyapunov]. [^Lyapunov]: Boeing, G. Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction. Systems. vol. 4. pp. 37. 2016. It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.g., phase space compactness). In the following, the procedure of calculating the largest Lyapunov exponent by Wolf’s algorithm[^Wolf] will be introduced. [^Wolf]: Wolf A, Swift J B, Swinney H L, et al., Determining Lyapunov exponents from a time series. Physica D: Nonlinear Phenomena, vol. 3. pp. 285-317. 1985. Delay reconstructionGiven a time series, delay reconstruction builds an $n$-dimensional “orbit” out of a time series once the user selects two parameters: the embedding dimension $n$, and the time delay $\tau$. Example: If $n$ is chosen as 3, $\tau$ is chosen as 5, and the time series consists of the values: $x_1, x_2, x_3,\cdots$, then the delay reconstructed orbit would consist of the following sequence of points in 3-space: $$(x_1, x_6, x_{11}), (x_2, x_7, x_{12}), (x_3, x_8, x_{13}), \cdots.$$ That is, delay reconstruction produces the $n$-tuples: $$(x(t), x(t+\tau), x(t+2\tau),…, x(t+(n-1)\tau)).$$ Largest Lyapunov exponentThe procedure of calculating the largest Lyapunov exponent $\lambda$ can be described step-by-step as below: Compute the separation $L(t_0)$ of nearby two points in the orbit of reconstructed phase space. Connect both points as they move a short distance along the orbit. Calculate the new separation $L(t_1)$. If $L(t_1)$ becomes too large, keep one of the points and choose an appropriate replacement for other point. Repeat Steps 1–3 after s propagations, the largest Lyapunov exponent $\lambda$ should be calculated via $$\lambda=\frac{1}{t_q-t_0}\sum_{k=1}^{q}\left(\frac{L’(t_k)}{L(t_{k-1})}\right).$$ The following figure shows the above procedure.]]></content>
       <categories>
         <category>math</category>
@@ -158,37 +182,13 @@
   </entry>
   <entry>
     <title><![CDATA[Power of Ten]]></title>
-    <url>%2Fmath%2Fmath%2Fpower-of-ten%2F</url>
+    <url>%2Fmath%2Fpower-of-ten%2F</url>
     <content type="text"><![CDATA[问题：如何计算$10^n$，并求其二进制表示的值包含多少个1-bit？ 常规做法123import mathp = math.pow(10, n) # 计算10^nprint sum(map(int, bin(int(p))[2:])) # bin函数要求输入整型参数，故此用到了作int转换 使用type函数查看pow函数返回值的类型，发现是float型的，这会带来一些问题，后面会讨论。 像计算机一样思考计算机的思维模式就是0-1模式，如果能将计算$10^n$转化为binary模式那就最好不过了。通过分解$10^n$可以发现 $$10^n = 2^n \cdot 5^n = 2^n \cdot (2^2+1)^n,$$ 将二项式展开，得到 $$10^n = \sum_{i=0}^n C_n^i \cdot 2^{3n-2i}.$$ 很好，出现了2^m这样的形式，就说明可以用移位运算了，即使不了解计算机组成原理的人都知道，在计算机里，移位运算比乘法运算要快得多。接下来我们只要计算出二项式系数$C_n^i$即可。 计算二项式系数$C_n^i$数学上，二项式系数$$ C_n^i = \frac{n!}{i!\cdot(n-i)!}.$$随着$n$的增大，阶乘的增长趋势高于乘方，因此不能用递归、迭代求阶乘。通过查阅资料，我们发现求二项式系数$ C_n^i $可以用动态规划来解决，那么求$10^n$剩下的就是移位和累加操作了。可以通过参阅下面的代码体会上述想法。123456789101112131415def bicoeff(n, i): C=cl.defaultdict(int) for row in xrange(n+1): C[row,0]=1 for col in xrange(1,i+1): if col &lt;= row: C[row,col]=C[row-1,col-1]+C[row-1,col] return C[n, i]def PowerOfTen(n): res = 0 for i in xrange(n+1): bico = bicoeff(n, i) res = (bico &lt;&lt; (3*n - 2*i)) + res return res 通过type查看返回值类型，发现是long型的。 返回值类型姑且将pow函数的计算方法称为方法A，将上一节的方法称为方法B，本节将探究一下返回值类型对结果的影响。先令n=20，计算$10^n$，再使用int强制转换，两种方法的结果为121000000000010000000000 似乎没有什么影响啊！二者转二进制求1-bit数量的结果是一致的。试着增大n，令n=20，结果为12100000000000000000000100000000000000000000 还是一致，再增大，令n=30，结果为1210000000000000000000000000000001000000000000000019884624838656 可以看到，这次的结果居然不一致！我猜测是浮点数的影响，今天太晚了，都凌晨两点多了，这里留个TODO。总之，使用方法B可以得到正确的结果，通过两幅图我们可以清晰地观察到$10^n$的二进制形式中1-bit数量的增长趋势，图中横坐标表示指数$n$，纵坐标表示1-bit数量。]]></content>
       <categories>
         <category>math</category>
       </categories>
       <tags>
         <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Power of Ten Simplify]]></title>
-    <url>%2Fmath%2Fmath%2Fpower-of-ten-simplify%2F</url>
-    <content type="text"><![CDATA[上一篇文章Power of ten中提到，计算$10^n$可以转化为计算二项式系数再进行移位得到，这里提出一种更为简化的求$10^n$二进制表示的数字中“1”的数量的方法。 简化方法首先还是将$10^n$分解为$2^n\cdot 5^n$，而$2^n$在计算机中相当于左移$n$位，右边补0，对结果中1的数量没有影响，因此，这里仅考虑$5^n$。下面的表格列举$n={1,2,3,4}$时，$5^n$与其二进制数的表示形式。 n decimal binary 1 5 101 2 25 11001 3 125 1111101 4 625 1001110001 实际上， $$5^n=5^{n-1}\cdot4+5^{n-1}.$$ 例如，25=0b11001=0b101&lt;&lt;2+0b101，即0b11001=0b10100+0b101。于是计算$10^n$中“1”的数量的程序可以这么写（以下程序计算出小于n范围内所有正整数的的$10^n$中“1”的数量并保存在数组oneBit中）： 123456789def OneBitInPowerOfTen(n): oneBit = [] oneBit.append(1) num = 1 for x in xrange(1, n): num += num &lt;&lt; 2 oneBit.append(sum(map(int, bin(num)[2:]))) return oneBit]]></content>
-      <categories>
-        <category>math</category>
-      </categories>
-      <tags>
-        <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Seeing Powers of Five in Powers of Two and Vice Versa]]></title>
-    <url>%2Fmath%2Fmath%2FSeeing-Powers-of-Five-in-Powers-of-Two-and-Vice-Versa%2F</url>
-    <content type="text"><![CDATA[本文前两节非原创，由此部分翻译而来。 当2的幂和5的幂的指数符号位互为相反数的时候，他们的十进制表示看起来似有共同之处，例如：$2^{-3}=0.125$和$5^3=125$；$5^{-5}=0.00032$和$2^5=32$。 这种相似绝非偶然，它是分数表示为十进制数字的过程中的产物。接下来我们将简单地给出证明过程。 5的正次幂与2的负次幂这里给一些例子（前八次幂）： n $5^n$ $2^{-n}$ 1 5 0.5 2 25 0.25 3 125 0.125 4 625 0.0625 5 3125 0.03125 6 15625 0.015625 7 78125 0.0078125 8 390625 0.00390625 可以看到，除了小数位和前面的0之外，$5^n$与$2^{-n}$的重要数字位是相同的，这是因为$$ \begin{align} 2^{-n} &amp;= \frac{1}{2^n} = \left(\frac{1}{2}\right)^n \\\ &amp;= \left(\frac{5}{10}\right)^n = \frac{5^n}{10^n}. \end{align}$$ 5的负次幂与2的正次幂同样的，我们有 n $2^n$ $5^{-n}$ 1 2 0.2 2 4 0.04 3 8 0.008 4 16 0.0016 5 32 0.00032 6 64 0.000064 7 128 0.0000128 8 256 0.00000256 浮点数右移问题我尝试了几门语言，python，Go，C，C++，Matlab，都无法完成浮点数右移操作，执行的指令分别是 Python: 12print 1.0&gt;&gt;3 # 该指令无法执行print 1&gt;&gt;3 # 输出0 Go: 12345678package mainimport "fmt"func main() &#123; a := 1.0&gt;&gt;3 fmt.Println(a) &#125;// 输出0 C/C++: 123float a = 1&gt;&gt;3;cout &lt;&lt; a &lt;&lt; endl;// 输出0 Matlab: 12bishift(1,-3); % 输出0bishift(1.0,-3); % 输出0 PARI的python包 - cypariPARI/GP是一种针对数论中的快速计算(大数分解，代数数论，椭圆曲线…) 而设计的广泛应用的计算机代数系统，同样具备大量实用的函数来对于数学实体的计算， 诸如矩阵，多项式，幂级数，代数数，以及相当多的超越方程等等。 PARI也可以作为快速计算的C语言库^PARI。 安装Python Pari Library 1pip install cypari 在Python中使用 1234from cypari import *f = pari('1.0')print float(f&gt;&gt;4) # 输出0.0625 太棒了！]]></content>
-      <categories>
-        <category>math</category>
-      </categories>
-      <tags>
-        <tag>math</tag>
-        <tag>python</tag>
-        <tag>algebra</tag>
       </tags>
   </entry>
   <entry>
@@ -204,7 +204,7 @@
   </entry>
   <entry>
     <title><![CDATA[涂涂写写]]></title>
-    <url>%2F%E6%97%A5%E5%B8%B8%2Fothers%2F%E6%B6%82%E6%B6%82%E5%86%99%E5%86%99%2F</url>
+    <url>%2F%E6%97%A5%E5%B8%B8%2F%E6%B6%82%E6%B6%82%E5%86%99%E5%86%99%2F</url>
     <content type="text"><![CDATA[闲时写字画画，能使身心放松。]]></content>
       <categories>
         <category>日常</category>
@@ -215,7 +215,7 @@
   </entry>
   <entry>
     <title><![CDATA[面经]]></title>
-    <url>%2F%E6%97%A5%E5%B8%B8%2Fothers%2F%E9%9D%A2%E7%BB%8F%2F</url>
+    <url>%2F%E6%97%A5%E5%B8%B8%2F%E9%9D%A2%E7%BB%8F%2F</url>
     <content type="text"><![CDATA[我从2017年5月份开始找实习，正式开始投简历应该是6月份，直到九月份实习结束，这里记录一些我的面试经历。 制作简历找工作首先要制作一份简历，我在网上搜罗了半天模板，发现还不如自己制作一份。感兴趣的朋友请点击，并留下您的宝贵意见。接下来说说我笔试（面试）过的那些公司…… 深信服深信服笔试考的是C语言，题目不难，但是考的很细、很深，我最喜欢他们家的笔试题。深信服笔试选择题一共30道，内容包括字符串处理、指针运用、内存泄漏、字节对齐等等，还包含编译原理文法、正则表达式、加解密各一题。填空题15道，根据面试岗位不同而题目也有所不同，我当时投的windows开发，结果填空题考windows API我一个都不会- -。编程题三道，深信服我做过两套他们的卷子，选择题基本上差不多，而编程题都不一样，包括哈夫曼树、链表冒泡排序、字符串正则匹配（还有一套题目我忘了）。 深信服的笔试通过后我跪在了面试上，第一次面试，该犯的错都犯了……这里列举一些我犯过的错误： “这个我不熟悉”，“那个我不太会” —— 回家等消息。 “学习开源代码啊？我大概要三周吧！” —— 将近一个月啊！同志。 …… 面试的时候还问了虚函数、字符串处理、图像处理。 WPS这个公司我怀疑就是来搞搞宣传的，至今不知道为什么我挂了。笔试考C++，考点基本与深信服一致，就是多了C++的STL还有虚函数（虚函数贼爱考），但题目没有深信服出的好，并不算难，三道编程题我有一道没做（莫非是因为这个挂了？）也进了面试。 我是跪在电话面试上，HR与我热情的交谈了40多分钟，还留了一道题目给我，我们还围绕这个问题互发了几次邮件，最终我被拒了，interesting，我去你的大西瓜。 智慧眼这是通过内推进的面试，人事处的小姐人很好，HR看起来像是一个niubility的人，面试的时候说俺们这儿招的是XXX开发，你这个YYY，好像不符合啊。所以说投合适的岗位真的很重要啊！朋友们。末了HR还要我当场写冒泡排序，说是要看我的编码风格。我怕死了，写了那么多次快排，冒泡差点都忘记怎么写了，虽然我觉得我写对了，然并卵，岗位不合适。 智为信息为了面试这家公司，我花了三天把《计算机网络》这本书给啃了，还看了一些网络安全的相关知识，例如常见的流量攻击—SYN flood，ACK flood等等。老总黑客出身，从我出生那年就开始做网络安全了（你以为他很老？老总是80后）。虽然我简历上的东西和他们要招的岗位还是冲突了，但是老总和我交谈的还可以，最终还是留下我了。 总结经验就是，HR问你会不会这个会不会那个的时候，你能吹牛逼就能进，进了之后会不会再说。]]></content>
       <categories>
         <category>日常</category>
