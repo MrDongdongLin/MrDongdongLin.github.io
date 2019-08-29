@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Adversarial examples: FGSM]]></title>
+    <url>%2Fdeep-learning%2Fadversarial-examples-FGSM%2F</url>
+    <content type="text"><![CDATA[Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. “Explaining and harnessing adversarial examples,” arXiv preprint arXiv:1412.6572 (2014). 引自 https://zhuanlan.zhihu.com/p/32784766 对抗样本的线性解释因为样本输入特征(input feature)的精度有限(一般图像的每个像素是8bits, 样本中所有低于1/255的信息都会被丢弃)，所以当样本$x$中每个元素值添加的扰动值$\eta$小于样本输入特征精度时，分类器无法将样本$x$和对抗样本$\tilde{x}=x+\eta$区分开。也就是对一个分类良好的分类器而言，如果$\epsilon$是一个足够小以至于被舍弃掉的值，那么只要$||\eta||_{\infty}&lt;\epsilon$，分类器将认为$x$和$\tilde{x}$属于同一个类。下面考虑权重向量$\omega^{T}$和对抗样本$\tilde{x}$的点积为$\omega^{T}\tilde{x} = \omega^{T}(x+\eta) = \omega^{T}x+\omega^{T}\eta$。可以看出，对抗扰动使得activation增加了$\omega^{T}\eta$，作者提出让$\eta=\text{sign}({\omega})$从而使$\omega^{T}\eta$最大化。假设权重向量$\omega$有$n$个维度，且权重向量中元素的平均量值是$m$，那么activation将增加$\epsilon mn(\Rightarrow \omega^{T}\eta\leq \epsilon mn)$。虽然$||\eta||_{\infty}&lt;\epsilon$不会随着维度$n$的变化而变化，但是由$\eta$导致的activation的增加量$\epsilon mn$会随着维度$n$线性增长。那么对于一个高维度的问题，一个样本中大量维度的无限小的干扰加在一起就可以对输出造成很大的变化。 所以对抗样本的线性解释表明，对线性模型而言，如果其输入样本有足够大的维度，那么线性模型也容易受到对抗样本的攻击。 非线性模型的线性扰动作者利用对抗样本的线性解释提出了一个快速产生对抗样本的方式，也即Fast Gradient Sign Method(FGSM)方法。 假设模型的参数值为$\theta$，模型的输入是$x$，$y$是模型对应的label值，$J(\theta,x,y)$是训练神经网络的损失函数。对某个特定的模型参数$\theta$而言，FGSM方法将损失函数近似线性化，从而获得保证无穷范数限制的最优的扰动(即$||\eta||_{\infty}&lt;\epsilon$)，扰动值具体为：$$ \eta = \epsilon\text{sign} (\nabla_x J(\theta,x,y))$$ 线性模型的对抗训练考虑在最简单的逻辑回归(Logistics Regression)模型上应用FGSM方法，从而理解在一个简单的设置中如何生成对抗样本。 假设要训练一个逻辑回归模型来识别标签$y\in\{-1,1\}$，预测函数为$P(y=1)=\sigma(\omega^Tx+b)$(PS:意味着$P(y=-1)=1-\sigma(\omega^Tx+b)$)，其中$\sigma$函数是sigmoid函数，那么该样本的损失函数为：$E_{x,y\sim p_{data}}\varsigma(-y(\omega^Tx+b))$，其中$\varsigma(z)=\log(1+\exp(z))$是softplus函数。 对该模型使用FGSM方法，扰动量$$ \begin{align} \eta &amp;= \epsilon\text{sign}(\nabla_x J(\theta,x,y)) = \epsilon\text{sign}(\nabla_x \varsigma(-y(\omega^Tx+b))) \\\ &amp;= \epsilon\text{sign}(-\frac{\exp(-y(\omega^Tx+b))y\omega^T}{\ln(10)(1+\exp(-y(\omega^Tx+b)))}) \\\ &amp;= \epsilon\text{sign}(-y\omega^T) \\\ &amp;= \epsilon\text{sign}(\omega^T) \end{align}$$ $\because \exp(\cdot)&gt;0$且$y=-1$(因为要使分类器分类错误)，$\therefore \text{sign}(-\frac{\exp(-y(\omega^Tx+b))y\omega^T}{\ln(10)(1+\exp(-y(\omega^Tx+b)))})= \text{sign}(\omega^T)$ 且$\omega^T\text{sign}(\omega)=||\omega||_1$, 那么逻辑回归模型的对抗形式即为:$$ E_{x,y\sim p_{data}} \varsigma(-y(\omega^T\tilde{x}+b)) = E_{x,y\sim p_{data}} \varsigma(y(\epsilon||\omega||_1 - \omega^Tx-b))$$ 上面公式非常类似于L1正则化，但不同的是对抗形式是在训练过程中减去L1惩罚项，而不是加上L1惩罚项。]]></content>
+      <categories>
+        <category>deep learning</category>
+      </categories>
+      <tags>
+        <tag>FGSM</tag>
+        <tag>adversarial examples</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[一起来做PPT]]></title>
     <url>%2Fresearch%2F%E4%B8%80%E8%B5%B7%E6%9D%A5%E5%81%9APPT%2F</url>
     <content type="text"><![CDATA[此文提及的材料由PPT制作大师胡XH倾情提供。 写在前面想成为像胡XH那样的PPT大师，你可能需要掌握多种工具，比如PPT, Visio, Adobe Illustrator, 甚至PS。当然，如果不是为了像胡大师靠开设讲座发家致富，咱没必要精通这么多工具，稍微会一点就ok了。 本文将以胡大师的PPT为例，带领大家体验做PPT的美妙。 前期准备工欲善其事，必先利其器，首先你得 安装Microsoft Power Point，不低于2010版就完事了。我装的是最新2019版，使用OTP破解就行，网上破解工具多的亚批，可自行百度关键词office 2019 OTP 破解。 安装islide，这是一款矢量图插件，你需要用它画图，这样就不需要学illustrator了，可真棒呢。 安装mathtype，PPT本身也可以输入公式，但是没有mathype渲染的好看。不过mathtype公式大小和位置需要调整，也挺麻烦的，各位可以自行权衡。 装好软件后，新建一个PPT，打开“导航栏-&gt;视图-&gt;勾选标尺和网格线”，这是为了让大家能够更好地对准单元的位置。 如果你想用WPS也可以，但是使用不需要破解的东西总让我觉得好像没装到逼，浑身不自在。 封面和目录的处理 封面由三个基本部分构成：标题，演讲人相关信息和点缀物体。在制作封面的时候，要以标题为中心，一手抓演讲人信息陈述，一手抓背景装饰。 目录乃至后续内容风格要和封面保持一致，切不可花里胡哨。 目录要自成一体，狠抓演讲要点。切不可使用诸如“背景介绍”，“实验结果”等过于笼统的标题，而应是“XXX背景介绍”，“XXX实验结果”等。 且看下方胡大师的作品。 封面标题突出，周围背景起到点缀作用的同时又不会喧宾夺主，真棒！不过演讲人信息过少，只有一个姓名，如果加上毕业院校，师从何人那就更好了。 目录完全符合我提到的几点要求，不愧是大师！ 内容之背景介绍 做好目录之后，整个PPT就分好了章节，没有太多必要为每个章节再做一页封面，除非你的PPT长达100多页。 背景介绍可以用文字铺陈，辅以相关图片作为案例。背景中文字多一些没关系，反正没人看:-) 可以适当运用文字流，做一些指向性的箭头将背景中的要点关联起来。 且看下方胡大师的作品。 胡大师使用的是文字流铺陈，但是文字流也并非胡乱铺陈，在文字中提取关键字眼“定义”，“目的”，“工具”可以减少观众的阅读时间。 背景的发展史，采用时间轴递进，这也是非常典型的一种文字流铺陈做法。如果能将关键字眼加粗可以进一步降低观众的理解成本。 文字流分为左右两个部分，目的和分类一一对应，看过去非常舒服。 总之就是666。 内容之图文并茂 图、文字、公式相辅相成。文字起的是说明性作用，图能表达更丰富的信息，公式便于理解。它们是相辅相成的。 图片可以有caption也可以没有，要看具体情景。如果图片要表达的意思一目了然，可以不需要caption。 图片还可以是带有数据的，比如柱状图、饼图可以表示占比，折线图可以表示趋势。这些图可以使用PPT中的插入-&gt;图表功能实现。 动图gif可以非常生动地展现内容给观众，适当的可以使用，但不要过多，不然会显得花哨。 如果是从他处转来的数据，尽可能使用islide重制，直接截图会导致失真。 可以使用层级结构，比如树状图来表示层级关系。 且看下方胡大师的作品。 有图、文字和公式。美中不足的是公式是截图的。 多图展示运用非常得当，体现了标题“高质量人脸图像应用在多个领域”。 适当数量的gif图为PPT内容增色不少。 引用了参考文献的在当页PPT底部注明。这里要提醒大家不要把参考文献全放到最后用一页PPT展示，这样很不好，PPT一页讲完要避免溯源。 树状结构的表示清晰明了。使用小节或者小小节可以表示层级关系，但是树状图可以表示的深度更深。 内容之表格 表格可以表示丰富的数据。在实验结果部分常会用到表格。 表格的要素是表头和内容。表头可以使用深色做底色以示区别，内容可以使用文字或者数据，具体情况具体分析。 如果有需要，可以添加一些说明性文字，说明表格的数据的来源以及意义。 如果表格转自别处，尽量重制一遍，不要截图。 PPT里的表格和图都不要编号。 且看下方胡大师的作品。 标题+说明性文字+表格：内容丰富，可解释性强。 表格中添加了指向箭头，说明了数据间的关系。箭头的作用在PPT中可以说是举足轻重的。 表格中的公式使用PPT自带的公式工具编辑而成，不会像截图那样带有不透明底色。 内容之数据关系PPT内容可以包含多种关系：递进、对比还有罗列等等。 我们常在包含时间的数据中使用递进关系，比如上面胡大师PPT的背景介绍中就包含了大量的递进关系。 我们常在新老数据之间使用对比关系。比如想说明现有方法较已有方法取得了什么样的进步时，就可以用对比关系。可以用图片作对比，也可以用文字作对比。 罗列关系使用范围很广，如果内容很多就可以使用罗列。比如胡大师“图像增强——高质量人脸图像应用在多个领域”中就应用了罗列，当然这里是用的图片罗列。 内容之致谢之前非常荣幸邀请到胡老师来深圳大学进行指导。胡老师在数字图像处理领域有着多年的研究和工作经验，对数字图像处理技术的工业化应用有着独到的见解。胡老师的求学求职历程对深大学子未来的发展非常具有参考意义。胡老师态度平易近人，同时又很有主见，是非常优秀的一个人。虽然讲座只有短短的30分钟，同学们也从胡老师身上收获了许多做人做事的道理。虽然胡老师来去匆匆，却给同学们留下了无数感动，同学们希望胡老师以后能继续突破自我，取得骄人的成绩。同时，同学们更希望胡老师以后不管遇上什么挫折，都能永远幸福下去。]]></content>
@@ -40,8 +52,8 @@
         <category>research</category>
       </categories>
       <tags>
-        <tag>PPT</tag>
         <tag>academic</tag>
+        <tag>PPT</tag>
       </tags>
   </entry>
   <entry>
@@ -92,8 +104,8 @@
         <category>research</category>
       </categories>
       <tags>
-        <tag>academic</tag>
         <tag>word</tag>
+        <tag>academic</tag>
       </tags>
   </entry>
   <entry>
@@ -142,8 +154,8 @@
         <category>research</category>
       </categories>
       <tags>
-        <tag>latex</tag>
         <tag>word</tag>
+        <tag>latex</tag>
       </tags>
   </entry>
   <entry>
@@ -177,6 +189,18 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[Largest Lypunov Exponent]]></title>
+    <url>%2Fmath%2Flyapunov-exponent%2F</url>
+    <content type="text"><![CDATA[In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories[^Lyapunov]. [^Lyapunov]: Boeing, G. Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction. Systems. vol. 4. pp. 37. 2016. It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.g., phase space compactness). In the following, the procedure of calculating the largest Lyapunov exponent by Wolf’s algorithm[^Wolf] will be introduced. [^Wolf]: Wolf A, Swift J B, Swinney H L, et al., Determining Lyapunov exponents from a time series. Physica D: Nonlinear Phenomena, vol. 3. pp. 285-317. 1985. Delay reconstructionGiven a time series, delay reconstruction builds an $n$-dimensional “orbit” out of a time series once the user selects two parameters: the embedding dimension $n$, and the time delay $\tau$. Example: If $n$ is chosen as 3, $\tau$ is chosen as 5, and the time series consists of the values: $x_1, x_2, x_3,\cdots$, then the delay reconstructed orbit would consist of the following sequence of points in 3-space: $$(x_1, x_6, x_{11}), (x_2, x_7, x_{12}), (x_3, x_8, x_{13}), \cdots.$$ That is, delay reconstruction produces the $n$-tuples: $$(x(t), x(t+\tau), x(t+2\tau),…, x(t+(n-1)\tau)).$$ Largest Lyapunov exponentThe procedure of calculating the largest Lyapunov exponent $\lambda$ can be described step-by-step as below: Compute the separation $L(t_0)$ of nearby two points in the orbit of reconstructed phase space. Connect both points as they move a short distance along the orbit. Calculate the new separation $L(t_1)$. If $L(t_1)$ becomes too large, keep one of the points and choose an appropriate replacement for other point. Repeat Steps 1–3 after s propagations, the largest Lyapunov exponent $\lambda$ should be calculated via $$\lambda=\frac{1}{t_q-t_0}\sum_{k=1}^{q}\left(\frac{L’(t_k)}{L(t_{k-1})}\right).$$ The following figure shows the above procedure.]]></content>
+      <categories>
+        <category>math</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Power of Ten]]></title>
     <url>%2Fmath%2Fpower-of-ten%2F</url>
     <content type="text"><![CDATA[问题：如何计算$10^n$，并求其二进制表示的值包含多少个1-bit？ 常规做法123import mathp = math.pow(10, n) # 计算10^nprint sum(map(int, bin(int(p))[2:])) # bin函数要求输入整型参数，故此用到了作int转换 使用type函数查看pow函数返回值的类型，发现是float型的，这会带来一些问题，后面会讨论。 像计算机一样思考计算机的思维模式就是0-1模式，如果能将计算$10^n$转化为binary模式那就最好不过了。通过分解$10^n$可以发现 $$10^n = 2^n \cdot 5^n = 2^n \cdot (2^2+1)^n,$$ 将二项式展开，得到 $$10^n = \sum_{i=0}^n C_n^i \cdot 2^{3n-2i}.$$ 很好，出现了2^m这样的形式，就说明可以用移位运算了，即使不了解计算机组成原理的人都知道，在计算机里，移位运算比乘法运算要快得多。接下来我们只要计算出二项式系数$C_n^i$即可。 计算二项式系数$C_n^i$数学上，二项式系数$$ C_n^i = \frac{n!}{i!\cdot(n-i)!}.$$随着$n$的增大，阶乘的增长趋势高于乘方，因此不能用递归、迭代求阶乘。通过查阅资料，我们发现求二项式系数$ C_n^i $可以用动态规划来解决，那么求$10^n$剩下的就是移位和累加操作了。可以通过参阅下面的代码体会上述想法。123456789101112131415def bicoeff(n, i): C=cl.defaultdict(int) for row in xrange(n+1): C[row,0]=1 for col in xrange(1,i+1): if col &lt;= row: C[row,col]=C[row-1,col-1]+C[row-1,col] return C[n, i]def PowerOfTen(n): res = 0 for i in xrange(n+1): bico = bicoeff(n, i) res = (bico &lt;&lt; (3*n - 2*i)) + res return res 通过type查看返回值类型，发现是long型的。 返回值类型姑且将pow函数的计算方法称为方法A，将上一节的方法称为方法B，本节将探究一下返回值类型对结果的影响。先令n=20，计算$10^n$，再使用int强制转换，两种方法的结果为121000000000010000000000 似乎没有什么影响啊！二者转二进制求1-bit数量的结果是一致的。试着增大n，令n=20，结果为12100000000000000000000100000000000000000000 还是一致，再增大，令n=30，结果为1210000000000000000000000000000001000000000000000019884624838656 可以看到，这次的结果居然不一致！我猜测是浮点数的影响，今天太晚了，都凌晨两点多了，这里留个TODO。总之，使用方法B可以得到正确的结果，通过两幅图我们可以清晰地观察到$10^n$的二进制形式中1-bit数量的增长趋势，图中横坐标表示指数$n$，纵坐标表示1-bit数量。]]></content>
@@ -196,18 +220,6 @@
       </categories>
       <tags>
         <tag>math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Largest Lypunov Exponent]]></title>
-    <url>%2Fmath%2Flyapunov-exponent%2F</url>
-    <content type="text"><![CDATA[In mathematics the Lyapunov exponent or Lyapunov characteristic exponent of a dynamical system is a quantity that characterizes the rate of separation of infinitesimally close trajectories[^Lyapunov]. [^Lyapunov]: Boeing, G. Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction. Systems. vol. 4. pp. 37. 2016. It is common to refer to the largest one as the Maximal Lyapunov exponent (MLE), because it determines a notion of predictability for a dynamical system. A positive MLE is usually taken as an indication that the system is chaotic (provided some other conditions are met, e.g., phase space compactness). In the following, the procedure of calculating the largest Lyapunov exponent by Wolf’s algorithm[^Wolf] will be introduced. [^Wolf]: Wolf A, Swift J B, Swinney H L, et al., Determining Lyapunov exponents from a time series. Physica D: Nonlinear Phenomena, vol. 3. pp. 285-317. 1985. Delay reconstructionGiven a time series, delay reconstruction builds an $n$-dimensional “orbit” out of a time series once the user selects two parameters: the embedding dimension $n$, and the time delay $\tau$. Example: If $n$ is chosen as 3, $\tau$ is chosen as 5, and the time series consists of the values: $x_1, x_2, x_3,\cdots$, then the delay reconstructed orbit would consist of the following sequence of points in 3-space: $$(x_1, x_6, x_{11}), (x_2, x_7, x_{12}), (x_3, x_8, x_{13}), \cdots.$$ That is, delay reconstruction produces the $n$-tuples: $$(x(t), x(t+\tau), x(t+2\tau),…, x(t+(n-1)\tau)).$$ Largest Lyapunov exponentThe procedure of calculating the largest Lyapunov exponent $\lambda$ can be described step-by-step as below: Compute the separation $L(t_0)$ of nearby two points in the orbit of reconstructed phase space. Connect both points as they move a short distance along the orbit. Calculate the new separation $L(t_1)$. If $L(t_1)$ becomes too large, keep one of the points and choose an appropriate replacement for other point. Repeat Steps 1–3 after s propagations, the largest Lyapunov exponent $\lambda$ should be calculated via $$\lambda=\frac{1}{t_q-t_0}\sum_{k=1}^{q}\left(\frac{L’(t_k)}{L(t_{k-1})}\right).$$ The following figure shows the above procedure.]]></content>
-      <categories>
-        <category>math</category>
-      </categories>
-      <tags>
-        <tag>math</tag>
-        <tag>research</tag>
       </tags>
   </entry>
   <entry>
