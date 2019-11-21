@@ -150,7 +150,8 @@ function tidy_item(regex, object_str) {
                             var content1 = content[0].replace(/\n+/g, "");
                             var tidy_content = content1.replace(/\ +/g, " ");
                             var blank = repeat(" ", 15-key.length-3);
-                            if (content[0] == "{" && content[content.length-1] == "}") {
+                            // console.log(tidy_content)
+                            if (tidy_content[0] == "{" && tidy_content[tidy_content.length-1] == "}") {
                                 document.getElementById("new_version").value += "  "+key+" = "+blank+tidy_content+",\n";
                             } else {
                                 document.getElementById("new_version").value += "  "+key+" = "+blank+"{"+tidy_content+"},\n";
