@@ -129,7 +129,7 @@ Unique-ID = {WOS:000766209400010},
             throw new Error("Failed to parse BibTeX content");
         }
         
-        const fieldOrder = ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'month', 'note', 'abstract', 'keywords', 'source', 'doi'];
+        const fieldOrder = ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'month', 'note', 'keywords', 'source', 'doi'];
         let formattedBib = '';
 
         for (const entry of bibDatabase) {
