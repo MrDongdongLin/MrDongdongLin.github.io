@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academic Homepage</title>
     <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Dongdong Lin's academic homepage. Explore his research interests, publications, and academic achievements.">
+    <meta name="keywords" content="Dongdong Lin, research, publications, academic, deep learning, cryptanalysis, deepfake detection">
+    <meta name="author" content="Dongdong Lin">
 </head>
 <body>
+    <!-- Header Section -->
     <header>
         <h1>Dongdong Lin</h1>
-        <p><a href="https://github.com/MrDongdongLin">Github</a> | <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en">Google Scholar</a></p>
+        <p>
+            <a href="https://github.com/MrDongdongLin" aria-label="Dongdong Lin's Github">Github</a> | 
+            <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en" aria-label="Dongdong Lin's Google Scholar">Google Scholar</a>
+        </p>
     </header>
+
+    <!-- Main Content -->
     <main>
+        <!-- About Section -->
         <section id="about">
             <h2>About Me</h2>
             <p>Dongdong Lin received his M.Sc. degree and B.Sc.
@@ -27,148 +37,122 @@
                 Adversarial Attacks and Cryptanalysis.</p>
         </section>
 
+        <!-- Publications Section -->
         <section id="publications">
             <h2>Publications</h2>
-            <div class="publication">
-                <!-- latest publication -->
-                <div class="pub-header">
-                    <span class="pub-title">A CycleGAN Watermarking Method for Ownership Verification</span>
-                </div>
-                <div class="pub-authors">
-                    <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en"><strong>Dongdong Lin</strong></a>, 
-                    <a href="http://clem.dii.unisi.it/~vipp/btondi.html">Benedetta Tondi</a>, 
-                    <a href="https://scholar.google.com/citations?user=g0iR9IkAAAAJ&hl=en">Bin Li</a>, 
-                    <a href="http://clem.dii.unisi.it/~vipp/mbarni.html">Mauro Barni</a>
-                </div>
-                <div class="pub-details">
-                    IEEE Transactions on Dependable and Secure Computing, 2024, CCF-A
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
+            <ul class="publications-list">
+                <li class="publication-item">
+                    <h3><a href="#">GROOT: Generating Robust Watermark for Diffusion-Model-Based Audio Synthesis</a></h3>
+                    <p class="pub-authors">Weizhi Liu, Yue Li, <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en"><strong>Dongdong Lin</strong></a>, Hui Tian, Haizhou Li</p>
+                    <p class="pub-details"> ACM Multimedia, 2024, CCF-A</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <br>
+                <li class="publication-item">
+                    <h3><a href="#">A CycleGAN Watermarking Method for Ownership Verification</a></h3>
+                    <p class="pub-authors"><a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en"><strong>Dongdong Lin</strong></a>, <a href="http://clem.dii.unisi.it/~vipp/btondi.html">Benedetta Tondi</a>, <a href="https://scholar.google.com/citations?user=g0iR9IkAAAAJ&hl=en">Bin Li</a>, <a href="http://clem.dii.unisi.it/~vipp/mbarni.html">Mauro Barni</a></p>
+                    <p class="pub-details"> IEEE Transactions on Dependable and Secure Computing, 2024, CCF-A</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <div class="pub-header">
-                    <span class="pub-title">Exploiting temporal information to prevent the transferability of adversarial examples against deep fake detectors</span>
-                </div>
-                <div class="pub-authors">
-                    <a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en"><strong>Dongdong Lin</strong></a>, 
-                    <a href="http://clem.dii.unisi.it/~vipp/btondi.html">Benedetta Tondi</a>, 
-                    <a href="https://scholar.google.com/citations?user=g0iR9IkAAAAJ&hl=en">Bin Li</a>, 
-                    <a href="http://clem.dii.unisi.it/~vipp/mbarni.html">Mauro Barni</a>
-                </div>
-                <div class="pub-details">
-                    IEEE International Joint Conference on Biometrics, 2022, CCF-C
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
+                <li class="publication-item">
+                    <h3><a href="#">Exploiting temporal information to prevent the transferability of adversarial examples against deep fake detectors</a></h3>
+                    <p class="pub-authors"><a href="https://scholar.google.com/citations?user=fpecOLUAAAAJ&hl=en"><strong>Dongdong Lin</strong></a>, <a href="http://clem.dii.unisi.it/~vipp/btondi.html">Benedetta Tondi</a>, <a href="https://scholar.google.com/citations?user=g0iR9IkAAAAJ&hl=en">Bin Li</a>, <a href="http://clem.dii.unisi.it/~vipp/mbarni.html">Mauro Barni</a></p>
+                    <p class="pub-details"> IEEE International Joint Conference on Biometrics, 2022, CCF-C</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <br>
+                <li class="publication-item">
+                    <h3><a href="#">Watching the big artifacts: Exposing deepfake videos via bi-granularity artifacts</a></h3>
+                    <p class="pub-authors">Han Chen, Yuezun Li, <strong>Dongdong Lin</strong>, Bin Li, Junqiang Wu</p>
+                    <p class="pub-details"> Pattern Recognition, 2023</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <div class="pub-header">
-                    <span class="pub-title">Watching the big artifacts: Exposing deepfake videos via bi-granularity artifacts</span>
-                </div>
-                <div class="pub-authors">
-                    <a>Han Chen</a>, 
-                    <a>Yuezun Li</a>, 
-                    <a><strong>Dongdong Lin</strong></a>, 
-                    <a>Bin Li</a>, 
-                    <a>Junqiang Wu</a>
-                </div>
-                <div class="pub-details">
-                    Pattern Recognition, 2023
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
+                <li class="publication-item">
+                    <h3><a href="#">Cryptanalysis of a chaotic image encryption algorithm based on information entropy</a></h3>
+                    <p class="pub-authors">Chengqing Li, <strong>Dongdong Lin</strong>, Bingbing Feng, Jinhu Lü, Feng Hao</p>
+                    <p class="pub-details"> IEEE Access, 2018</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <br>
+                <li class="publication-item">
+                    <h3><a href="#">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</a></h3>
+                    <p class="pub-authors">Chengqing Li, <strong>Dongdong Lin</strong>, Jinhu Lü, Feng Hao</p>
+                    <p class="pub-details"> IEEE Multimedia, 2018</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
 
-                <div class="pub-header">
-                    <span class="pub-title">Cryptanalysis of a chaotic image encryption algorithm based on information entropy</span>
-                </div>
-                <div class="pub-authors">
-                    <a>Chengqing Li</a>, 
-                    <a><strong>Dongdong Lin</strong></a>, 
-                    <a>Bingbing Feng</a>, 
-                    <a>Jinhu Lü</a>,
-                    <a>Feng Hao</a>
-                </div>
-                <div class="pub-details">
-                    IEEE Access, 2018
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
-
-                <br>
-
-                <div class="pub-header">
-                    <span class="pub-title">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</span>
-                </div>
-                <div class="pub-authors">
-                    <a>Chengqing Li</a>, 
-                    <a><strong>Dongdong Lin</strong></a>, 
-                    <a>Jinhu Lü</a>,
-                    <a>Feng Hao</a>
-                </div>
-                <div class="pub-details">
-                    IEEE Multmedia, 2018
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
-
-                <br>
-
-                <div class="pub-header">
-                    <span class="pub-title">Cryptanalyzing an image-scrambling encryption algorithm of pixel bits</span>
-                </div>
-                <div class="pub-authors">
-                    <a>Chengqing Li</a>, 
-                    <a><strong>Dongdong Lin</strong></a>, 
-                    <a>Jinhu Lü</a>,
-                    <a>Feng Hao</a>
-                </div>
-                <div class="pub-details">
-                    IEEE Multimedia, 2017
-                </div>
-                <div class="pub-links">
-                    <a href="#">Page</a>
-                    <a href="#">PDF</a>
-                    <a href="#">arxiv</a>
-                    <a href="#">Code</a>
-                    <a href="#">Citation</a>
-                </div>
-            </div>
-            <!-- Add more publications as needed -->
+                <li class="publication-item">
+                    <h3><a href="#">Cryptanalyzing an image-scrambling encryption algorithm of pixel bits</a></h3>
+                    <p class="pub-authors">Chengqing Li, <strong>Dongdong Lin</strong>, Jinhu Lü, Feng Hao</p>
+                    <p class="pub-details"> IEEE Multimedia, 2017</p>
+                    <div class="publication-links">
+                        <a href="#">Page</a>
+                        <a href="#">PDF</a>
+                        <a href="#">arxiv</a>
+                        <a href="#">Code</a>
+                        <a href="#">Citation</a>
+                    </div>
+                </li>
+            </ul>
         </section>
-
     </main>
+
+    <!-- Footer Section -->
     <footer>
         <p>&copy; 2024 Dongdong Lin</p>
     </footer>
+
+    <script>
+        document.querySelectorAll('.show-details').forEach(item => {
+            item.addEventListener('click', event => {
+                const details = event.target.nextElementSibling;
+                if (details.style.display === 'none' || !details.style.display) {
+                    details.style.display = 'block';
+                    event.target.textContent = 'Hide details';
+                } else {
+                    details.style.display = 'none';
+                    event.target.textContent = 'Show details';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

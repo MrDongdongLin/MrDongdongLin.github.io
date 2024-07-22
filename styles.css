@@ -1,115 +1,103 @@
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-size: 14px; /* Smaller font size */
+    line-height: 1.4; /* Reduce line spacing */
     margin: 0;
     padding: 0;
-    background: #f9f9f9;
-    color: #333;
 }
 
 header {
-    background: #fff;
-    color: #333;
-    padding: 1rem 0;
+    background: #333;
+    color: #fff;
+    padding: 1em 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin: 0;
-}
-
-header p {
-    margin: 0;
-    font-size: 1.2rem;
 }
 
 header a {
-    color: #007BFF;
+    color: #fff;
+    margin: 0 1em;
     text-decoration: none;
 }
 
-header a:hover {
+main {
+    padding: 1em;
+}
+
+#about, #publications {
+    margin-bottom: 1.5em; /* Reduced margin */
+}
+
+h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5em;
+    font-size: 1.5em; /* Smaller heading size */
+}
+
+.publications-list {
+    list-style: none;
+    padding: 0;
+}
+
+.publication-item {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5em 0; /* Reduced padding */
+    line-height: 1.2; /* Reduce line spacing */
+}
+
+.publication-item h3 {
+    margin: 0 0 0.25em 0; /* Reduced margin */
+    font-size: 1em; /* Smaller font size */
+}
+
+.publication-item h3 a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.publication-item h3 a:hover {
     text-decoration: underline;
 }
 
-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.pub-authors {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
 }
 
-section {
-    margin-bottom: 2rem;
+.pub-details {
+    margin: 0.25em 0; /* Reduced margin */
+    font-size: 0.9em;
+    color: #777;
 }
 
-section h2 {
-    border-bottom: 2px solid #333;
-    padding-bottom: 0.5rem;
+.publication-links a {
+    color: #0066cc;
+    text-decoration: none;
+    margin-right: 0.5em; /* Reduced margin */
+    font-size: 0.9em; /* Smaller font size */
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1rem 0;
+.publication-links a:hover {
+    text-decoration: underline;
+}
+
+.show-details {
+    cursor: pointer;
+    color: #0066cc;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 0.25em; /* Reduced margin */
+    font-size: 0.9em; /* Smaller font size */
+}
+
+.show-details:hover {
+    text-decoration: underline;
 }
 
 footer {
     text-align: center;
-    padding: 1rem 0;
-    background: #fff;
-    color: #333;
-    border-top: 1px solid #eaeaea;
-}
-
-.publication {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: #f4f4f4;
-    color: #333;
-    border-radius: 8px;
-}
-
-.pub-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.pub-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-.pub-authors a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-.pub-authors a:hover {
-    text-decoration: underline;
-}
-
-.pub-details {
-    margin-bottom: 0.5rem;
-}
-
-.pub-links a {
-    background: #fff;
-    color: #007BFF;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
-    border: 1px solid #007BFF;
-}
-
-.pub-links a:hover {
-    background: #007BFF;
+    padding: 1em 0;
+    background: #333;
     color: #fff;
+    font-size: 0.9em; /* Smaller font size */
 }
