@@ -23,7 +23,7 @@ main {
     padding: 1em;
 }
 
-#about, #publications {
+#about, #publications, #news {
     margin-bottom: 1.5em; /* Reduced margin */
 }
 
@@ -100,4 +100,54 @@ footer {
     background: #333;
     color: #fff;
     font-size: 0.9em; /* Smaller font size */
+    position: fixed; /* 固定在页面底部 */
+    bottom: 0;
+    width: 100%;
+}
+
+.ccf-a {
+    background-color: rgb(30, 255, 0); /* 设置背景颜色 */
+    color: black; /* 设置文字颜色为纯黑色 */
+    padding: 2px 4px; /* 调整内边距使文字和背景更贴合 */
+    border-radius: 3px; /* 可选：添加圆角 */
+}
+
+.ccf-icon {
+    height: 1em; /* Adjust the height to match the text height */
+    margin-left: 0.2em; /* Small margin to space out the icon from the text */
+}
+
+.esi {
+    background-color: rgb(255, 234, 0); /* 设置背景颜色 */
+    color: black; /* 设置文字颜色为纯黑色 */
+    padding: 2px 4px; /* 调整内边距使文字和背景更贴合 */
+    border-radius: 3px; /* 可选：添加圆角 */
+}
+
+.esi-icon {
+    vertical-align: middle; /* 或者 text-bottom，根据需要选择 */
+    height: 1.2em; /* Adjust the height to match the text height */
+    margin-left: 0.2em; /* Small margin to space out the icon from the text */
+}
+
+/* 新增的容器样式 */
+.container {
+    max-width: 800px; /* 设置页面最大宽度 */
+    margin: 0 auto; /* 居中对齐 */
+    padding: 0 15px; /* 可选：增加一些左右内边距 */
+    box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
+}
+
+html, body {
+    height: 100%; /* 确保html和body的高度为100% */
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* 确保main内容扩展以填满可用空间 */
 }
