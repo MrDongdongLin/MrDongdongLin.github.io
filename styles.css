@@ -1,3 +1,5 @@
+/* styles.css */
+
 body {
     font-family: Arial, sans-serif;
     font-size: 14px; /* Smaller font size */
@@ -150,4 +152,17 @@ body {
 
 main {
     flex: 1; /* 确保main内容扩展以填满可用空间 */
+}
+
+.citation-content {
+    display: none; /* 默认隐藏 */
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 3px solid #ccc;
+    font-family: monospace;
+}
+
+.citation-content.active {
+    display: block; /* 当有 .active 类时显示 */
 }
