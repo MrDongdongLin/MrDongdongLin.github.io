@@ -60,16 +60,6 @@ const publications = [
     link: "https://faculty.hqu.edu.cn/ddlin/en/lwcg/240308/content/58035.htm"
   },
   {
-    year: "2023",
-    title: "Conditional Differential Analysis on the KATAN Ciphers Based on Deep Learning",
-    authors: "Dongdong Lin, Manman Li, Zezhou Hou, Shaozhen Chen",
-    venue: "IET Information Security",
-    note: "17(3): 347-359",
-    tags: ["Cryptanalysis", "Deep Learning", "KATAN"],
-    featured: false,
-    link: "https://dblp.org/rec/journals/iet-ifs/LinLHC23"
-  },
-  {
     year: "2022",
     title: "Exploiting Temporal Information to Prevent the Transferability of Adversarial Examples Against Deep Fake Detectors",
     authors: "Dongdong Lin, Benedetta Tondi, Bin Li, Mauro Barni",
