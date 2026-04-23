@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dongdong Lin's academic homepage featuring research, selected publications, and recent updates in AI security and multimedia forensics.">
+  <meta name="description" content="Dongdong Lin's academic homepage with biography, news, and publications in AI security and multimedia forensics.">
   <title>Dongdong Lin | Academic Homepage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,10 @@
 </head>
 <body>
   <div class="page-shell">
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Dongdong Lin home">
-        <span class="brand-mark">DL</span>
-        <span class="brand-copy">
-          <strong>Dongdong Lin</strong>
-          <span>Academic Homepage</span>
-        </span>
+    <header class="topbar">
+      <a class="topbar-brand" href="#top">
+        <span class="brand-dot"></span>
+        <span class="topbar-name">Dongdong Lin</span>
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
@@ -26,183 +23,100 @@
         <span></span>
       </button>
 
-      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-        <a href="#about">About</a>
-        <a href="#research">Research</a>
-        <a href="#publications">Publications</a>
+      <nav id="site-nav" class="topbar-nav">
+        <a href="#bio">Bio</a>
         <a href="#news">News</a>
+        <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
-    <main id="top">
-      <section class="hero">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">AI Security / Multimedia Forensics / Trustworthy Generative Models</p>
+    <main id="top" class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <div class="profile-art">
+            <div class="profile-orbit orbit-a"></div>
+            <div class="profile-orbit orbit-b"></div>
+            <div class="profile-avatar">DL</div>
+          </div>
+
           <h1>Dongdong Lin</h1>
-          <p class="hero-title">Lecturer, Huaqiao University</p>
-          <p class="hero-summary">
-            I work on AI security with a focus on model watermarking, deepfake forensics,
-            adversarial robustness, and trustworthy generative media. My recent work spans
-            diffusion-model watermarking, speech synthesis security, and multimedia integrity.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Google Scholar</a>
-            <a class="button secondary" href="https://github.com/MrDongdongLin">GitHub</a>
-          </div>
-          <ul class="hero-metrics" aria-label="Profile highlights">
-            <li>
-              <strong>10+</strong>
-              <span>papers in top journals and conferences</span>
-            </li>
-            <li>
-              <strong>TDSC / ACM MM / ICASSP</strong>
-              <span>recent venues and collaborations</span>
-            </li>
-            <li>
-              <strong>2025</strong>
-              <span>actively publishing on watermarking for modern generative models</span>
-            </li>
+          <p class="sidebar-title">Lecturer</p>
+          <p class="sidebar-affiliation">Huaqiao University</p>
+
+          <ul class="sidebar-tags">
+            <li>AI Security</li>
+            <li>Model Watermarking</li>
+            <li>Deepfake Detection</li>
+            <li>Multimedia Forensics</li>
           </ul>
-        </div>
 
-        <aside class="hero-card reveal delay-1">
-          <div class="portrait-badge">DL</div>
-          <p class="card-kicker">Current Focus</p>
-          <ul class="focus-list">
-            <li>Trustworthy AIGC and model ownership protection</li>
-            <li>Deep model watermarking for vision and audio generation</li>
-            <li>Deepfake detection and adversarial machine learning</li>
-            <li>Applied cryptanalysis and multimedia security</li>
-          </ul>
-          <div class="mini-note">
-            <span class="mini-note-label">Last refresh</span>
-            <strong>April 23, 2026</strong>
+          <div class="sidebar-actions">
+            <a class="sidebar-button" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Google Scholar</a>
+            <a class="sidebar-button secondary" href="https://github.com/MrDongdongLin">GitHub</a>
           </div>
-        </aside>
-      </section>
 
-      <section id="about" class="section two-column">
-        <div class="section-heading reveal">
-          <p class="eyebrow">About</p>
-          <h2>Profile</h2>
+          <div class="sidebar-links" id="contact">
+            <a href="https://faculty.hqu.edu.cn/ddlin/en/index.htm">Faculty Page</a>
+            <a href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Scholar</a>
+            <a href="https://github.com/MrDongdongLin">Code</a>
+          </div>
+
+          <p class="sidebar-update">Last updated: April 23, 2026</p>
         </div>
-        <div class="section-panel reveal delay-1">
-          <p>
-            Dongdong Lin is a lecturer at Huaqiao University. He received his B.Sc. and M.Sc.
-            degrees from Xiangtan University, and completed his Ph.D. at Shenzhen University.
-            From 2020 to 2022, he was a visiting student at the University of Siena, Italy.
-          </p>
-          <p>
-            His research interests include AI security, cyberspace security, multimedia
-            forensics, deep model watermarking, deepfake detection, adversarial attacks,
-            and cryptanalysis. He has published in venues such as
-            <strong>IEEE TDSC</strong>, <strong>ACM MM</strong>,
-            <strong>ICASSP</strong>, <strong>Pattern Recognition</strong>, and
-            <strong>IJCB</strong>.
-          </p>
-          <div class="info-grid">
-            <div>
-              <span class="label">Affiliation</span>
-              <strong>Huaqiao University</strong>
-            </div>
-            <div>
-              <span class="label">Research Area</span>
-              <strong>AI Security / Cybersecurity</strong>
-            </div>
-            <div>
-              <span class="label">Recent Recognition</span>
-              <strong>Hunan Natural Science Award (Second Prize)</strong>
-            </div>
-            <div>
-              <span class="label">Recruiting</span>
-              <strong>M.Eng. students in Network &amp; Information Security</strong>
+      </aside>
+
+      <section class="content">
+        <section id="bio" class="content-section">
+          <div class="section-head">
+            <h2>Bio</h2>
+          </div>
+
+          <div class="bio-card">
+            <p>
+              Dongdong Lin is a lecturer at <strong>Huaqiao University</strong>. He received his
+              B.Sc. and M.Sc. degrees from <strong>Xiangtan University</strong>, and completed
+              his Ph.D. at <strong>Shenzhen University</strong>. From 2020 to 2022, he was a
+              visiting student at the <strong>University of Siena</strong>, Italy.
+            </p>
+            <p>
+              His research focuses on <strong>AI security</strong>, <strong>deep model watermarking</strong>,
+              <strong>deepfake detection</strong>, <strong>adversarial robustness</strong>, and
+              <strong>multimedia forensics</strong>. Recent work spans watermarking for
+              diffusion models, speech synthesis systems, and ownership verification of
+              generative models.
+            </p>
+          </div>
+
+          <div class="bio-note">
+            He is currently interested in trustworthy AIGC, robust model ownership protection,
+            and security problems around modern multimodal generative systems.
+          </div>
+        </section>
+
+        <section id="news" class="content-section">
+          <div class="section-head">
+            <h2>News</h2>
+          </div>
+          <div id="news-list" class="news-list"></div>
+        </section>
+
+        <section id="publications" class="content-section">
+          <div class="section-head">
+            <h2>Publications</h2>
+            <div class="publication-toolbar">
+              <button class="chip active" data-filter="all" type="button">All</button>
+              <button class="chip" data-filter="2025" type="button">2025</button>
+              <button class="chip" data-filter="2024" type="button">2024</button>
+              <button class="chip" data-filter="selected" type="button">Selected</button>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="research" class="section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Research</p>
-          <h2>Topics I Work On</h2>
-        </div>
-        <div class="card-grid">
-          <article class="topic-card reveal">
-            <h3>Model Watermarking</h3>
-            <p>Ownership verification and copyright protection for GANs, diffusion models, and speech generation systems.</p>
-          </article>
-          <article class="topic-card reveal delay-1">
-            <h3>Deepfake Forensics</h3>
-            <p>Detection methods that leverage spatial, temporal, and artifact-level cues to improve robustness.</p>
-          </article>
-          <article class="topic-card reveal delay-2">
-            <h3>Adversarial Robustness</h3>
-            <p>Attack and defense strategies for modern perception systems, especially under transferability and fine-tuning threats.</p>
-          </article>
-          <article class="topic-card reveal delay-3">
-            <h3>Cryptanalysis</h3>
-            <p>Security analysis of image ciphers and learning-based approaches to cipher distinguishers and attacks.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="publications" class="section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Publications</p>
-          <h2>Selected &amp; Recent Papers</h2>
-          <p class="section-note">
-            A curated list based on your current public scholarly records and recent homepage / faculty listings.
+          <p class="publication-note">
+            Representative papers. My name is highlighted in bold. The layout also supports
+            per-paper framework figures, PDF links, and project links.
           </p>
-        </div>
-        <div class="publication-toolbar reveal delay-1">
-          <button class="chip active" data-filter="all" type="button">All</button>
-          <button class="chip" data-filter="2025" type="button">2025</button>
-          <button class="chip" data-filter="2024" type="button">2024</button>
-          <button class="chip" data-filter="selected" type="button">Highlights</button>
-        </div>
-        <div id="publication-list" class="publication-list"></div>
-      </section>
-
-      <section id="news" class="section split-section">
-        <div>
-          <div class="section-heading reveal">
-            <p class="eyebrow">News</p>
-            <h2>Recent Updates</h2>
-          </div>
-          <div id="news-list" class="timeline"></div>
-        </div>
-
-        <aside class="highlight-panel reveal delay-1">
-          <p class="eyebrow">Highlights</p>
-          <h3>Research Snapshot</h3>
-          <ul class="highlight-list">
-            <li>Recent work expands watermarking from visual generators to latent diffusion and speech synthesis models.</li>
-            <li>Current publication profile connects AI-generated media security with robustness against fine-tuning and post-processing attacks.</li>
-            <li>Homepage is designed for long-term maintenance: update one data file and the publication list refreshes automatically.</li>
-          </ul>
-        </aside>
-      </section>
-
-      <section id="contact" class="section contact-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Contact</p>
-          <h2>Links</h2>
-        </div>
-        <div class="contact-grid">
-          <a class="contact-card reveal" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">
-            <span class="contact-label">Google Scholar</span>
-            <strong>Publication profile</strong>
-          </a>
-          <a class="contact-card reveal delay-1" href="https://github.com/MrDongdongLin">
-            <span class="contact-label">GitHub</span>
-            <strong>Code and projects</strong>
-          </a>
-          <a class="contact-card reveal delay-2" href="https://faculty.hqu.edu.cn/ddlin/en/index.htm">
-            <span class="contact-label">Faculty Page</span>
-            <strong>Institutional profile</strong>
-          </a>
-        </div>
+          <div id="publication-list" class="publication-list"></div>
+        </section>
       </section>
     </main>
   </div>
