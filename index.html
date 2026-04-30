@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dongdong Lin's academic homepage with biography, news, and publications in AI security and multimedia forensics.">
+  <meta name="description" content="Dongdong Lin's academic homepage with biography, news, preprints, and publications.">
   <title>Dongdong Lin | Academic Homepage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -26,8 +26,8 @@
       <nav id="site-nav" class="topbar-nav">
         <a href="#bio">Bio</a>
         <a href="#news">News</a>
+        <a href="#preprints">Preprints</a>
         <a href="#publications">Publications</a>
-        <a href="#contact">Contact</a>
       </nav>
     </header>
 
@@ -44,25 +44,25 @@
           <p class="sidebar-title">Lecturer</p>
           <p class="sidebar-affiliation">Huaqiao University</p>
 
-          <ul class="sidebar-tags">
-            <li>AI Security</li>
-            <li>Model Watermarking</li>
-            <li>Deepfake Detection</li>
-            <li>Multimedia Forensics</li>
-          </ul>
+          <div class="sidebar-tags">
+            <span class="sidebar-tag">AI Security</span>
+            <span class="sidebar-tag">Model Watermarking</span>
+            <span class="sidebar-tag">Deepfake Detection</span>
+            <span class="sidebar-tag">Adversarial Robustness</span>
+            <span class="sidebar-tag">Speech Watermarking</span>
+            <span class="sidebar-tag">Multimedia Forensics</span>
+          </div>
 
           <div class="sidebar-actions">
             <a class="sidebar-button" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Google Scholar</a>
             <a class="sidebar-button secondary" href="https://github.com/MrDongdongLin">GitHub</a>
           </div>
 
-          <div class="sidebar-links" id="contact">
-            <a href="https://faculty.hqu.edu.cn/ddlin/en/index.htm">Faculty Page</a>
+          <div class="sidebar-links">
+            <a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm">Faculty Page</a>
             <a href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Scholar</a>
             <a href="https://github.com/MrDongdongLin">Code</a>
           </div>
-
-          <p class="sidebar-update">Last updated: April 23, 2026</p>
         </div>
       </aside>
 
@@ -71,26 +71,11 @@
           <div class="section-head">
             <h2>Bio</h2>
           </div>
-
           <div class="bio-card">
-            <p>
-              Dongdong Lin is a lecturer at <strong>Huaqiao University</strong>. He received his
-              B.Sc. and M.Sc. degrees from <strong>Xiangtan University</strong>, and completed
-              his Ph.D. at <strong>Shenzhen University</strong>. From 2020 to 2022, he was a
-              visiting student at the <strong>University of Siena</strong>, Italy.
-            </p>
-            <p>
-              His research focuses on <strong>AI security</strong>, <strong>deep model watermarking</strong>,
-              <strong>deepfake detection</strong>, <strong>adversarial robustness</strong>, and
-              <strong>multimedia forensics</strong>. Recent work spans watermarking for
-              diffusion models, speech synthesis systems, and ownership verification of
-              generative models.
-            </p>
-          </div>
-
-          <div class="bio-note">
-            He is currently interested in trustworthy AIGC, robust model ownership protection,
-            and security problems around modern multimodal generative systems.
+            <p>Dongdong Lin is currently a lecturer at <strong><a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm">Huaqiao University</a></strong>, working with <strong><a href="https://faculty.hqu.edu.cn/htian/">Hui Tian</a></strong>. He received his B.Sc. and M.Sc. degrees from Xiangtan University, supervised by <strong><a href="http://www.chengqingli.com/">Chengqing Li</a></strong>, and completed his Ph.D. at Shenzhen University, supervised by <strong><a href="https://scholar.google.com.hk/citations?user=g0iR9IkAAAAJ&hl=zh-CN">Bin Li</a></strong>. From 2020 to 2022, he was a visiting student at the University of Siena, Italy, working with <strong><a href="https://scholar.google.com.hk/citations?user=ntRScY8AAAAJ&hl=zh-CN">Mauro Barni</a></strong> and <strong><a href="https://scholar.google.com.hk/citations?user=xpNEfq4AAAAJ&hl=zh-CN">Benedetta Tondi</a></strong>.</p>
+            <p>His research focuses on AI security, deep model watermarking, deepfake detection, adversarial robustness, and multimedia forensics. Recent work spans watermarking for diffusion models, speech synthesis systems, and ownership verification of generative models.</p>
+            <p>He is currently interested in trustworthy AIGC, robust model ownership protection, and security problems around modern multimodal generative systems.</p>
+            <p>He serves as a CCF Professional Member, a CSIG Member, and an IEEE Member. He also serves as a reviewer for IEEE T-IFS/DSC/ASLP, SP, CVPR, ACM MM, and ICASSP.</p>
           </div>
         </section>
 
@@ -98,24 +83,354 @@
           <div class="section-head">
             <h2>News</h2>
           </div>
-          <div id="news-list" class="news-list"></div>
+          <div class="news-list">
+            <article class="news-item">
+              <div class="news-date">2025.04</div>
+              <div class="news-text"><span class="icon-prefix">&#127881;</span>One paper is accepted to ICASSP 2025.</div>
+            </article>
+            <article class="news-item">
+              <div class="news-date">2024.10</div>
+              <div class="news-text"><span class="icon-prefix">&#127881;</span>One paper is accepted to ACM MM.</div>
+            </article>
+            <article class="news-item">
+              <div class="news-date">2024.07</div>
+              <div class="news-text"><span class="icon-prefix">&#127881;</span>One paper is accepted to TDSC.</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="preprints" class="content-section">
+          <div class="section-head">
+            <h2>Preprints</h2>
+          </div>
+          <div class="publication-list">
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Diffusion Guided Defense</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://arxiv.org/abs/2604.01635">Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">Deepfake Detection</span></p>
+                  <p class="paper-authors">Yue Li, Linying Xue, Kaiqing Lin, Hanyu Quan, <span class="author-self">Dongdong Lin</span>, Hui Tian, Hongxia Wang, Bin Wang</p>
+                  <p class="paper-meta">Preprint</p>
+                  <div class="paper-links">
+                    <a href="https://arxiv.org/pdf/2604.01635">PDF</a>
+                    <a href="https://arxiv.org/abs/2604.01635">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pre-1">Cite</button>
+                  </div>
+                  <pre id="cite-pre-1" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-1">Copy</button>@article{li2026diffusion,
+  title={Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations},
+  author={Li, Yue and Xue, Linying and Lin, Kaiqing and Quan, Hanyu and Lin, Dongdong and Tian, Hui and Wang, Hongxia and Wang, Bin},
+  journal={arXiv preprint arXiv:2604.01635},
+  year={2026}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Imperceptible Defense</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://arxiv.org/abs/2510.01699">Towards Imperceptible Adversarial Defense: A Gradient-Driven Shield against Facial Manipulations</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">Deepfake Detection</span></p>
+                  <p class="paper-authors">Yue Li, Linying Xue, <span class="author-self">Dongdong Lin</span>, Qiushi Li, Hui Tian, Hongxia Wang</p>
+                  <p class="paper-meta">Preprint</p>
+                  <div class="paper-links">
+                    <a href="https://arxiv.org/pdf/2510.01699">PDF</a>
+                    <a href="https://arxiv.org/abs/2510.01699">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pre-2">Cite</button>
+                  </div>
+                  <pre id="cite-pre-2" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-2">Copy</button>@article{li2025towards,
+  title={Towards Imperceptible Adversarial Defense: A Gradient-Driven Shield against Facial Manipulations},
+  author={Li, Yue and Xue, Linying and Lin, Dongdong and Li, Qiushi and Tian, Hui and Wang, Hongxia},
+  journal={arXiv preprint arXiv:2510.01699},
+  year={2025}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Latent Diffusion Watermarking</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://arxiv.org/abs/2410.20202">An Efficient Watermarking Method for Latent Diffusion Models via Low-Rank Adaptation and Dynamic Loss Weighting</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Model Watermarking</span><span class="paper-tag">Text-to-image Model</span><span class="paper-tag">Low-Rank Adaptation</span></p>
+                  <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Yue Li, Benedetta Tondi, Kaiqing Lin, Bin Li, Mauro Barni</p>
+                  <p class="paper-meta">Preprint</p>
+                  <div class="paper-links">
+                    <a href="https://arxiv.org/pdf/2410.20202">PDF</a>
+                    <a href="https://arxiv.org/abs/2410.20202">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pre-3">Cite</button>
+                  </div>
+                  <pre id="cite-pre-3" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-3">Copy</button>@article{lin2024efficient,
+  title={An efficient watermarking method for latent diffusion models via low-rank adaptation},
+  author={Lin, Dongdong and Li, Yue and Tondi, Benedetta and Li, Bin and Barni, Mauro},
+  journal={arXiv preprint arXiv:2410.20202},
+  year={2024}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <div class="more-wrap">
+              <button class="more-toggle" type="button" data-target="more-preprints">--more--</button>
+            </div>
+
+            <div id="more-preprints" class="paper-hidden-group">
+              <article class="paper-item">
+                <div class="paper-main">
+                  <div class="paper-figure"><span class="paper-figure-label">Trinity Attribution</span></div>
+                  <div class="paper-body">
+                    <h3 class="paper-title"><a href="https://arxiv.org/abs/2504.20532">TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Attribution</a></h3>
+                    <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
+                    <p class="paper-authors">Yue Li, Weizhi Liu, <span class="author-self">Dongdong Lin</span></p>
+                    <p class="paper-meta">Preprint</p>
+                    <div class="paper-links">
+                      <a href="https://arxiv.org/pdf/2504.20532">PDF</a>
+                      <a href="https://arxiv.org/abs/2504.20532">Paper</a>
+                      <button class="cite-toggle" type="button" data-target="cite-pre-4">Cite</button>
+                    </div>
+                    <pre id="cite-pre-4" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-4">Copy</button>@article{li2025trinimark,
+  title={TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Attribution},
+  author={Li, Yue and Liu, Weizhi and Lin, Dongdong},
+  journal={arXiv preprint arXiv:2504.20532},
+  year={2025}
+}</pre>
+                  </div>
+                </div>
+              </article>
+
+              <article class="paper-item">
+                <div class="paper-main">
+                  <div class="paper-figure"><span class="paper-figure-label">SOLIDO</span></div>
+                  <div class="paper-body">
+                    <h3 class="paper-title"><a href="https://arxiv.org/abs/2504.15035">SOLIDO: A Robust Watermarking Method for Speech Synthesis via Low-Rank Adaptation</a></h3>
+                    <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
+                    <p class="paper-authors">Yue Li, Weizhi Liu, <span class="author-self">Dongdong Lin</span></p>
+                    <p class="paper-meta">Preprint</p>
+                    <div class="paper-links">
+                      <a href="https://arxiv.org/pdf/2504.15035">PDF</a>
+                      <a href="https://arxiv.org/abs/2504.15035">Paper</a>
+                      <button class="cite-toggle" type="button" data-target="cite-pre-5">Cite</button>
+                    </div>
+                    <pre id="cite-pre-5" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-5">Copy</button>@article{li2025solido,
+  title={SOLIDO: A Robust Watermarking Method for Speech Synthesis via Low-Rank Adaptation},
+  author={Li, Yue and Liu, Weizhi and Lin, Dongdong},
+  journal={arXiv preprint arXiv:2504.15035},
+  year={2025}
+}</pre>
+                  </div>
+                </div>
+              </article>
+
+              <article class="paper-item">
+                <div class="paper-main">
+                  <div class="paper-figure"><span class="paper-figure-label">Protecting Your Voice</span></div>
+                  <div class="paper-body">
+                    <h3 class="paper-title"><a href="https://arxiv.org/abs/2504.14832">Protecting Your Voice: Temporal-aware Robust Watermarking</a></h3>
+                    <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
+                    <p class="paper-authors">Yue Li, Weizhi Liu, <span class="author-self">Dongdong Lin</span>, Hui Tian, Hongxia Wang</p>
+                    <p class="paper-meta">Preprint</p>
+                    <div class="paper-links">
+                      <a href="https://arxiv.org/pdf/2504.14832">PDF</a>
+                      <a href="https://arxiv.org/abs/2504.14832">Paper</a>
+                      <button class="cite-toggle" type="button" data-target="cite-pre-6">Cite</button>
+                    </div>
+                    <pre id="cite-pre-6" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pre-6">Copy</button>@article{li2025protecting,
+  title={Protecting Your Voice: Temporal-aware Robust Watermarking},
+  author={Li, Yue and Liu, Weizhi and Lin, Dongdong and Tian, Hui and Wang, Hongxia},
+  journal={arXiv preprint arXiv:2504.14832},
+  year={2025}
+}</pre>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
         </section>
 
         <section id="publications" class="content-section">
           <div class="section-head">
             <h2>Publications</h2>
-            <div class="publication-toolbar">
-              <button class="chip active" data-filter="all" type="button">All</button>
-              <button class="chip" data-filter="2025" type="button">2025</button>
-              <button class="chip" data-filter="2024" type="button">2024</button>
-              <button class="chip" data-filter="selected" type="button">Selected</button>
-            </div>
           </div>
-          <p class="publication-note">
-            Representative papers. My name is highlighted in bold. The layout also supports
-            per-paper framework figures, PDF links, and project links.
-          </p>
-          <div id="publication-list" class="publication-list"></div>
+          <div class="publication-list">
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Fine Minima Optimizer</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://ieeexplore.ieee.org/abstract/document/10890107">Exploiting Robust Model Watermarking Against the Model Fine-Tuning Attack via Flat Minima Aware Optimizers</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Model Watermarking</span><span class="paper-tag">Watermark Robustness</span></p>
+                  <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Yue Li, Bin Li, Jiwu Huang</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10890107">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-1">Cite</button>
+                  </div>
+                  <pre id="cite-pub-1" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-1">Copy</button>@inproceedings{10890107,
+  author={Lin, Dongdong and Li, Yue and Li, Bin and Huang, Jiwu},
+  booktitle={ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  title={Exploiting Robust Model Watermarking Against the Model Fine-Tuning Attack via Flat Minima Aware Optimizers},
+  year={2025},
+  pages={1-5},
+  doi={10.1109/ICASSP49660.2025.10890107}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Audio Diffusion Watermarking</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://dl.acm.org/doi/abs/10.1145/3664647.3680596">GROOT: Generating Robust Watermark for Diffusion-Model-Based Audio Synthesis</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Audio Watermarking</span><span class="paper-tag">ACM MM 2024</span><span class="paper-tag">CCF-A</span></p>
+                  <p class="paper-authors">Weizhi Liu, Yue Li, <span class="author-self">Dongdong Lin</span>, Hui Tian, Haizhou Li</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://dl.acm.org/doi/abs/10.1145/3664647.3680596">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-2">Cite</button>
+                  </div>
+                  <pre id="cite-pub-2" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-2">Copy</button>@inproceedings{10.1145/3664647.3680596,
+author = {Liu, Weizhi and Li, Yue and Lin, Dongdong and Tian, Hui and Li, Haizhou},
+title = {GROOT: Generating Robust Watermark for Diffusion-Model-Based Audio Synthesis},
+year = {2024},
+doi = {10.1145/3664647.3680596},
+booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia},
+pages = {3294-3302},
+numpages = {9}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">CycleGAN Ownership</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://ieeexplore.ieee.org/abstract/document/10591362">A CycleGAN Watermarking Method for Ownership Verification</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">GAN Watermarking</span><span class="paper-tag">Ownership Verification</span><span class="paper-tag">TDSC 2025</span><span class="paper-tag">CCF-A</span></p>
+                  <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Benedetta Tondi, Bin Li, Mauro Barni</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10591362">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-3">Cite</button>
+                  </div>
+                  <pre id="cite-pub-3" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-3">Copy</button>@article{10591362,
+  author={Lin, Dongdong and Tondi, Benedetta and Li, Bin and Barni, Mauro},
+  journal={IEEE Transactions on Dependable and Secure Computing},
+  title={A CycleGAN Watermarking Method for Ownership Verification},
+  year={2025},
+  volume={22},
+  number={2},
+  pages={1040-1054},
+  doi={10.1109/TDSC.2024.3424900}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Bi-Granularity Artifacts</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://www.sciencedirect.com/science/article/pii/S0031320322006586">Watching the big artifacts: Exposing deepfake videos via bi-granularity artifacts</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Deepfake Detection</span><span class="paper-tag">PR 2023</span><span class="paper-tag">CCF-B</span></p>
+                  <p class="paper-authors">Han Chen, Yuezun Li, <span class="author-self">Dongdong Lin</span>, Bin Li, Junqiang Wu</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://www.sciencedirect.com/science/article/pii/S0031320322006586">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-4">Cite</button>
+                  </div>
+                  <pre id="cite-pub-4" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-4">Copy</button>@article{CHEN2023109179,
+title = {Watching the BiG artifacts: Exposing DeepFake videos via Bi-granularity artifacts},
+journal = {Pattern Recognition},
+volume = {135},
+pages = {109179},
+year = {2023},
+doi = {https://doi.org/10.1016/j.patcog.2022.109179},
+author = {Han Chen and Yuezun Li and Dongdong Lin and Bin Li and Junqiang Wu}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Temporal Transferability</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://ieeexplore.ieee.org/abstract/document/10007959">Exploiting temporal information to prevent the transferability of adversarial examples against deep fake detectors</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">IJCB 2022</span><span class="paper-tag">CCF-C</span></p>
+                  <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Benedetta Tondi, Bin Li, Mauro Barni</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10007959">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-5">Cite</button>
+                  </div>
+                  <pre id="cite-pub-5" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-5">Copy</button>@inproceedings{10007959,
+  author={Lin, Dongdong and Tondi, Benedetta and Li, Bin and Barni, Mauro},
+  booktitle={2022 IEEE International Joint Conference on Biometrics (IJCB)},
+  title={Exploiting temporal information to prevent the transferability of adversarial examples against deep fake detectors},
+  year={2022},
+  pages={1-8},
+  doi={10.1109/IJCB54206.2022.10007959}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Cryptanalysis</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://ieeexplore.ieee.org/abstract/document/8495009">Cryptanalyzing an image encryption algorithm based on autoblocking and electrocardiography</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Cryptanalysis</span><span class="paper-tag">&#127942; ESI Highly Cited Paper</span></p>
+                  <p class="paper-authors">Chengqing Li, <span class="author-self">Dongdong Lin</span>, Jinhu Lu, Feng Hao</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://ieeexplore.ieee.org/abstract/document/8495009">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-6">Cite</button>
+                  </div>
+                  <pre id="cite-pub-6" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-6">Copy</button>@article{8495009,
+  author={Li, Chengqing and Lin, Dongdong and Lu, Jinhu and Hao, Feng},
+  journal={IEEE MultiMedia},
+  title={Cryptanalyzing an Image Encryption Algorithm Based on Autoblocking and Electrocardiography},
+  year={2018},
+  volume={25},
+  number={4},
+  pages={46-56},
+  doi={10.1109/MMUL.2018.2873472}
+}</pre>
+                </div>
+              </div>
+            </article>
+
+            <article class="paper-item">
+              <div class="paper-main">
+                <div class="paper-figure"><span class="paper-figure-label">Pixel Bits Cipher</span></div>
+                <div class="paper-body">
+                  <h3 class="paper-title"><a href="https://ieeexplore.ieee.org/abstract/document/7999153">Cryptanalyzing an image-scrambling encryption algorithm of pixel bits</a></h3>
+                  <p class="paper-tags"><span class="paper-tag">Cryptanalysis</span><span class="paper-tag">&#127942; ESI Highly Cited Paper</span></p>
+                  <p class="paper-authors">Chengqing Li, <span class="author-self">Dongdong Lin</span>, Jinhu Lu</p>
+                  <p class="paper-meta">Publication</p>
+                  <div class="paper-links">
+                    <a href="https://ieeexplore.ieee.org/abstract/document/7999153">Paper</a>
+                    <button class="cite-toggle" type="button" data-target="cite-pub-7">Cite</button>
+                  </div>
+                  <pre id="cite-pub-7" class="cite-block"><button class="copy-cite" type="button" data-target="cite-pub-7">Copy</button>@article{7999153,
+  author={Li, Chengqing and Lin, Dongdong and Lu, Jinhu},
+  journal={IEEE MultiMedia},
+  title={Cryptanalyzing an Image-Scrambling Encryption Algorithm of Pixel Bits},
+  year={2017},
+  volume={24},
+  number={3},
+  pages={64-71},
+  doi={10.1109/MMUL.2017.3051512}
+}</pre>
+                </div>
+              </div>
+            </article>
+          </div>
         </section>
       </section>
     </main>
