@@ -46,20 +46,6 @@ Yue Li, Linying Xue, **Dongdong Lin**, Qiushi Li, Hui Tian, Hongxia Wang
   year={2025}
 }
 
-[An Efficient Watermarking Method for Latent Diffusion Models via Low-Rank Adaptation and Dynamic Loss Weighting](https://arxiv.org/abs/2410.20202)
-
-TAG: #Model Watermarking, #Text-to-image Model, #Low-Rank Adaptation
-
-**Dongdong Lin**, Yue Li, Benedetta Tondi, Kaiqing Lin, Bin Li, Mauro Barni
-
-- Cite
-@article{lin2024efficient,
-  title={An efficient watermarking method for latent diffusion models via low-rank adaptation},
-  author={Lin, Dongdong and Li, Yue and Tondi, Benedetta and Li, Bin and Barni, Mauro},
-  journal={arXiv preprint arXiv:2410.20202},
-  year={2024}
-}
-
 --------- More ---------
 
 [TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Attribution](https://arxiv.org/abs/2504.20532)
@@ -106,9 +92,30 @@ Yue Li, Weizhi Liu, **Dongdong Lin**, Hui Tian, Hongxia Wang
 
 ## Publications
 
+[An Efficient Watermarking Method for Latent Diffusion Models via Low-Rank Adaptation and Dynamic Loss Weighting](https://www.sciencedirect.com/science/article/abs/pii/S0957417426020816)
+
+TAG: #Model Watermarking, #Text-to-image Model, #Low-Rank Adaptation
+
+Publication: Expert Systems with Applications
+
+**Dongdong Lin**, Yue Li, Benedetta Tondi, Kaiqing Lin, Bin Li, Mauro Barni
+
+- Cite
+@article{LIN2026133172,
+  title={An efficient watermarking method for latent diffusion models via low-rank adaptation},
+  author={Lin, Dongdong and Li, Yue and Tondi, Benedetta and Li, Bin and Barni, Mauro},
+  journal = {Expert Systems with Applications},
+  volume = {331},
+  pages = {133172},
+  year = {2026},
+  doi = {https://doi.org/10.1016/j.eswa.2026.133172}
+}
+
 [Exploiting Robust Model Watermarking Against the Model Fine-Tuning Attack via Flat Minima Aware Optimizers](https://ieeexplore.ieee.org/abstract/document/10890107)
 
-TAG: #Model Watermarking, #Watermark Robustness
+TAG: #Model Watermarking, #Watermark Robustness, #CCF-B
+
+Publication: 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
 
 **Dongdong Lin**, Yue Li, Bin Li, Jiwu Huang
 
@@ -128,6 +135,8 @@ TAG: #Model Watermarking, #Watermark Robustness
 
 TAG: #Audio Watermarking, #ACMMM2024, #CCF-A
 
+Publication: Proceedings of the 32nd ACM International Conference on Multimedia (ACMMM)
+
 Weizhi Liu, Yue Li, **Dongdong Lin**, Hui Tian, Haizhou Li
 
 - Cite
@@ -144,6 +153,8 @@ numpages = {9},
 [A CycleGAN Watermarking Method for Ownership Verification](https://ieeexplore.ieee.org/abstract/document/10591362)
 
 TAG: #GAN Watermarking, #Ownership Verification, #TDSC2025, #CCF-A
+
+Publication: IEEE Transactions on Dependable and Secure Computing
 
 **Dongdong Lin**, Benedetta Tondi, Bin Li, Mauro Barni
 
@@ -163,6 +174,8 @@ TAG: #GAN Watermarking, #Ownership Verification, #TDSC2025, #CCF-A
 
 TAG: #Deepfake Detection, #PR2023, #CCF-B
 
+Publication: Pattern Recognition
+
 Han Chen, Yuezun Li, **Dongdong Lin**, Bin Li, Junqiang Wu
 
 - Cite
@@ -180,6 +193,8 @@ author = {Han Chen and Yuezun Li and Dongdong Lin and Bin Li and Junqiang Wu},
 [Exploiting temporal information to prevent the transferability of adversarial examples against deep fake detectors](https://ieeexplore.ieee.org/abstract/document/10007959)
 
 TAG: #Adversarial Example, #IJCB2022, #CCF-C
+
+Publication: 2022 IEEE International Joint Conference on Biometrics (IJCB)
 
 **Dongdong Lin**, Benedetta Tondi, Bin Li, Mauro Barni
 
@@ -199,6 +214,8 @@ TAG: #Adversarial Example, #IJCB2022, #CCF-C
 
 TAG: #Cryptanalysis, #🏆ESI Highly Cited Paper
 
+Publication: IEEE MultiMedia
+
 Chengqing Li, **Dongdong Lin**, Jinhu Lü, Feng Hao
 
 - Cite
@@ -216,6 +233,8 @@ Chengqing Li, **Dongdong Lin**, Jinhu Lü, Feng Hao
 [Cryptanalyzing an image-scrambling encryption algorithm of pixel bits](https://ieeexplore.ieee.org/abstract/document/7999153)
 
 TAG: #Cryptanalysis, #🏆ESI Highly Cited Paper
+
+Publication: IEEE MultiMedia
 
 Chengqing Li, **Dongdong Lin**, Jinhu Lü
 
