@@ -12,6 +12,7 @@ I serve as a CCF Professional Member, a CSIG Member, and an IEEE Member. I serve
 
 ## News
 
+- 2026.06 🎉 One paper is accepted to ESWA
 - 2025.04 🎉 One paper is accepted to ICASSP 2025
 - 2024.10 🎉 One paper is accepted to ACMMM
 - 2024.07 🎉 One paper is accepted to TDSC
