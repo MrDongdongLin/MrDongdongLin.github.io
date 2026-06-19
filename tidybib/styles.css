@@ -1,219 +1,445 @@
+:root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-muted: #f7f8fa;
+    --border: #d8dee8;
+    --border-strong: #c4ccd8;
+    --text: #1f2937;
+    --muted: #667085;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-soft: #e8f0ff;
+    --danger: #b42318;
+    --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    --radius: 8px;
+    --mono: Consolas, "SFMono-Regular", "Liberation Mono", Menlo, monospace;
+    --sans: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    height: 100%;
+}
+
+body {
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    height: 100vh; /* Make the body take up the full height of the viewport */
+    min-width: 320px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    letter-spacing: 0;
 }
 
-.header {
-    width: 100%;
-    background-color: #007BFF;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-    margin-bottom: 20px;
+button,
+textarea,
+input {
+    font: inherit;
 }
 
-.container {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1; /* Allow the container to grow and take up available space */
+button {
+    border: 0;
 }
 
-.button-bar {
+.app-shell {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    gap: 12px;
+    width: min(1480px, calc(100vw - 32px));
+    height: calc(100vh - 32px);
+    margin: 16px auto;
+}
+
+.app-header,
+.toolbar,
+.status-panel,
+.editor-panel {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.app-header {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 72px;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.brand-mark {
+    display: grid;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.1;
+}
+
+.brand p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 58px;
     padding: 10px;
-    background-color: #f4f4f9;
-    border-bottom: 1px solid #ddd;
-    width: 100%;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: var(--radius);
+    overflow-x: auto;
 }
 
-.button-bar button {
-    background-color: #007BFF;
-    border: none;
-    padding: 12px 24px;
-    margin-right: 10px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-}
-
-.button-bar button:hover {
-    background-color: #0056b3;
-}
-
-.checkbox-container {
-    display: flex;
+.primary-button,
+.secondary-button,
+.ghost-button,
+.copy-button {
+    display: inline-flex;
     align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.primary-button {
+    background: var(--accent);
+    color: #fff;
+}
+
+.primary-button:hover {
+    background: var(--accent-hover);
+}
+
+.secondary-button,
+.ghost-button,
+.copy-button {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+}
+
+.secondary-button:hover,
+.ghost-button:hover,
+.copy-button:hover {
+    background: var(--surface-muted);
+}
+
+.ghost-button {
+    margin-left: auto;
+}
+
+.toolbar .ghost-button {
+    margin-left: 0;
+}
+
+.switch-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 36px;
+    margin-left: 4px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface-muted);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .styled-checkbox {
-    appearance: none;
-    background-color: #fafafa;
-    border: 1px solid #cacece;
-    padding: 9px;
-    border-radius: 3px;
-    display: inline-block;
-    position: relative;
-    margin-right: 5px;
-}
-
-.styled-checkbox:checked {
-    background-color: #007BFF;
-    border: 1px solid #007BFF;
-}
-
-.styled-checkbox:checked:after {
-    content: '\2713';
-    font-size: 14px;
     position: absolute;
-    top: 0;
-    left: 3px;
-    color: white;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
 }
 
-.checkbox-container label {
-    font-size: 16px;
-    cursor: pointer;
+.switch-track {
+    position: relative;
+    width: 34px;
+    height: 20px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    transition: background-color 0.16s ease;
+}
+
+.switch-track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.2);
+    transition: transform 0.16s ease;
+}
+
+.styled-checkbox:checked + .switch-track {
+    background: var(--accent);
+}
+
+.styled-checkbox:checked + .switch-track::after {
+    transform: translateX(14px);
+}
+
+.styled-checkbox:focus-visible + .switch-track,
+button:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 2px;
 }
 
 .editor {
-    display: flex;
-    flex-grow: 1;
-    width: 100%;
-    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    min-height: 0;
 }
 
-.textarea-container {
-    position: relative;
-    flex: 1;
-    margin: 10px;
+.editor-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.panel-header {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 50px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-muted);
 }
 
 .textarea-label {
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #555;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
-.textarea-container textarea {
-    flex-grow: 1;
+.textarea-frame {
+    position: relative;
+    min-height: 0;
+}
+
+.textarea-frame textarea {
+    display: block;
     width: 100%;
-    box-sizing: border-box;
+    height: 100%;
+    min-height: 360px;
+    padding: 16px;
+    border: 0;
     resize: none;
-    font-family: monospace;
-    white-space: pre;
+    outline: none;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.55;
     overflow: auto;
+    white-space: pre;
+    tab-size: 4;
 }
 
 .highlighted-content {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: auto;
-    white-space: pre-wrap;
-    font-family: monospace;
-    padding: 10px;
-    display: none; /* Initially hidden */
+    display: none;
 }
 
-.copy-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #007BFF;
-    border: none;
-    padding: 8px 12px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    font-size: 14px;
-    z-index: 1; /* Ensure the button stays on top of other elements */
-}
-
-.copy-button:hover {
-    background-color: #0056b3;
+.status-panel {
+    display: grid;
+    grid-template-rows: auto 84px;
+    gap: 6px;
+    padding: 10px 12px 12px;
+    border-radius: var(--radius);
 }
 
 #output-message {
     width: 100%;
-    height: 100px;
-    padding: 20px;
-    border-top: 1px solid #ddd;
-    box-sizing: border-box;
+    height: 84px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
     resize: none;
     outline: none;
-    font-size: 14px;
-    font-family: 'Courier New', Courier, monospace;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background: var(--surface-muted);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.bibtex-keyword {
+    color: #1d4ed8;
+    font-weight: 700;
+}
+
+.bibtex-field {
+    color: #7c3aed;
+    font-weight: 700;
+}
+
+.bibtex-special-char {
+    color: #b45309;
+}
+
+.bibtex-number {
+    color: #047857;
 }
 
 .dark-mode {
-    background-color: #1e1e1e;
-    color: #d4d4d4;
+    --bg: #15171c;
+    --surface: #1f232b;
+    --surface-muted: #252a33;
+    --border: #363d4a;
+    --border-strong: #485061;
+    --text: #e5e7eb;
+    --muted: #aab2c0;
+    --accent: #5b8cff;
+    --accent-hover: #78a1ff;
+    --accent-soft: #18243b;
+    --shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 }
 
-.dark-mode .header {
-    background-color: #333;
+.dark-mode .brand-mark,
+.dark-mode .primary-button {
+    color: #fff;
 }
 
-.dark-mode .button-bar {
-    background-color: #252526;
-    color: #d4d4d4;
-}
-
-.dark-mode .button-bar button {
-    background-color: #3c3c3c;
-    color: #d4d4d4;
-}
-
-.dark-mode .button-bar button:hover {
-    background-color: #555555;
-}
-
-.dark-mode .styled-checkbox {
-    background-color: #3c3c3c;
-    border: 1px solid #555555;
-}
-
-.dark-mode .styled-checkbox:checked {
-    background-color: #007BFF;
-    border: 1px solid #007BFF;
-}
-
-.dark-mode .editor textarea {
-    background-color: #1e1e1e;
-    color: #d4d4d4;
-}
-
-.dark-mode #output-message {
-    background-color: #1e1e1e;
-    color: #d4d4d4;
-}
-
+.dark-mode .secondary-button,
+.dark-mode .ghost-button,
 .dark-mode .copy-button {
-    background-color: #3c3c3c;
-    color: #d4d4d4;
+    background: var(--surface);
+    color: var(--text);
 }
 
+.dark-mode .secondary-button:hover,
+.dark-mode .ghost-button:hover,
 .dark-mode .copy-button:hover {
-    background-color: #555555;
+    background: var(--surface-muted);
+}
+
+.dark-mode .switch-track {
+    background: #4b5563;
+}
+
+.dark-mode #output-message,
+.dark-mode .textarea-frame textarea {
+    caret-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+    .app-shell {
+        width: calc(100vw - 20px);
+        height: auto;
+        min-height: calc(100vh - 20px);
+        margin: 10px auto;
+    }
+
+    .app-header {
+        align-items: flex-start;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+
+    .ghost-button {
+        margin-left: 0;
+    }
+
+    .editor {
+        grid-template-columns: 1fr;
+    }
+
+    .textarea-frame textarea {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 560px) {
+    .app-header,
+    .toolbar,
+    .panel-header {
+        padding-inline: 10px;
+    }
+
+    .brand h1 {
+        font-size: 20px;
+    }
+
+    .brand-mark {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .ghost-button,
+    .copy-button,
+    .switch-control {
+        min-height: 34px;
+        padding-inline: 10px;
+        font-size: 13px;
+    }
+
+    .textarea-frame textarea {
+        min-height: 260px;
+        padding: 12px;
+        font-size: 12px;
+    }
 }

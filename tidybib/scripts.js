@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('save-button');
     const exitButton = document.getElementById('exit-button');
     const applyAbbreviation = document.getElementById('abbreviate-checkbox');
+    const renameCitationIds = document.getElementById('rename-id-checkbox');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const outputMessage = document.getElementById('output-message');
 
@@ -36,7 +37,7 @@ Unique-ID = {WOS:000766209400010},
 }`;
     const initialOutputContent = `@inproceedings{WOS:000766209400010,
   author =       {Li, Yue and Abady, Lydia and Wang, Hongxia and Barni, Mauro},
-  title =        {A feature-map-based large-payload dnn watermarking algorithm},
+  title =        {{A feature-map-based large-payload DNN watermarking algorithm}},
   booktitle =    {Digital Forensics and Watermarking, Iwdw 2021},
   year =         {2022},
   editor =       {Zhao, X and Piva, A and ComesanaAlfaro, P},
@@ -72,10 +73,10 @@ Unique-ID = {WOS:000766209400010},
         try {
             const content = textLeft.value;
             console.log("Original Content:", content);
-            const simplifiedContent = simplifyBib(content, applyAbbreviation.checked);
-            textRight.value = simplifiedContent;
+            const tidyResult = simplifyBib(content, applyAbbreviation.checked, renameCitationIds.checked);
+            textRight.value = tidyResult.content;
             applyHighlighting(); // Apply highlighting
-            outputMessage.value += 'Tidied content.\n';
+            outputMessage.value += formatTidyStatus(tidyResult.stats) + '\n';
         } catch (e) {
             console.error(`Failed to tidy content: ${e.message}`);
             outputMessage.value += `Failed to tidy content: ${e.message}\n`;
@@ -99,7 +100,7 @@ Unique-ID = {WOS:000766209400010},
 
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
     });
 
     document.querySelectorAll('.copy-button').forEach(button => {
@@ -119,33 +120,161 @@ Unique-ID = {WOS:000766209400010},
         });
     });
 
-    function simplifyBib(content, applyAbbreviation) {
-        let bibDatabase;
-        try {
-            bibDatabase = bibtexParse.toJSON(content);
-            console.log("Parsed BibTeX:", bibDatabase);
-        } catch (error) {
-            console.error("Error parsing BibTeX content:", error);
-            throw new Error("Failed to parse BibTeX content");
-        }
-        
-        const fieldOrder = ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'month', 'note', 'keywords', 'source', 'doi'];
-        let formattedBib = '';
-
-        for (const entry of bibDatabase) {
-            const entryTags = {};
-            for (const [key, value] of Object.entries(entry.entryTags || {})) {
-                entryTags[key.toLowerCase()] = value;
+    function simplifyBib(content, applyAbbreviation, shouldRenameCitationIds) {
+        const stats = createTidyStats();
+        const formattedContent = transformBibtexEntries(content, rawEntry => {
+            try {
+                const bibDatabase = bibtexParse.toJSON(rawEntry.macroContext + rawEntry.text);
+                const entry = bibDatabase[bibDatabase.length - 1];
+                if (!entry || !entry.entryTags) {
+                    return rawEntry.text;
+                }
+                recordTidiedEntry(stats, entry.entryType);
+                return formatBibEntry(entry, applyAbbreviation, shouldRenameCitationIds);
+            } catch (error) {
+                console.error("Error parsing BibTeX entry:", error, rawEntry.text);
+                throw new Error("Failed to parse BibTeX content");
             }
-            entry.entryTags = entryTags;
+        });
 
-            if (entry.entryTags.journal) {
-                entry.entryTags.journal = capitalizeTitle(entry.entryTags.journal);
-                if (applyAbbreviation) {
-                    entry.entryTags.journal = abbreviateJournal(entry.entryTags.journal);
+        return {
+            content: formattedContent,
+            stats
+        };
+    }
+
+    function createTidyStats() {
+        return {
+            totalItems: 0,
+            itemTypes: {}
+        };
+    }
+
+    function recordTidiedEntry(stats, entryType) {
+        const normalizedType = (entryType || 'unknown').toLowerCase();
+        stats.totalItems++;
+        stats.itemTypes[normalizedType] = (stats.itemTypes[normalizedType] || 0) + 1;
+    }
+
+    function formatTidyStatus(stats) {
+        const typeSummary = Object.entries(stats.itemTypes)
+            .sort(([typeA, countA], [typeB, countB]) => countB - countA || typeA.localeCompare(typeB))
+            .map(([type, count]) => `${type}: ${count}`)
+            .join(', ');
+
+        if (!stats.totalItems) {
+            return 'Tidied 0 bib items.';
+        }
+
+        return `Tidied ${stats.totalItems} bib item${stats.totalItems === 1 ? '' : 's'}${typeSummary ? ` (${typeSummary})` : ''}.`;
+    }
+
+    function transformBibtexEntries(content, transformEntry) {
+        let output = '';
+        let position = 0;
+        let macroContext = '';
+
+        while (position < content.length) {
+            const blockStart = content.indexOf('@', position);
+            if (blockStart === -1) {
+                output += content.slice(position);
+                break;
+            }
+
+            output += content.slice(position, blockStart);
+
+            const block = readBibtexBlock(content, blockStart);
+            if (!block) {
+                output += content.slice(blockStart);
+                break;
+            }
+
+            if (block.type === 'string') {
+                macroContext += block.text + '\n';
+                output += block.text;
+            } else if (isBibliographyEntryType(block.type)) {
+                output += transformEntry({ text: block.text, macroContext });
+            } else {
+                output += block.text;
+            }
+
+            position = block.end;
+        }
+
+        return output;
+    }
+
+    function readBibtexBlock(content, atIndex) {
+        const directiveMatch = content.slice(atIndex).match(/^@([A-Za-z]+)\s*/);
+        if (!directiveMatch) return null;
+
+        const type = directiveMatch[1].toLowerCase();
+        const openIndex = atIndex + directiveMatch[0].length;
+        const opener = content[openIndex];
+        const closer = opener === '{' ? '}' : opener === '(' ? ')' : null;
+        if (!closer) return null;
+
+        let depth = 0;
+        let escaped = false;
+        let inQuote = false;
+
+        for (let index = openIndex; index < content.length; index++) {
+            const char = content[index];
+
+            if (char === '"' && !escaped) {
+                inQuote = !inQuote;
+            }
+
+            if (!inQuote) {
+                if (char === opener) {
+                    depth++;
+                } else if (char === closer) {
+                    depth--;
+                    if (depth === 0) {
+                        return {
+                            type,
+                            text: content.slice(atIndex, index + 1),
+                            end: index + 1
+                        };
+                    }
                 }
             }
 
+            escaped = char === '\\' && !escaped;
+            if (char !== '\\') {
+                escaped = false;
+            }
+        }
+
+        return null;
+    }
+
+    function isBibliographyEntryType(type) {
+        return !['string', 'comment', 'preamble'].includes(type);
+    }
+
+    function formatBibEntry(entry, applyAbbreviation, shouldRenameCitationIds) {
+        const fieldOrder = ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'month', 'note', 'keywords', 'source', 'doi'];
+        let formattedBib = '';
+
+        const entryTags = {};
+        for (const [key, value] of Object.entries(entry.entryTags || {})) {
+            entryTags[key.toLowerCase()] = value;
+        }
+        entry.entryTags = entryTags;
+
+        if (entry.entryTags.journal) {
+            entry.entryTags.journal = capitalizeTitle(entry.entryTags.journal);
+            if (applyAbbreviation) {
+                entry.entryTags.journal = abbreviateJournal(entry.entryTags.journal);
+            }
+        }
+
+        if (entry.entryTags.title) {
+            entry.entryTags.title = protectTitleCapitalization(normalizeTitleCapitalization(entry.entryTags.title));
+        }
+
+        if (shouldRenameCitationIds) {
             let authorPart = '';
             if (entry.entryTags.author) {
                 const authorNames = entry.entryTags.author.split(',');
@@ -155,21 +284,20 @@ Unique-ID = {WOS:000766209400010},
             const titlePart = entry.entryTags.title ? getTitlePart(entry.entryTags.title) : 'notitle';
 
             entry.citationKey = `${authorPart}:${yearPart}:${titlePart}`;
-
-            formattedBib += `@${entry.entryType}{${entry.citationKey},\n`;
-            fieldOrder.forEach(field => {
-                if (entry.entryTags[field]) {
-                    formattedBib += `  ${field.padEnd(12)} = {${entry.entryTags[field]}},\n`;
-                }
-            });
-            formattedBib = formattedBib.trim().replace(/,$/, '') + '\n}\n\n';
         }
-        return formattedBib.trim();
+
+        formattedBib += `@${entry.entryType}{${entry.citationKey},\n`;
+        fieldOrder.forEach(field => {
+            if (entry.entryTags[field]) {
+                formattedBib += `  ${field.padEnd(12)} = {${entry.entryTags[field]}},\n`;
+            }
+        });
+        return formattedBib.trim().replace(/,$/, '') + '\n}';
     }
 
     function getTitlePart(title) {
         if (!title) return 'notitle';
-        const words = title.split(' ');
+        const words = title.replace(/[{}]/g, '').split(' ');
         const initials = words.slice(0, 5).map(word => {
             let initial = word[0];
             if (initial === '{' && word.length > 1) {
@@ -178,6 +306,87 @@ Unique-ID = {WOS:000766209400010},
             return initial ? initial.toUpperCase() : '';
         });
         return initials.join('');
+    }
+
+    function protectTitleCapitalization(title) {
+        if (!title) return '';
+        const trimmedTitle = title.trim();
+        if (trimmedTitle.startsWith('{') && trimmedTitle.endsWith('}')) {
+            return trimmedTitle;
+        }
+        return `{${trimmedTitle}}`;
+    }
+
+    function normalizeTitleCapitalization(title) {
+        if (!title) return '';
+
+        const acronymWords = new Set([
+            'ACM', 'AI', 'API', 'CNN', 'CPU', 'DCT', 'DNA', 'DNN', 'FFT', 'GAN',
+            'GPU', 'HTTP', 'HTTPS', 'IEEE', 'IOT', 'LSTM', 'ML', 'NLP', 'PDE',
+            'RGB', 'RNA', 'RNN', 'SQL', 'SVD', 'SVM', 'URL', 'XML'
+        ]);
+        let seenFirstWord = false;
+
+        return splitProtectedBibtexText(title).map(part => {
+            if (part.protected) {
+                if (/[A-Za-z]/.test(part.text)) {
+                    seenFirstWord = true;
+                }
+                return part.text;
+            }
+            return part.text.replace(/[A-Za-z]+(?:[-'][A-Za-z]+)*/g, word => {
+                const normalizedWord = normalizeTitleWord(word, !seenFirstWord, acronymWords);
+                seenFirstWord = true;
+                return normalizedWord;
+            });
+        }).join('');
+    }
+
+    function splitProtectedBibtexText(text) {
+        const parts = [];
+        let buffer = '';
+        let depth = 0;
+        let protectedPart = false;
+
+        for (const char of text) {
+            const nextProtectedPart = depth > 0 || char === '{';
+            if (buffer && nextProtectedPart !== protectedPart) {
+                parts.push({ text: buffer, protected: protectedPart });
+                buffer = '';
+            }
+
+            buffer += char;
+            protectedPart = nextProtectedPart;
+
+            if (char === '{') depth++;
+            if (char === '}') depth = Math.max(0, depth - 1);
+        }
+
+        if (buffer) {
+            parts.push({ text: buffer, protected: protectedPart });
+        }
+        return parts;
+    }
+
+    function normalizeTitleWord(word, isFirstWord, acronymWords) {
+        return word.split('-').map((part, index) => {
+            if (shouldKeepTitleWordPart(part, acronymWords)) return part;
+
+            const lowerPart = part.toLowerCase();
+            if (isFirstWord && index === 0) {
+                return lowerPart.charAt(0).toUpperCase() + lowerPart.slice(1);
+            }
+            return lowerPart;
+        }).join('-');
+    }
+
+    function shouldKeepTitleWordPart(wordPart, acronymWords) {
+        if (/[a-z][A-Z]/.test(wordPart)) return true;
+
+        const normalizedWord = wordPart.replace(/[^A-Za-z]/g, '').toUpperCase();
+        if (acronymWords.has(normalizedWord)) return true;
+
+        return /[A-Z]/.test(wordPart) && /\d/.test(wordPart);
     }
 
     function capitalizeTitle(title) {

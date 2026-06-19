@@ -7,6 +7,7 @@
         this.pos = 0;
         this.input = "";
         this.entries = [];
+        this.strings = {};
 
         this.currentEntry = "";
 
@@ -153,6 +154,8 @@
                     return k;
                 } else if (this.months.indexOf(k.toLowerCase()) >= 0) {
                     return k.toLowerCase();
+                } else if (Object.prototype.hasOwnProperty.call(this.strings, k)) {
+                    return this.strings[k];
                 } else {
                     return k; // Modified to return key as-is for special characters
                 }
@@ -169,7 +172,7 @@
             return values.join("");
         };
 
-        this.key = function(optional) {
+        this.key = function(optional, preserveCase) {
             var start = this.pos;
             while (true) {
                 if (this.pos >= this.input.length) {
@@ -180,7 +183,8 @@
                         this.pos = start;
                         return null;
                     }
-                    return this.input.substring(start, this.pos).toLowerCase(); // Convert to lowercase
+                    var rawKey = this.input.substring(start, this.pos);
+                    return preserveCase ? rawKey : rawKey.toLowerCase();
                 } else {
                     this.pos++;
                 }
@@ -189,7 +193,6 @@
 
         this.key_equals_value = function() {
             var key = this.key();
-            console.log("Parsed key: " + key);  // Added logging
             if (this.tryMatch("=")) {
                 this.match("=");
                 var val = this.value();
@@ -216,7 +219,7 @@
 
         this.entry_body = function(d) {
             this.currentEntry = {};
-            this.currentEntry['citationKey'] = this.key(true);
+            this.currentEntry['citationKey'] = this.key(true, true);
             this.currentEntry['entryType'] = d.substring(1);
             if (this.currentEntry['citationKey'] !== null) {
                 this.match(",");
@@ -242,6 +245,19 @@
             this.currentEntry['entryType'] = 'COMMENT';
             this.currentEntry['entry'] = this.value_comment();
             this.entries.push(this.currentEntry);
+        };
+
+        this.string = function() {
+            var kv = this.key_equals_value();
+            this.strings[kv[0]] = kv[1];
+            while (this.tryMatch(",")) {
+                this.match(",");
+                if (this.tryMatch("}")) {
+                    break;
+                }
+                kv = this.key_equals_value();
+                this.strings[kv[0]] = kv[1];
+            }
         };
 
         this.entry = function(d) {

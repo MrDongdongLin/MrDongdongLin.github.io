@@ -11,37 +11,64 @@
     <script src="scripts.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>BibTidy: Bibliography Formatter</h1>
-    </div>
-    <div class="container">
-        <div class="button-bar">
-            <input type="file" id="file-input" style="display: none;">
-            <button id="browse-button">Upload</button>
-            <button id="tidy-button">Tidy</button>
-            <button id="save-button">Save as bib</button>
-            <button id="exit-button">Exit</button>
-            <div class="checkbox-container">
+    <main class="app-shell">
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-mark">B</span>
+                <div>
+                    <h1>BibTidy</h1>
+                    <p>Bibliography Formatter</p>
+                </div>
+            </div>
+            <button id="dark-mode-toggle" class="ghost-button" type="button">Dark</button>
+        </header>
+
+        <section class="toolbar" aria-label="BibTeX actions">
+            <input type="file" id="file-input" class="visually-hidden" accept=".bib,.txt">
+            <button id="browse-button" class="secondary-button" type="button">Upload</button>
+            <button id="tidy-button" class="primary-button" type="button">Tidy</button>
+            <button id="save-button" class="secondary-button" type="button">Save .bib</button>
+            <button id="exit-button" class="ghost-button" type="button">Exit</button>
+            <label class="switch-control" for="abbreviate-checkbox">
                 <input type="checkbox" id="abbreviate-checkbox" class="styled-checkbox">
-                <label for="abbreviate-checkbox">Apply Journal Abbreviation</label>
-            </div>
-            <button id="dark-mode-toggle">Toggle Dark Mode</button>
-        </div>
-        <div class="editor">
-            <div class="textarea-container">
-                <label for="text-left" class="textarea-label">Input BibTeX</label>
-                <textarea id="text-left" class="highlight-bibtex" placeholder="Input BibTeX here..."></textarea>
-                <div class="highlighted-content" id="highlighted-left"></div>
-                <button class="copy-button" data-target="text-left">Copy</button>
-            </div>
-            <div class="textarea-container">
-                <label for="text-right" class="textarea-label">Formatted Output</label>
-                <textarea id="text-right" class="highlight-bibtex" placeholder="Output will appear here..."></textarea>
-                <div class="highlighted-content" id="highlighted-right"></div>
-                <button class="copy-button" data-target="text-right">Copy</button>
-            </div>
-        </div>
-        <textarea id="output-message" readonly></textarea>
-    </div>
+                <span class="switch-track" aria-hidden="true"></span>
+                <span>Journal abbreviation</span>
+            </label>
+            <label class="switch-control" for="rename-id-checkbox">
+                <input type="checkbox" id="rename-id-checkbox" class="styled-checkbox" checked>
+                <span class="switch-track" aria-hidden="true"></span>
+                <span>Rename citation IDs</span>
+            </label>
+        </section>
+
+        <section class="editor" aria-label="BibTeX editor">
+            <article class="editor-panel">
+                <div class="panel-header">
+                    <label for="text-left" class="textarea-label">Input BibTeX</label>
+                    <button class="copy-button" data-target="text-left" type="button">Copy</button>
+                </div>
+                <div class="textarea-frame">
+                    <textarea id="text-left" class="highlight-bibtex" spellcheck="false" placeholder="Paste BibTeX here"></textarea>
+                    <div class="highlighted-content" id="highlighted-left"></div>
+                </div>
+            </article>
+
+            <article class="editor-panel">
+                <div class="panel-header">
+                    <label for="text-right" class="textarea-label">Formatted Output</label>
+                    <button class="copy-button" data-target="text-right" type="button">Copy</button>
+                </div>
+                <div class="textarea-frame">
+                    <textarea id="text-right" class="highlight-bibtex" spellcheck="false" placeholder="Formatted BibTeX"></textarea>
+                    <div class="highlighted-content" id="highlighted-right"></div>
+                </div>
+            </article>
+        </section>
+
+        <section class="status-panel" aria-label="Status log">
+            <label for="output-message" class="textarea-label">Status</label>
+            <textarea id="output-message" readonly></textarea>
+        </section>
+    </main>
 </body>
 </html>
