@@ -36,7 +36,8 @@ body {
 
 button,
 textarea,
-input {
+input,
+select {
     font: inherit;
 }
 
@@ -46,7 +47,7 @@ button {
 
 .app-shell {
     display: grid;
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-rows: auto auto minmax(0, 1fr);
     gap: 12px;
     width: min(1480px, calc(100vw - 32px));
     height: calc(100vh - 32px);
@@ -56,7 +57,9 @@ button {
 .app-header,
 .toolbar,
 .status-panel,
-.editor-panel {
+.editor-panel,
+.library-panel,
+.detail-panel {
     border: 1px solid var(--border);
     background: var(--surface);
     box-shadow: var(--shadow);
@@ -104,11 +107,47 @@ button {
     font-size: 13px;
 }
 
+.app-tabs {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 40px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-muted);
+}
+
+.view-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    min-height: 32px;
+    padding: 0 14px;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.view-tab:hover {
+    color: var(--text);
+}
+
+.view-tab.active {
+    background: var(--surface);
+    color: var(--accent);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
 .toolbar {
     display: flex;
     align-items: center;
     gap: 8px;
-    min-height: 58px;
+    min-height: 56px;
     padding: 10px;
     border-radius: var(--radius);
     overflow-x: auto;
@@ -154,6 +193,15 @@ button {
     background: var(--surface-muted);
 }
 
+.danger-button {
+    color: var(--danger);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.52;
+}
+
 .ghost-button {
     margin-left: auto;
 }
@@ -162,6 +210,7 @@ button {
     margin-left: 0;
 }
 
+.select-control,
 .switch-control {
     display: inline-flex;
     align-items: center;
@@ -177,6 +226,25 @@ button {
     font-size: 14px;
     font-weight: 600;
     white-space: nowrap;
+}
+
+.select-control span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.select-control select {
+    min-height: 28px;
+    max-width: 170px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .styled-checkbox {
@@ -217,6 +285,7 @@ button {
 }
 
 .styled-checkbox:focus-visible + .switch-track,
+select:focus-visible,
 button:focus-visible,
 textarea:focus-visible {
     outline: 3px solid rgba(37, 99, 235, 0.22);
@@ -230,13 +299,46 @@ textarea:focus-visible {
     min-height: 0;
 }
 
-.editor-panel {
+.page-view {
+    display: none;
+    min-height: 0;
+}
+
+.page-view.active {
+    display: grid;
+}
+
+.tidy-workspace {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 12px;
+    min-height: 0;
+}
+
+.library-workspace {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(420px, 1.4fr);
+    gap: 12px;
+    min-height: 0;
+}
+
+.editor-panel,
+.library-panel,
+.detail-panel {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     min-width: 0;
     min-height: 0;
     overflow: hidden;
     border-radius: var(--radius);
+}
+
+.library-panel {
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+}
+
+.detail-panel {
+    position: relative;
 }
 
 .panel-header {
@@ -258,6 +360,193 @@ textarea:focus-visible {
     text-transform: uppercase;
 }
 
+.header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.count-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.library-tools {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.library-tools input,
+.field-control input,
+.field-control select,
+.field-control textarea {
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+}
+
+.library-tools input {
+    min-height: 36px;
+    padding: 0 11px;
+}
+
+.type-summary {
+    min-height: 36px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.entry-list {
+    min-height: 0;
+    overflow: auto;
+    background: var(--surface);
+}
+
+.entry-row {
+    display: grid;
+    gap: 5px;
+    width: 100%;
+    min-height: 84px;
+    padding: 11px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+}
+
+.entry-row:hover,
+.entry-row.selected {
+    background: var(--accent-soft);
+}
+
+.entry-title,
+.entry-meta,
+.entry-key {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.entry-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.entry-meta {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.entry-key {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+}
+
+.detail-form {
+    min-height: 0;
+    padding: 12px;
+    overflow: auto;
+}
+
+.detail-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.two-columns {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+    margin-bottom: 10px;
+}
+
+.detail-fields {
+    display: grid;
+    gap: 10px;
+}
+
+.field-control {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.field-control > span,
+.field-label-row {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.field-control input,
+.field-control select {
+    min-height: 36px;
+    padding: 0 10px;
+}
+
+.field-control textarea {
+    min-height: 74px;
+    padding: 9px 10px;
+    resize: vertical;
+    line-height: 1.45;
+}
+
+.remove-field-button {
+    border: 0;
+    background: transparent;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.empty-state {
+    display: grid;
+    min-height: 120px;
+    place-items: center;
+    padding: 18px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+.compact-empty {
+    min-height: 92px;
+}
+
+.is-hidden {
+    display: none;
+}
+
 .textarea-frame {
     position: relative;
     min-height: 0;
@@ -267,7 +556,7 @@ textarea:focus-visible {
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 360px;
+    min-height: 240px;
     padding: 16px;
     border: 0;
     resize: none;
@@ -288,18 +577,22 @@ textarea:focus-visible {
 
 .status-panel {
     display: grid;
-    grid-template-rows: auto 84px;
-    gap: 6px;
-    padding: 10px 12px 12px;
+    grid-template-rows: auto 132px;
+    overflow: hidden;
     border-radius: var(--radius);
+}
+
+.compact-header {
+    min-height: 44px;
 }
 
 #output-message {
     width: 100%;
-    height: 84px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 7px;
+    height: 132px;
+    padding: 12px;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
     resize: none;
     outline: none;
     background: var(--surface-muted);
@@ -360,14 +653,23 @@ textarea:focus-visible {
 
 .dark-mode .secondary-button,
 .dark-mode .ghost-button,
-.dark-mode .copy-button {
+.dark-mode .copy-button,
+.dark-mode .view-tab.active,
+.dark-mode .select-control select,
+.dark-mode .library-tools input,
+.dark-mode .field-control input,
+.dark-mode .field-control select,
+.dark-mode .field-control textarea,
+.dark-mode .entry-row {
     background: var(--surface);
     color: var(--text);
 }
 
 .dark-mode .secondary-button:hover,
 .dark-mode .ghost-button:hover,
-.dark-mode .copy-button:hover {
+.dark-mode .copy-button:hover,
+.dark-mode .entry-row:hover,
+.dark-mode .entry-row.selected {
     background: var(--surface-muted);
 }
 
@@ -386,10 +688,21 @@ textarea:focus-visible {
         height: auto;
         min-height: calc(100vh - 20px);
         margin: 10px auto;
+        grid-template-rows: auto;
     }
 
     .app-header {
         align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .app-tabs {
+        order: 3;
+        width: 100%;
+    }
+
+    .view-tab {
+        flex: 1 1 0;
     }
 
     .toolbar {
@@ -401,6 +714,7 @@ textarea:focus-visible {
         margin-left: 0;
     }
 
+    .library-workspace,
     .editor {
         grid-template-columns: 1fr;
     }
@@ -417,6 +731,17 @@ textarea:focus-visible {
         padding-inline: 10px;
     }
 
+    .app-tabs {
+        min-height: 38px;
+    }
+
+    .view-tab {
+        min-width: 0;
+        min-height: 30px;
+        padding-inline: 10px;
+        font-size: 13px;
+    }
+
     .brand h1 {
         font-size: 20px;
     }
@@ -431,10 +756,30 @@ textarea:focus-visible {
     .secondary-button,
     .ghost-button,
     .copy-button,
+    .select-control,
     .switch-control {
         min-height: 34px;
         padding-inline: 10px;
         font-size: 13px;
+    }
+
+    .select-control {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .select-control select {
+        max-width: 100%;
+    }
+
+    .two-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .header-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .textarea-frame textarea {

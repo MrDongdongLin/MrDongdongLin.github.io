@@ -5,7 +5,7 @@ function highlightBibtex(text) {
     const numbers = /\b\d{4}\b/g;
 
     // Preserve formatting by replacing newlines with <br> and spaces with &nbsp;
-    const formattedText = text
+    const formattedText = escapeHtml(text)
         .replace(/\n/g, '<br>')
         .replace(/ /g, '&nbsp;')
         .replace(keywords, '<span class="bibtex-keyword">$&</span>')
@@ -14,6 +14,15 @@ function highlightBibtex(text) {
         .replace(numbers, '<span class="bibtex-number">$&</span>');
 
     return `<pre><code>${formattedText}</code></pre>`;
+}
+
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 function applyHighlighting() {
@@ -34,7 +43,8 @@ function applyHighlighting() {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = {
         highlightBibtex,
-        applyHighlighting
+        applyHighlighting,
+        escapeHtml
     };
 } else {
     window.highlightBibtex = highlightBibtex;

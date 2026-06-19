@@ -3,19 +3,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const textRight = document.getElementById('text-right');
     const browseButton = document.getElementById('browse-button');
     const fileInput = document.getElementById('file-input');
+    const newEntryButton = document.getElementById('new-entry-button');
+    const deleteEntryButton = document.getElementById('delete-entry-button');
     const tidyButton = document.getElementById('tidy-button');
+    const validateButton = document.getElementById('validate-button');
     const saveButton = document.getElementById('save-button');
     const exitButton = document.getElementById('exit-button');
+    const loadSourceButton = document.getElementById('load-source-button');
     const applyAbbreviation = document.getElementById('abbreviate-checkbox');
     const renameCitationIds = document.getElementById('rename-id-checkbox');
+    const presetSelect = document.getElementById('preset-select');
+    const citationTemplateSelect = document.getElementById('citation-template-select');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const outputMessage = document.getElementById('output-message');
+    const librarySearch = document.getElementById('library-search');
+    const libraryCount = document.getElementById('library-count');
+    const libraryTypeSummary = document.getElementById('library-type-summary');
+    const entryList = document.getElementById('entry-list');
+    const entryDetailForm = document.getElementById('entry-detail-form');
+    const emptyDetail = document.getElementById('empty-detail');
+    const detailEntryType = document.getElementById('detail-entry-type');
+    const detailCitationKey = document.getElementById('detail-citation-key');
+    const detailFields = document.getElementById('detail-fields');
+    const addFieldButton = document.getElementById('add-field-button');
+    const viewTabs = Array.from(document.querySelectorAll('.view-tab'));
+    const pageViews = Array.from(document.querySelectorAll('.page-view'));
+    const viewActions = Array.from(document.querySelectorAll('[data-view-action]'));
 
-    let originalFileName = '';
+    const pinnedFields = [
+        'author', 'title', 'journal', 'booktitle', 'year', 'publisher',
+        'school', 'institution', 'volume', 'number', 'pages', 'doi',
+        'url', 'keywords', 'abstract', 'note'
+    ];
+    const multilineFields = new Set(['author', 'title', 'abstract', 'note', 'keywords']);
+    const listSummaryFields = new Set([
+        'author', 'title', 'journal', 'booktitle', 'year',
+        'publisher', 'school', 'institution'
+    ]);
 
-    console.log('Loaded journal abbreviations:', journalAbbreviations);
+    let originalFileName = 'bibliography';
+    let libraryEntries = [];
+    let preservedBlocks = [];
+    let sourceBlocks = [];
+    let selectedEntryId = null;
+    let nextEntryId = 1;
+    let sourceNeedsLibrarySync = false;
+    let formattedOutputIsCurrent = false;
+    let pendingLibraryRenderTimer = 0;
+    let pendingHighlightTimer = 0;
 
-    // Set initial content
     const initialInputContent = `@inproceedings{ WOS:000766209400010,
 Author = {Li, Yue and Abady, Lydia and Wang, Hongxia and Barni, Mauro},
 Editor = {Zhao, X and Piva, A and ComesanaAlfaro, P},
@@ -35,63 +71,67 @@ EISSN = {1611-3349},
 ISBN = {978-3-030-95398-0; 978-3-030-95397-3},
 Unique-ID = {WOS:000766209400010},
 }`;
-    const initialOutputContent = `@inproceedings{WOS:000766209400010,
-  author =       {Li, Yue and Abady, Lydia and Wang, Hongxia and Barni, Mauro},
-  title =        {{A feature-map-based large-payload DNN watermarking algorithm}},
-  booktitle =    {Digital Forensics and Watermarking, Iwdw 2021},
-  year =         {2022},
-  editor =       {Zhao, X and Piva, A and ComesanaAlfaro, P},
-  volume =       {13180},
-  series =       {Lecture Notes in Computer Science},
-  pages =        {135-148},
-  doi =          {10.1007/978-3-030-95398-0\\_10},
-}`;
 
     textLeft.value = initialInputContent;
-    textRight.value = initialOutputContent;
-    applyHighlighting(); // Apply initial highlighting
+    loadLibraryFromText(initialInputContent, 'Loaded sample bibliography.');
+    runTidy();
+    setActiveView('library');
 
     browseButton.addEventListener('click', () => {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', (event) => {
+    fileInput.addEventListener('change', event => {
         const file = event.target.files[0];
-        if (file) {
-            originalFileName = file.name.split('.')[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                textLeft.value = e.target.result;
-                applyHighlighting(); // Apply highlighting
-                outputMessage.value = `Loaded file: ${file.name}\n`;
-            };
-            reader.readAsText(file);
-        }
+        if (!file) return;
+
+        originalFileName = file.name.replace(/\.[^.]+$/, '') || 'bibliography';
+        const reader = new FileReader();
+        reader.onload = readEvent => {
+            const content = readEvent.target.result;
+            textLeft.value = content;
+            textRight.value = '';
+            formattedOutputIsCurrent = false;
+            loadLibraryFromText(content, `Loaded file: ${file.name}`);
+        };
+        reader.readAsText(file);
     });
 
-    tidyButton.addEventListener('click', () => {
-        try {
-            const content = textLeft.value;
-            console.log("Original Content:", content);
-            const tidyResult = simplifyBib(content, applyAbbreviation.checked, renameCitationIds.checked);
-            textRight.value = tidyResult.content;
-            applyHighlighting(); // Apply highlighting
-            outputMessage.value += formatTidyStatus(tidyResult.stats) + '\n';
-        } catch (e) {
-            console.error(`Failed to tidy content: ${e.message}`);
-            outputMessage.value += `Failed to tidy content: ${e.message}\n`;
-        }
+    newEntryButton.addEventListener('click', () => {
+        const entry = createNewEntry();
+        libraryEntries.unshift(entry);
+        selectedEntryId = entry.id;
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Added ${entry.citationKey}.`;
     });
+
+    deleteEntryButton.addEventListener('click', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        libraryEntries = libraryEntries.filter(entry => entry.id !== selectedEntry.id);
+        selectedEntryId = libraryEntries[0] ? libraryEntries[0].id : null;
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Deleted ${selectedEntry.citationKey || 'selected item'}.`;
+    });
+
+    tidyButton.addEventListener('click', runTidy);
+    validateButton.addEventListener('click', runValidate);
 
     saveButton.addEventListener('click', () => {
-        const blob = new Blob([textRight.value], { type: 'text/plain;charset=utf-8' });
+        syncPendingLibraryChanges();
+        const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = `tidy-${originalFileName}.bib`;
         a.click();
         URL.revokeObjectURL(url);
-        outputMessage.value += 'Saved file.\n';
+        appendReportLine('Saved file.');
     });
 
     exitButton.addEventListener('click', () => {
@@ -103,368 +143,472 @@ Unique-ID = {WOS:000766209400010},
         darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
     });
 
-    document.querySelectorAll('.copy-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const targetId = button.getAttribute('data-target');
-            const targetTextArea = document.getElementById(targetId);
-            if (targetTextArea) {
-                navigator.clipboard.writeText(targetTextArea.value).then(() => {
-                    button.textContent = 'Copied!';
-                    setTimeout(() => {
-                        button.textContent = 'Copy';
-                    }, 2000); // 2 seconds later, reset the button text
-                }).catch(err => {
-                    console.error('Failed to copy text: ', err);
-                });
-            }
+    viewTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            setActiveView(tab.dataset.view);
         });
     });
 
-    function simplifyBib(content, applyAbbreviation, shouldRenameCitationIds) {
-        const stats = createTidyStats();
-        const formattedContent = transformBibtexEntries(content, rawEntry => {
-            try {
-                const bibDatabase = bibtexParse.toJSON(rawEntry.macroContext + rawEntry.text);
-                const entry = bibDatabase[bibDatabase.length - 1];
-                if (!entry || !entry.entryTags) {
-                    return rawEntry.text;
-                }
-                recordTidiedEntry(stats, entry.entryType);
-                return formatBibEntry(entry, applyAbbreviation, shouldRenameCitationIds);
-            } catch (error) {
-                console.error("Error parsing BibTeX entry:", error, rawEntry.text);
-                throw new Error("Failed to parse BibTeX content");
-            }
-        });
+    loadSourceButton.addEventListener('click', () => {
+        loadLibraryFromText(textLeft.value, 'Loaded source into manager.');
+    });
 
-        return {
-            content: formattedContent,
-            stats
-        };
-    }
+    librarySearch.addEventListener('input', () => {
+        scheduleLibraryRender();
+    });
 
-    function createTidyStats() {
-        return {
-            totalItems: 0,
-            itemTypes: {}
-        };
-    }
+    entryList.addEventListener('click', event => {
+        const row = event.target.closest('.entry-row');
+        if (!row) return;
+        selectedEntryId = row.dataset.entryId;
+        updateSelectedEntryRow();
+        renderDetail();
+    });
 
-    function recordTidiedEntry(stats, entryType) {
-        const normalizedType = (entryType || 'unknown').toLowerCase();
-        stats.totalItems++;
-        stats.itemTypes[normalizedType] = (stats.itemTypes[normalizedType] || 0) + 1;
-    }
+    detailEntryType.addEventListener('change', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.entryType = detailEntryType.value;
+        markLibraryChanged();
+        scheduleLibraryRender();
+    });
 
-    function formatTidyStatus(stats) {
-        const typeSummary = Object.entries(stats.itemTypes)
-            .sort(([typeA, countA], [typeB, countB]) => countB - countA || typeA.localeCompare(typeB))
-            .map(([type, count]) => `${type}: ${count}`)
-            .join(', ');
+    detailCitationKey.addEventListener('input', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.citationKey = detailCitationKey.value.trim();
+        markLibraryChanged();
+        scheduleLibraryRender();
+    });
 
-        if (!stats.totalItems) {
-            return 'Tidied 0 bib items.';
+    detailFields.addEventListener('input', event => {
+        const field = event.target.dataset.field;
+        if (!field) return;
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.entryTags[field] = event.target.value;
+        markLibraryChanged();
+        if (listSummaryFields.has(field)) {
+            scheduleLibraryRender();
         }
+    });
 
-        return `Tidied ${stats.totalItems} bib item${stats.totalItems === 1 ? '' : 's'}${typeSummary ? ` (${typeSummary})` : ''}.`;
-    }
+    detailFields.addEventListener('click', event => {
+        const removeButton = event.target.closest('.remove-field-button');
+        if (!removeButton) return;
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        delete selectedEntry.entryTags[removeButton.dataset.field];
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+    });
 
-    function transformBibtexEntries(content, transformEntry) {
-        let output = '';
-        let position = 0;
-        let macroContext = '';
-
-        while (position < content.length) {
-            const blockStart = content.indexOf('@', position);
-            if (blockStart === -1) {
-                output += content.slice(position);
-                break;
-            }
-
-            output += content.slice(position, blockStart);
-
-            const block = readBibtexBlock(content, blockStart);
-            if (!block) {
-                output += content.slice(blockStart);
-                break;
-            }
-
-            if (block.type === 'string') {
-                macroContext += block.text + '\n';
-                output += block.text;
-            } else if (isBibliographyEntryType(block.type)) {
-                output += transformEntry({ text: block.text, macroContext });
-            } else {
-                output += block.text;
-            }
-
-            position = block.end;
+    addFieldButton.addEventListener('click', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        const fieldName = normalizeFieldName(prompt('Field name'));
+        if (!fieldName) return;
+        if (Object.prototype.hasOwnProperty.call(selectedEntry.entryTags, fieldName)) {
+            outputMessage.value = `${fieldName} already exists on this item.`;
+            return;
         }
+        selectedEntry.entryTags[fieldName] = '';
+        markLibraryChanged();
+        renderDetail();
+    });
 
-        return output;
-    }
+    citationTemplateSelect.addEventListener('change', () => {
+        const useOriginalKeys = citationTemplateSelect.value === 'original';
+        renameCitationIds.checked = !useOriginalKeys;
+    });
 
-    function readBibtexBlock(content, atIndex) {
-        const directiveMatch = content.slice(atIndex).match(/^@([A-Za-z]+)\s*/);
-        if (!directiveMatch) return null;
-
-        const type = directiveMatch[1].toLowerCase();
-        const openIndex = atIndex + directiveMatch[0].length;
-        const opener = content[openIndex];
-        const closer = opener === '{' ? '}' : opener === '(' ? ')' : null;
-        if (!closer) return null;
-
-        let depth = 0;
-        let escaped = false;
-        let inQuote = false;
-
-        for (let index = openIndex; index < content.length; index++) {
-            const char = content[index];
-
-            if (char === '"' && !escaped) {
-                inQuote = !inQuote;
-            }
-
-            if (!inQuote) {
-                if (char === opener) {
-                    depth++;
-                } else if (char === closer) {
-                    depth--;
-                    if (depth === 0) {
-                        return {
-                            type,
-                            text: content.slice(atIndex, index + 1),
-                            end: index + 1
-                        };
-                    }
-                }
-            }
-
-            escaped = char === '\\' && !escaped;
-            if (char !== '\\') {
-                escaped = false;
-            }
+    renameCitationIds.addEventListener('change', () => {
+        if (!renameCitationIds.checked && citationTemplateSelect.value !== 'original') {
+            citationTemplateSelect.value = 'original';
+        } else if (renameCitationIds.checked && citationTemplateSelect.value === 'original') {
+            citationTemplateSelect.value = 'author-year-title-colon';
         }
+    });
 
-        return null;
-    }
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            if (!targetId) return;
+            const targetTextArea = document.getElementById(targetId);
+            if (!targetTextArea) return;
 
-    function isBibliographyEntryType(type) {
-        return !['string', 'comment', 'preamble'].includes(type);
-    }
-
-    function formatBibEntry(entry, applyAbbreviation, shouldRenameCitationIds) {
-        const fieldOrder = ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'month', 'note', 'keywords', 'source', 'doi'];
-        let formattedBib = '';
-
-        const entryTags = {};
-        for (const [key, value] of Object.entries(entry.entryTags || {})) {
-            entryTags[key.toLowerCase()] = value;
-        }
-        entry.entryTags = entryTags;
-
-        if (entry.entryTags.journal) {
-            entry.entryTags.journal = capitalizeTitle(entry.entryTags.journal);
-            if (applyAbbreviation) {
-                entry.entryTags.journal = abbreviateJournal(entry.entryTags.journal);
-            }
-        }
-
-        if (entry.entryTags.title) {
-            entry.entryTags.title = protectTitleCapitalization(normalizeTitleCapitalization(entry.entryTags.title));
-        }
-
-        if (shouldRenameCitationIds) {
-            let authorPart = '';
-            if (entry.entryTags.author) {
-                const authorNames = entry.entryTags.author.split(',');
-                authorPart = authorNames[0].trim().split(' ')[0];
-            }
-            const yearPart = entry.entryTags.year ? entry.entryTags.year.trim() : 'noyear';
-            const titlePart = entry.entryTags.title ? getTitlePart(entry.entryTags.title) : 'notitle';
-
-            entry.citationKey = `${authorPart}:${yearPart}:${titlePart}`;
-        }
-
-        formattedBib += `@${entry.entryType}{${entry.citationKey},\n`;
-        fieldOrder.forEach(field => {
-            if (entry.entryTags[field]) {
-                formattedBib += `  ${field.padEnd(12)} = {${entry.entryTags[field]}},\n`;
-            }
-        });
-        return formattedBib.trim().replace(/,$/, '') + '\n}';
-    }
-
-    function getTitlePart(title) {
-        if (!title) return 'notitle';
-        const words = title.replace(/[{}]/g, '').split(' ');
-        const initials = words.slice(0, 5).map(word => {
-            let initial = word[0];
-            if (initial === '{' && word.length > 1) {
-                initial = word[1];
-            }
-            return initial ? initial.toUpperCase() : '';
-        });
-        return initials.join('');
-    }
-
-    function protectTitleCapitalization(title) {
-        if (!title) return '';
-        const trimmedTitle = title.trim();
-        if (trimmedTitle.startsWith('{') && trimmedTitle.endsWith('}')) {
-            return trimmedTitle;
-        }
-        return `{${trimmedTitle}}`;
-    }
-
-    function normalizeTitleCapitalization(title) {
-        if (!title) return '';
-
-        const acronymWords = new Set([
-            'ACM', 'AI', 'API', 'CNN', 'CPU', 'DCT', 'DNA', 'DNN', 'FFT', 'GAN',
-            'GPU', 'HTTP', 'HTTPS', 'IEEE', 'IOT', 'LSTM', 'ML', 'NLP', 'PDE',
-            'RGB', 'RNA', 'RNN', 'SQL', 'SVD', 'SVM', 'URL', 'XML'
-        ]);
-        const preservedTitleTerms = new Map([
-            ['abelian', 'Abelian'],
-            ['bayesian', 'Bayesian'],
-            ['bernoulli', 'Bernoulli'],
-            ['boolean', 'Boolean'],
-            ['carlo', 'Carlo'],
-            ['cartesian', 'Cartesian'],
-            ['cauchy', 'Cauchy'],
-            ['chebyshev', 'Chebyshev'],
-            ['dirichlet', 'Dirichlet'],
-            ['euclidean', 'Euclidean'],
-            ['euler', 'Euler'],
-            ['fermat', 'Fermat'],
-            ['fourier', 'Fourier'],
-            ['galois', 'Galois'],
-            ['gaussian', 'Gaussian'],
-            ['green', 'Green'],
-            ['hamiltonian', 'Hamiltonian'],
-            ['hermite', 'Hermite'],
-            ['hilbert', 'Hilbert'],
-            ['jacobian', 'Jacobian'],
-            ['lagrange', 'Lagrange'],
-            ['laplacian', 'Laplacian'],
-            ['laurent', 'Laurent'],
-            ['legendre', 'Legendre'],
-            ['markov', 'Markov'],
-            ['monte', 'Monte'],
-            ['newton', 'Newton'],
-            ['noetherian', 'Noetherian'],
-            ['poisson', 'Poisson'],
-            ['riemann', 'Riemann'],
-            ['schrodinger', 'Schrodinger'],
-            ['taylor', 'Taylor'],
-            ['vandermerwe', 'VanDerMerwe'],
-            ['wiener', 'Wiener'],
-            ['zariski', 'Zariski']
-        ]);
-        let seenFirstWord = false;
-
-        return splitProtectedBibtexText(title).map(part => {
-            if (part.protected) {
-                if (/[A-Za-z]/.test(part.text)) {
-                    seenFirstWord = true;
-                }
-                return part.text;
-            }
-            return part.text.replace(/[A-Za-z]+(?:[-'][A-Za-z]+)*/g, word => {
-                const normalizedWord = normalizeTitleWord(word, !seenFirstWord, acronymWords, preservedTitleTerms);
-                seenFirstWord = true;
-                return normalizedWord;
+            copyText(targetTextArea).then(() => {
+                const originalLabel = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalLabel;
+                }, 1600);
+            }).catch(error => {
+                appendReportLine(`Copy failed: ${error.message}`);
             });
-        }).join('');
+        });
+    });
+
+    textLeft.addEventListener('input', () => {
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        scheduleHighlighting();
+    });
+    textRight.addEventListener('input', scheduleHighlighting);
+
+    function loadLibraryFromText(content, message) {
+        const result = bibTidyCore.parseBibtexLibrary(content);
+        preservedBlocks = result.preservedBlocks || [];
+        sourceBlocks = result.sourceBlocks || [];
+        libraryEntries = result.entries.map(entry => ({
+            id: createEntryId(),
+            sourceId: entry.sourceId,
+            citationKey: entry.citationKey,
+            entryType: entry.entryType,
+            entryTags: Object.assign({}, entry.entryTags)
+        }));
+        selectedEntryId = libraryEntries[0] ? libraryEntries[0].id : null;
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        renderLibrary();
+        renderDetail();
+        scheduleHighlighting();
+        outputMessage.value = formatLibraryReport(result, message);
     }
 
-    function splitProtectedBibtexText(text) {
-        const parts = [];
-        let buffer = '';
-        let depth = 0;
-        let protectedPart = false;
+    function runTidy() {
+        syncPendingLibraryChanges();
+        const result = bibTidyCore.tidyBibtex(textLeft.value, getTidyOptions());
+        textRight.value = result.content;
+        formattedOutputIsCurrent = true;
+        outputMessage.value = bibTidyCore.formatReport(result);
+        scheduleHighlighting();
+    }
 
-        for (const char of text) {
-            const nextProtectedPart = depth > 0 || char === '{';
-            if (buffer && nextProtectedPart !== protectedPart) {
-                parts.push({ text: buffer, protected: protectedPart });
-                buffer = '';
-            }
+    function runValidate() {
+        syncPendingLibraryChanges();
+        const result = bibTidyCore.validateBibtex(textLeft.value, getTidyOptions());
+        outputMessage.value = bibTidyCore.formatReport(result);
+        scheduleHighlighting();
+    }
 
-            buffer += char;
-            protectedPart = nextProtectedPart;
+    function getTidyOptions() {
+        const citationKeyTemplate = renameCitationIds.checked
+            ? citationTemplateSelect.value
+            : 'original';
 
-            if (char === '{') depth++;
-            if (char === '}') depth = Math.max(0, depth - 1);
+        return {
+            preset: presetSelect.value,
+            abbreviateJournals: applyAbbreviation.checked,
+            renameCitationIds: renameCitationIds.checked,
+            citationKeyTemplate
+        };
+    }
+
+    function renderLibrary() {
+        pendingLibraryRenderTimer = 0;
+        const filteredEntries = getFilteredEntries();
+        libraryCount.textContent = `${libraryEntries.length} item${libraryEntries.length === 1 ? '' : 's'}`;
+        renderTypeSummary();
+        entryList.replaceChildren();
+
+        if (!filteredEntries.length) {
+            const emptyRow = document.createElement('div');
+            emptyRow.className = 'empty-state compact-empty';
+            emptyRow.textContent = libraryEntries.length ? 'No matches.' : 'No BibTeX items.';
+            entryList.appendChild(emptyRow);
+            return;
         }
 
-        if (buffer) {
-            parts.push({ text: buffer, protected: protectedPart });
+        const fragment = document.createDocumentFragment();
+        filteredEntries.forEach(entry => {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = entry.id === selectedEntryId ? 'entry-row selected' : 'entry-row';
+            row.dataset.entryId = entry.id;
+            row.setAttribute('role', 'option');
+            row.setAttribute('aria-selected', entry.id === selectedEntryId ? 'true' : 'false');
+
+            const title = document.createElement('span');
+            title.className = 'entry-title';
+            title.textContent = cleanDisplayText(entry.entryTags.title) || '(untitled)';
+
+            const meta = document.createElement('span');
+            meta.className = 'entry-meta';
+            meta.textContent = [
+                cleanDisplayText(entry.entryTags.author),
+                getVenue(entry),
+                entry.entryTags.year
+            ].filter(Boolean).join(' - ');
+
+            const keyLine = document.createElement('span');
+            keyLine.className = 'entry-key';
+            keyLine.textContent = `${entry.entryType || 'misc'} - ${entry.citationKey || '(no key)'}`;
+
+            row.append(title, meta, keyLine);
+            fragment.appendChild(row);
+        });
+        entryList.appendChild(fragment);
+    }
+
+    function scheduleLibraryRender() {
+        if (pendingLibraryRenderTimer) {
+            clearTimeout(pendingLibraryRenderTimer);
         }
-        return parts;
+        pendingLibraryRenderTimer = setTimeout(renderLibrary, 80);
     }
 
-    function normalizeTitleWord(word, isFirstWord, acronymWords, preservedTitleTerms) {
-        return word.split('-').map((part, index) => {
-            if (shouldKeepTitleWordPart(part, acronymWords)) return part;
+    function updateSelectedEntryRow() {
+        entryList.querySelectorAll('.entry-row').forEach(row => {
+            const isSelected = row.dataset.entryId === selectedEntryId;
+            row.classList.toggle('selected', isSelected);
+            row.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        });
+    }
 
-            const preservedTerm = getPreservedTitleTerm(part, preservedTitleTerms);
-            if (preservedTerm) return preservedTerm;
+    function renderTypeSummary() {
+        const counts = libraryEntries.reduce((map, entry) => {
+            const type = entry.entryType || 'misc';
+            map[type] = (map[type] || 0) + 1;
+            return map;
+        }, {});
+        const summary = Object.entries(counts)
+            .sort(([typeA, countA], [typeB, countB]) => countB - countA || typeA.localeCompare(typeB))
+            .slice(0, 5)
+            .map(([type, count]) => `${type} ${count}`);
+        libraryTypeSummary.textContent = summary.join(' | ');
+    }
 
-            const lowerPart = part.toLowerCase();
-            if (isFirstWord && index === 0) {
-                return lowerPart.charAt(0).toUpperCase() + lowerPart.slice(1);
+    function renderDetail() {
+        const selectedEntry = getSelectedEntry();
+        entryDetailForm.classList.toggle('is-hidden', !selectedEntry);
+        emptyDetail.classList.toggle('is-hidden', Boolean(selectedEntry));
+        deleteEntryButton.disabled = !selectedEntry;
+        addFieldButton.disabled = !selectedEntry;
+        if (!selectedEntry) {
+            detailFields.replaceChildren();
+            return;
+        }
+
+        detailEntryType.value = selectedEntry.entryType || 'misc';
+        detailCitationKey.value = selectedEntry.citationKey || '';
+        detailFields.replaceChildren();
+
+        getVisibleFields(selectedEntry).forEach(field => {
+            detailFields.appendChild(createFieldControl(field, selectedEntry.entryTags[field] || ''));
+        });
+    }
+
+    function createFieldControl(field, value) {
+        const wrapper = document.createElement('label');
+        wrapper.className = 'field-control';
+
+        const labelRow = document.createElement('span');
+        labelRow.className = 'field-label-row';
+
+        const labelText = document.createElement('span');
+        labelText.textContent = field;
+        labelRow.appendChild(labelText);
+
+        if (!pinnedFields.includes(field)) {
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'remove-field-button';
+            removeButton.dataset.field = field;
+            removeButton.textContent = 'Remove';
+            labelRow.appendChild(removeButton);
+        }
+
+        const input = multilineFields.has(field) ? document.createElement('textarea') : document.createElement('input');
+        input.dataset.field = field;
+        input.value = value;
+        if (input.tagName === 'INPUT') input.type = 'text';
+        if (field === 'url') input.inputMode = 'url';
+
+        wrapper.append(labelRow, input);
+        return wrapper;
+    }
+
+    function getVisibleFields(entry) {
+        const existingFields = Object.keys(entry.entryTags || {});
+        const remaining = existingFields
+            .filter(field => !pinnedFields.includes(field))
+            .sort((fieldA, fieldB) => fieldA.localeCompare(fieldB));
+        return pinnedFields.concat(remaining);
+    }
+
+    function getFilteredEntries() {
+        const query = librarySearch.value.trim().toLowerCase();
+        if (!query) return libraryEntries;
+        return libraryEntries.filter(entry => {
+            const haystack = [
+                entry.citationKey,
+                entry.entryType,
+                entry.entryTags.title,
+                entry.entryTags.author,
+                getVenue(entry),
+                entry.entryTags.year,
+                entry.entryTags.doi,
+                entry.entryTags.keywords
+            ].join(' ').toLowerCase();
+            return haystack.includes(query);
+        });
+    }
+
+    function createNewEntry() {
+        const year = new Date().getFullYear();
+        const count = libraryEntries.length + 1;
+        return {
+            id: createEntryId(),
+            entryType: 'article',
+            citationKey: `newitem${count}`,
+            entryTags: {
+                author: '',
+                title: 'Untitled',
+                journal: '',
+                year: String(year),
+                doi: ''
             }
-            return lowerPart;
-        }).join('-');
+        };
     }
 
-    function shouldKeepTitleWordPart(wordPart, acronymWords) {
-        if (/[a-z][A-Z]/.test(wordPart)) return true;
-
-        const normalizedWord = wordPart.replace(/[^A-Za-z]/g, '').toUpperCase();
-        if (acronymWords.has(normalizedWord)) return true;
-
-        return /[A-Z]/.test(wordPart) && /\d/.test(wordPart);
+    function syncAndRenderList() {
+        markLibraryChanged();
+        scheduleLibraryRender();
     }
 
-    function getPreservedTitleTerm(wordPart, preservedTitleTerms) {
-        if (!/^[A-Z]/.test(wordPart)) return null;
-        return preservedTitleTerms.get(wordPart.toLowerCase()) || null;
+    function markLibraryChanged() {
+        sourceNeedsLibrarySync = true;
+        formattedOutputIsCurrent = false;
     }
 
-    function capitalizeTitle(title) {
-        if (!title) return '';
-        const prepositions = new Set(['of', 'the', 'and', 'in', 'on', 'for', 'with', 'a', 'an', 'by', 'at', 'to']);
-        const specialWords = new Set(['IEEE', 'ACM', 'IEEE/ACM']);
-        const capitalizedTitle = title.split(' ').map(word => {
-            if (word.startsWith('{') && word.endsWith('}')) return word;
-            if (specialWords.has(word)) return word;
-            if (prepositions.has(word.toLowerCase())) return word.toLowerCase();
-            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-        }).join(' ');
-        return capitalizedTitle;
+    function syncPendingLibraryChanges() {
+        if (sourceNeedsLibrarySync) {
+            syncSourceFromLibrary();
+        }
     }
 
-    function abbreviateJournal(journal) {
-        const abbreviation = journalAbbreviations[journal];
-        return abbreviation || journal;
+    function syncSourceFromLibrary() {
+        textLeft.value = bibTidyCore.serializeBibtexLibrary({
+            preservedBlocks,
+            sourceBlocks,
+            entries: libraryEntries
+        }, { preset: 'complete', citationKeyTemplate: 'original', renameCitationIds: false });
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        scheduleHighlighting();
+    }
+
+    function setActiveView(viewName) {
+        const nextView = viewName === 'tidy' ? 'tidy' : 'library';
+        if (nextView === 'tidy') {
+            syncPendingLibraryChanges();
+        }
+        document.body.dataset.view = nextView;
+
+        viewTabs.forEach(tab => {
+            const isActive = tab.dataset.view === nextView;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        pageViews.forEach(page => {
+            page.classList.toggle('active', page.dataset.page === nextView);
+        });
+
+        viewActions.forEach(action => {
+            const actionView = action.dataset.viewAction;
+            const isVisible = actionView === 'all' || actionView === nextView;
+            action.classList.toggle('is-hidden', !isVisible);
+        });
+    }
+
+    function getSelectedEntry() {
+        return libraryEntries.find(entry => entry.id === selectedEntryId) || null;
+    }
+
+    function getVenue(entry) {
+        return cleanDisplayText(
+            entry.entryTags.journal ||
+            entry.entryTags.booktitle ||
+            entry.entryTags.publisher ||
+            entry.entryTags.school ||
+            entry.entryTags.institution ||
+            ''
+        );
+    }
+
+    function cleanDisplayText(text) {
+        return String(text || '').replace(/[{}]/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    function normalizeFieldName(fieldName) {
+        return String(fieldName || '').toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+    }
+
+    function createEntryId() {
+        if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+        const id = `entry-${nextEntryId}`;
+        nextEntryId++;
+        return id;
+    }
+
+    function formatLibraryReport(result, message) {
+        const lines = [message, bibTidyCore.formatTidyStatus(result.stats)];
+        if (result.warnings.length) {
+            lines.push('');
+            lines.push(`Warnings (${result.warnings.length})`);
+            result.warnings.slice(0, 12).forEach(warning => lines.push(`- ${warning.message}`));
+        }
+        if (result.errors.length) {
+            lines.push('');
+            lines.push(`Errors (${result.errors.length})`);
+            result.errors.slice(0, 12).forEach(error => lines.push(`- ${error.message}`));
+        }
+        return lines.join('\n');
+    }
+
+    function appendReportLine(line) {
+        outputMessage.value = outputMessage.value
+            ? `${outputMessage.value}\n${line}`
+            : line;
+    }
+
+    function copyText(textArea) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(textArea.value);
+        }
+
+        textArea.focus();
+        textArea.select();
+        const copied = document.execCommand('copy');
+        textArea.setSelectionRange(textArea.value.length, textArea.value.length);
+
+        if (copied) return Promise.resolve();
+        return Promise.reject(new Error('Clipboard copy is not available in this browser'));
+    }
+
+    function scheduleHighlighting() {
+        if (pendingHighlightTimer) {
+            clearTimeout(pendingHighlightTimer);
+        }
+        pendingHighlightTimer = setTimeout(applyHighlighting, 120);
     }
 
     function applyHighlighting() {
-        const textAreas = document.querySelectorAll('.highlight-bibtex');
-        textAreas.forEach(textArea => {
-            const content = textArea.value;
-            const highlightedContent = highlightBibtex(content);
+        pendingHighlightTimer = 0;
+        document.querySelectorAll('.highlight-bibtex').forEach(textArea => {
             const highlightedDiv = textArea.nextElementSibling;
-            if (highlightedDiv) {
-                highlightedDiv.innerHTML = highlightedContent;
+            if (!highlightedDiv) return;
+
+            const highlightIsHidden = window.getComputedStyle(highlightedDiv).display === 'none';
+            if (highlightIsHidden) {
+                highlightedDiv.textContent = '';
+                return;
             }
+
+            highlightedDiv.innerHTML = highlightBibtex(textArea.value);
         });
     }
-
-    // Add event listeners for real-time highlighting
-    textLeft.addEventListener('input', applyHighlighting);
-    textRight.addEventListener('input', applyHighlighting);
 });
