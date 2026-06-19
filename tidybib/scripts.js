@@ -325,6 +325,43 @@ Unique-ID = {WOS:000766209400010},
             'GPU', 'HTTP', 'HTTPS', 'IEEE', 'IOT', 'LSTM', 'ML', 'NLP', 'PDE',
             'RGB', 'RNA', 'RNN', 'SQL', 'SVD', 'SVM', 'URL', 'XML'
         ]);
+        const preservedTitleTerms = new Map([
+            ['abelian', 'Abelian'],
+            ['bayesian', 'Bayesian'],
+            ['bernoulli', 'Bernoulli'],
+            ['boolean', 'Boolean'],
+            ['carlo', 'Carlo'],
+            ['cartesian', 'Cartesian'],
+            ['cauchy', 'Cauchy'],
+            ['chebyshev', 'Chebyshev'],
+            ['dirichlet', 'Dirichlet'],
+            ['euclidean', 'Euclidean'],
+            ['euler', 'Euler'],
+            ['fermat', 'Fermat'],
+            ['fourier', 'Fourier'],
+            ['galois', 'Galois'],
+            ['gaussian', 'Gaussian'],
+            ['green', 'Green'],
+            ['hamiltonian', 'Hamiltonian'],
+            ['hermite', 'Hermite'],
+            ['hilbert', 'Hilbert'],
+            ['jacobian', 'Jacobian'],
+            ['lagrange', 'Lagrange'],
+            ['laplacian', 'Laplacian'],
+            ['laurent', 'Laurent'],
+            ['legendre', 'Legendre'],
+            ['markov', 'Markov'],
+            ['monte', 'Monte'],
+            ['newton', 'Newton'],
+            ['noetherian', 'Noetherian'],
+            ['poisson', 'Poisson'],
+            ['riemann', 'Riemann'],
+            ['schrodinger', 'Schrodinger'],
+            ['taylor', 'Taylor'],
+            ['vandermerwe', 'VanDerMerwe'],
+            ['wiener', 'Wiener'],
+            ['zariski', 'Zariski']
+        ]);
         let seenFirstWord = false;
 
         return splitProtectedBibtexText(title).map(part => {
@@ -335,7 +372,7 @@ Unique-ID = {WOS:000766209400010},
                 return part.text;
             }
             return part.text.replace(/[A-Za-z]+(?:[-'][A-Za-z]+)*/g, word => {
-                const normalizedWord = normalizeTitleWord(word, !seenFirstWord, acronymWords);
+                const normalizedWord = normalizeTitleWord(word, !seenFirstWord, acronymWords, preservedTitleTerms);
                 seenFirstWord = true;
                 return normalizedWord;
             });
@@ -368,9 +405,12 @@ Unique-ID = {WOS:000766209400010},
         return parts;
     }
 
-    function normalizeTitleWord(word, isFirstWord, acronymWords) {
+    function normalizeTitleWord(word, isFirstWord, acronymWords, preservedTitleTerms) {
         return word.split('-').map((part, index) => {
             if (shouldKeepTitleWordPart(part, acronymWords)) return part;
+
+            const preservedTerm = getPreservedTitleTerm(part, preservedTitleTerms);
+            if (preservedTerm) return preservedTerm;
 
             const lowerPart = part.toLowerCase();
             if (isFirstWord && index === 0) {
@@ -387,6 +427,11 @@ Unique-ID = {WOS:000766209400010},
         if (acronymWords.has(normalizedWord)) return true;
 
         return /[A-Z]/.test(wordPart) && /\d/.test(wordPart);
+    }
+
+    function getPreservedTitleTerm(wordPart, preservedTitleTerms) {
+        if (!/^[A-Z]/.test(wordPart)) return null;
+        return preservedTitleTerms.get(wordPart.toLowerCase()) || null;
     }
 
     function capitalizeTitle(title) {
