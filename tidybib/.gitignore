@@ -1,1 +1,8 @@
 BibTidy-App/
+BibTidy-Private/
+.tools/
+tools/
+src/
+tests/
+chrome-extension/
+chrome-extension-release/

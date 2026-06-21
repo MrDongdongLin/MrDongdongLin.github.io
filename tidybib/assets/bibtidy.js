@@ -1,3 +1,4 @@
+/* abbreviatelist.js */
 const journalAbbreviations = {
     "AIMS Medical Science": "AIMS Med. Sci.",
     "Cancer Gene Therapy": "Cancer Gene Ther.",
@@ -12857,3 +12858,1922 @@ const journalAbbreviations = {
     "Zoonoses and Public Health": "Zoonoses Public Health",
     "Zoosystematics and Evolution": "Zoosyst. Evol."
 }
+;
+/* bibtexParse.js */
+(function(exports) {
+    function BibtexParser() {
+        this.months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+        this.notKey = [',','{','}',' ','='];
+        this.pos = 0;
+        this.input = "";
+        this.entries = [];
+        this.strings = {};
+        this.currentEntry = "";
+        this.setInput = function(t) {
+            this.input = t;
+        };
+        this.getEntries = function() {
+            return this.entries;
+        };
+        this.isWhitespace = function(s) {
+            return (s === ' ' || s === '\r' || s === '\t' || s === '\n');
+        };
+        this.match = function(s, canCommentOut) {
+            if (canCommentOut === undefined || canCommentOut === null) {
+                canCommentOut = true;
+            }
+            this.skipWhitespace(canCommentOut);
+            if (this.input.substring(this.pos, this.pos + s.length) === s) {
+                this.pos += s.length;
+            } else {
+                throw TypeError("Token mismatch, expected " + s + ", found " + this.input.substring(this.pos));
+            }
+            this.skipWhitespace(canCommentOut);
+        };
+        this.tryMatch = function(s, canCommentOut) {
+            if (canCommentOut === undefined || canCommentOut === null) {
+                canCommentOut = true;
+            }
+            this.skipWhitespace(canCommentOut);
+            if (this.input.substring(this.pos, this.pos + s.length) === s) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+        this.matchAt = function() {
+            while (this.input.length > this.pos && this.input[this.pos] !== '@') {
+                this.pos++;
+            }
+            if (this.input[this.pos] === '@') {
+                return true;
+            }
+            return false;
+        };
+        this.skipWhitespace = function(canCommentOut) {
+            while (this.isWhitespace(this.input[this.pos])) {
+                this.pos++;
+            }
+            if (this.input[this.pos] === "%" && canCommentOut) {
+                while (this.input[this.pos] !== "\n") {
+                    this.pos++;
+                }
+                this.skipWhitespace(canCommentOut);
+            }
+        };
+        this.value_braces = function() {
+            var bracecount = 0;
+            this.match("{", false);
+            var start = this.pos;
+            var escaped = false;
+            while (true) {
+                if (!escaped) {
+                    if (this.input[this.pos] === '}') {
+                        if (bracecount > 0) {
+                            bracecount--;
+                        } else {
+                            var end = this.pos;
+                            this.match("}", false);
+                            return this.input.substring(start, end);
+                        }
+                    } else if (this.input[this.pos] === '{') {
+                        bracecount++;
+                    } else if (this.pos >= this.input.length - 1) {
+                        throw TypeError("Unterminated value: value_braces");
+                    }
+                }
+                if (this.input[this.pos] === '\\' && !escaped) {
+                    escaped = true;
+                } else {
+                    escaped = false;
+                }
+                this.pos++;
+            }
+        };
+        this.value_comment = function() {
+            var str = '';
+            var brcktCnt = 0;
+            while (!(this.tryMatch("}", false) && brcktCnt === 0)) {
+                str = str + this.input[this.pos];
+                if (this.input[this.pos] === '{') {
+                    brcktCnt++;
+                }
+                if (this.input[this.pos] === '}') {
+                    brcktCnt--;
+                }
+                if (this.pos >= this.input.length - 1) {
+                    throw TypeError("Unterminated value: value_comment", + this.input.substring(start));
+                }
+                this.pos++;
+            }
+            return str;
+        };
+        this.value_quotes = function() {
+            this.match('"', false);
+            var start = this.pos;
+            var escaped = false;
+            while (true) {
+                if (!escaped) {
+                    if (this.input[this.pos] === '"') {
+                        var end = this.pos;
+                        this.match('"', false);
+                        return this.input.substring(start, end);
+                    } else if (this.pos >= this.input.length - 1) {
+                        throw TypeError("Unterminated value: value_quotes", this.input.substring(start));
+                    }
+                }
+                if (this.input[this.pos] === '\\' && !escaped) {
+                    escaped = true;
+                } else {
+                    escaped = false;
+                }
+                this.pos++;
+            }
+        };
+        this.single_value = function() {
+            var start = this.pos;
+            if (this.tryMatch("{")) {
+                return this.value_braces();
+            } else if (this.tryMatch('"')) {
+                return this.value_quotes();
+            } else {
+                var k = this.key();
+                if (k.match("^[0-9]+$")) {
+                    return k;
+                } else if (this.months.indexOf(k.toLowerCase()) >= 0) {
+                    return k.toLowerCase();
+                } else if (Object.prototype.hasOwnProperty.call(this.strings, k)) {
+                    return this.strings[k];
+                } else {
+                    return k; // Modified to return key as-is for special characters
+                }
+            }
+        };
+        this.value = function() {
+            var values = [];
+            values.push(this.single_value());
+            while (this.tryMatch("#")) {
+                this.match("#");
+                values.push(this.single_value());
+            }
+            return values.join("");
+        };
+        this.key = function(optional, preserveCase) {
+            var start = this.pos;
+            while (true) {
+                if (this.pos >= this.input.length) {
+                    throw TypeError("Runaway key: key");
+                }
+                if (this.notKey.indexOf(this.input[this.pos]) >= 0) {
+                    if (optional && this.input[this.pos] !== ',') {
+                        this.pos = start;
+                        return null;
+                    }
+                    var rawKey = this.input.substring(start, this.pos);
+                    return preserveCase ? rawKey : rawKey.toLowerCase();
+                } else {
+                    this.pos++;
+                }
+            }
+        };
+        this.key_equals_value = function() {
+            var key = this.key();
+            if (this.tryMatch("=")) {
+                this.match("=");
+                var val = this.value();
+                key = key.trim();
+                return [ key, val ];
+            } else {
+                throw TypeError("Value expected, equals sign missing: key_equals_value", this.input.substring(this.pos));
+            }
+        };
+        this.key_value_list = function() {
+            var kv = this.key_equals_value();
+            this.currentEntry['entryTags'] = {};
+            this.currentEntry['entryTags'][kv[0]] = kv[1];
+            while (this.tryMatch(",")) {
+                this.match(",");
+                if (this.tryMatch("}")) {
+                    break;
+                }
+                kv = this.key_equals_value();
+                this.currentEntry['entryTags'][kv[0]] = kv[1];
+            }
+        };
+        this.entry_body = function(d) {
+            this.currentEntry = {};
+            this.currentEntry['citationKey'] = this.key(true, true);
+            this.currentEntry['entryType'] = d.substring(1);
+            if (this.currentEntry['citationKey'] !== null) {
+                this.match(",");
+            }
+            this.key_value_list();
+            this.entries.push(this.currentEntry);
+        };
+        this.directive = function() {
+            this.match("@");
+            return "@" + this.key();
+        };
+        this.preamble = function() {
+            this.currentEntry = {};
+            this.currentEntry['entryType'] = 'PREAMBLE';
+            this.currentEntry['entry'] = this.value_comment();
+            this.entries.push(this.currentEntry);
+        };
+        this.comment = function() {
+            this.currentEntry = {};
+            this.currentEntry['entryType'] = 'COMMENT';
+            this.currentEntry['entry'] = this.value_comment();
+            this.entries.push(this.currentEntry);
+        };
+        this.string = function() {
+            var kv = this.key_equals_value();
+            this.strings[kv[0]] = kv[1];
+            while (this.tryMatch(",")) {
+                this.match(",");
+                if (this.tryMatch("}")) {
+                    break;
+                }
+                kv = this.key_equals_value();
+                this.strings[kv[0]] = kv[1];
+            }
+        };
+        this.entry = function(d) {
+            this.entry_body(d);
+        };
+        this.alernativeCitationKey = function () {
+            this.entries.forEach(function (entry) {
+                if (!entry.citationKey && entry.entryTags) {
+                    entry.citationKey = '';
+                    if (entry.entryTags.author) {
+                        entry.citationKey += entry.entryTags.author.split(',')[0] += ', ';
+                    }
+                    entry.citationKey += entry.entryTags.year;
+                }
+            });
+        }
+        this.bibtex = function() {
+            while (this.matchAt()) {
+                var d = this.directive();
+                this.match("{");
+                if (d.toUpperCase() === "@STRING") {
+                    this.string();
+                } else if (d.toUpperCase() === "@PREAMBLE") {
+                    this.preamble();
+                } else if (d.toUpperCase() === "@COMMENT") {
+                    this.comment();
+                } else {
+                    this.entry(d);
+                }
+                this.match("}");
+            }
+            this.alernativeCitationKey();
+        };
+    };
+    exports.toJSON = function(bibtex) {
+        var b = new BibtexParser();
+        b.setInput(bibtex);
+        b.bibtex();
+        return b.entries;
+    };
+    exports.toBibtex = function(json, compact) {
+        if (compact === undefined) compact = true;
+        var out = '';
+        var entrysep = ',';
+        var indent = '';
+        if (!compact) {
+		      entrysep = ',\n';
+		      indent = '    ';
+        }
+        for ( var i in json) {
+            out += "@" + json[i].entryType;
+            out += '{';
+            if (json[i].citationKey)
+                out += json[i].citationKey + entrysep;
+            if (json[i].entry)
+                out += json[i].entry ;
+            if (json[i].entryTags) {
+                var tags = indent;
+                for (var jdx in json[i].entryTags) {
+                    if (tags.trim().length !== 0)
+                        tags += entrysep + indent;
+                    tags += jdx + (compact ? '={' : ' = {') +
+                            json[i].entryTags[jdx] + '}';
+                }
+                out += tags;
+            }
+            out += compact ? '}\n' : '\n}\n\n';
+        }
+        return out;
+    };
+})(typeof exports === 'undefined' ? this['bibtexParse'] = {} : exports);
+;
+/* highlightBibtex.js */
+function highlightBibtex(text) {
+    const keywords = /@(?:article|book|booklet|conference|inbook|incollection|inproceedings|manual|mastersthesis|misc|phdthesis|proceedings|techreport|unpublished)\b/gi;
+    const fields = /\b(author|title|journal|year|volume|number|pages|month|note|abstract|keywords|source|doi)\b/gi;
+    const specialChars = /[\{\}]/g;
+    const numbers = /\b\d{4}\b/g;
+    // Preserve formatting by replacing newlines with <br> and spaces with &nbsp;
+    const formattedText = escapeHtml(text)
+        .replace(/\n/g, '<br>')
+        .replace(/ /g, '&nbsp;')
+        .replace(keywords, '<span class="bibtex-keyword">$&</span>')
+        .replace(fields, '<span class="bibtex-field">$&</span>')
+        .replace(specialChars, '<span class="bibtex-special-char">$&</span>')
+        .replace(numbers, '<span class="bibtex-number">$&</span>');
+    return `<pre><code>${formattedText}</code></pre>`;
+}
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+function applyHighlighting() {
+    const textAreas = document.querySelectorAll('.highlight-bibtex');
+    textAreas.forEach(textArea => {
+        const content = textArea.value;
+        const highlightedContent = highlightBibtex(content);
+        const highlightedDiv = textArea.nextElementSibling || document.createElement('div');
+        highlightedDiv.className = 'highlighted-content';
+        highlightedDiv.innerHTML = highlightedContent;
+        if (!textArea.nextElementSibling) {
+            textArea.parentNode.insertBefore(highlightedDiv, textArea.nextSibling);
+        }
+    });
+}
+// Export functions if in module context
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = {
+        highlightBibtex,
+        applyHighlighting,
+        escapeHtml
+    };
+} else {
+    window.highlightBibtex = highlightBibtex;
+    window.applyHighlighting = applyHighlighting;
+}
+;
+/* bibTidyCore.js */
+(function(root, factory) {
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = factory(root);
+    } else {
+        root.bibTidyCore = factory(root);
+    }
+})(typeof globalThis !== 'undefined' ? globalThis : this, function(root) {
+    const ENTRY_DIRECTIVES = new Set(['string', 'comment', 'preamble']);
+    const DEFAULT_TEMPLATE = 'author-year-title-colon';
+    const FIELD_PRESETS = {
+        clean: [
+            'author', 'title', 'journal', 'booktitle', 'year', 'editor', 'volume',
+            'number', 'series', 'pages', 'month', 'note', 'keywords', 'source',
+            'doi', 'url'
+        ],
+        minimal: [
+            'author', 'title', 'journal', 'booktitle', 'year', 'volume', 'number',
+            'pages', 'doi'
+        ],
+        complete: [
+            'author', 'title', 'journal', 'booktitle', 'year', 'editor', 'volume',
+            'number', 'series', 'pages', 'month', 'note', 'keywords', 'source',
+            'doi', 'url', 'publisher', 'organization', 'school', 'institution',
+            'address', 'abstract', 'isbn', 'issn', 'eissn', 'unique-id', 'pmid',
+            'pmcid', 'archiveprefix', 'eprint', 'primaryclass'
+        ]
+    };
+    const REQUIRED_FIELDS = {
+        article: ['author', 'title', 'journal', 'year'],
+        inproceedings: ['author', 'title', 'booktitle', 'year'],
+        conference: ['author', 'title', 'booktitle', 'year'],
+        book: ['title', 'year'],
+        incollection: ['author', 'title', 'booktitle', 'year'],
+        phdthesis: ['author', 'title', 'school', 'year'],
+        mastersthesis: ['author', 'title', 'school', 'year'],
+        techreport: ['author', 'title', 'institution', 'year']
+    };
+    function tidyBibtex(content, options) {
+        const normalizedOptions = normalizeOptions(options);
+        const result = createResult();
+        const seenKeys = new Map();
+        result.content = transformBibtexEntries(content, (rawEntry, index) => {
+            const parsed = parseEntryBlock(rawEntry, result);
+            if (!parsed) return rawEntry.text;
+            const formatted = formatBibEntry(parsed, normalizedOptions);
+            recordEntry(result.stats, parsed.entryType);
+            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index);
+            result.changes.push(formatted.change);
+            return formatted.text;
+        }, result);
+        return result;
+    }
+    function validateBibtex(content, options) {
+        const normalizedOptions = normalizeOptions(options);
+        const result = createResult();
+        const seenKeys = new Map();
+        transformBibtexEntries(content, (rawEntry, index) => {
+            const parsed = parseEntryBlock(rawEntry, result);
+            if (!parsed) return rawEntry.text;
+            const formatted = formatBibEntry(parsed, normalizedOptions);
+            recordEntry(result.stats, parsed.entryType);
+            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index);
+            result.changes.push(formatted.change);
+            return rawEntry.text;
+        }, result);
+        return result;
+    }
+    function formatReport(result) {
+        const lines = [];
+        lines.push(formatTidyStatus(result.stats));
+        if (result.changes.length) {
+            const renamed = result.changes.filter(change => change.citationKeyChanged);
+            const modified = result.changes.reduce((count, change) => count + change.modifiedFields.length, 0);
+            const removed = result.changes.reduce((count, change) => count + change.removedFields.length, 0);
+            lines.push(`Renamed citation keys: ${renamed.length}`);
+            lines.push(`Modified fields: ${modified}`);
+            lines.push(`Removed fields: ${removed}`);
+            renamed.slice(0, 12).forEach(change => {
+                lines.push(`- key: ${change.originalCitationKey || '(blank)'} -> ${change.citationKey}`);
+            });
+            result.changes
+                .filter(change => change.removedFields.length)
+                .slice(0, 8)
+                .forEach(change => {
+                    lines.push(`- removed from ${change.citationKey}: ${change.removedFields.join(', ')}`);
+                });
+        }
+        if (result.warnings.length) {
+            lines.push('');
+            lines.push(`Warnings (${result.warnings.length})`);
+            result.warnings.slice(0, 20).forEach(warning => lines.push(`- ${warning.message}`));
+        }
+        if (result.errors.length) {
+            lines.push('');
+            lines.push(`Errors (${result.errors.length})`);
+            result.errors.slice(0, 20).forEach(error => lines.push(`- ${error.message}`));
+        }
+        return lines.join('\n');
+    }
+    function parseBibtexLibrary(content) {
+        const result = createResult();
+        const entries = [];
+        const preservedBlocks = [];
+        const sourceBlocks = [];
+        const seenKeys = new Map();
+        let position = 0;
+        let macroContext = '';
+        let sourceEntryIndex = 0;
+        while (position < content.length) {
+            const blockStart = content.indexOf('@', position);
+            if (blockStart === -1) break;
+            sourceBlocks.push({ type: 'text', text: content.slice(position, blockStart) });
+            const block = readBibtexBlock(content, blockStart);
+            if (!block) {
+                result.errors.push({
+                    type: 'parse',
+                    position: blockStart,
+                    message: `Could not find the end of the BibTeX block starting at character ${blockStart}.`
+                });
+                break;
+            }
+            if (block.type === 'string') {
+                macroContext += normalizeBlockDelimiters(block.text) + '\n';
+                preservedBlocks.push(block.text);
+                sourceBlocks.push({ type: 'preserved', text: block.text });
+            } else if (isBibliographyEntryType(block.type)) {
+                const parsed = parseEntryBlock({ text: block.text, macroContext }, result);
+                if (parsed) {
+                    parsed.sourceId = `source-entry-${sourceEntryIndex}`;
+                    sourceEntryIndex++;
+                    parsed.entryTags = Object.assign({}, parsed.entryTags);
+                    entries.push(parsed);
+                    sourceBlocks.push({ type: 'entry', sourceId: parsed.sourceId });
+                    recordEntry(result.stats, parsed.entryType);
+                    recordEntryDiagnostics(parsed, parsed, result, seenKeys, entries.length - 1);
+                } else {
+                    sourceBlocks.push({ type: 'preserved', text: block.text });
+                }
+            } else {
+                preservedBlocks.push(block.text);
+                sourceBlocks.push({ type: 'preserved', text: block.text });
+            }
+            position = block.end;
+        }
+        sourceBlocks.push({ type: 'text', text: content.slice(position) });
+        return {
+            entries,
+            preservedBlocks,
+            sourceBlocks,
+            stats: result.stats,
+            warnings: result.warnings,
+            errors: result.errors
+        };
+    }
+    function serializeBibtexLibrary(library, options) {
+        const entries = Array.isArray(library) ? library : (library && library.entries) || [];
+        const preservedBlocks = Array.isArray(library && library.preservedBlocks)
+            ? library.preservedBlocks.filter(Boolean)
+            : [];
+        const normalizedOptions = normalizeOptions(options || { preset: 'complete', citationKeyTemplate: 'original' });
+        if (Array.isArray(library && library.sourceBlocks) && library.sourceBlocks.length) {
+            return serializeLibraryFromSourceBlocks(library.sourceBlocks, entries, normalizedOptions);
+        }
+        const entryTexts = entries.map(entry => formatLibraryEntry(entry, normalizedOptions));
+        return preservedBlocks.concat(entryTexts).join('\n\n').trim();
+    }
+    function serializeLibraryFromSourceBlocks(sourceBlocks, entries, options) {
+        const entriesBySourceId = new Map();
+        entries.forEach(entry => {
+            if (entry.sourceId) entriesBySourceId.set(entry.sourceId, entry);
+        });
+        const emittedEntries = new Set();
+        let content = '';
+        sourceBlocks.forEach(block => {
+            if (!block) return;
+            if (block.type === 'entry') {
+                const entry = entriesBySourceId.get(block.sourceId);
+                if (!entry) return;
+                content += formatLibraryEntry(entry, options);
+                emittedEntries.add(entry);
+                return;
+            }
+            content += block.text || '';
+        });
+        const newEntries = entries.filter(entry => !emittedEntries.has(entry));
+        if (newEntries.length) {
+            const separator = content.trim() ? '\n\n' : '';
+            content += separator + newEntries.map(entry => formatLibraryEntry(entry, options)).join('\n\n');
+        }
+        return content.trim();
+    }
+    function normalizeOptions(options) {
+        const safeOptions = options || {};
+        const preset = FIELD_PRESETS[safeOptions.preset] ? safeOptions.preset : 'clean';
+        const citationKeyTemplate = safeOptions.citationKeyTemplate || DEFAULT_TEMPLATE;
+        return {
+            preset,
+            fieldOrder: FIELD_PRESETS[preset],
+            abbreviateJournals: Boolean(safeOptions.abbreviateJournals),
+            renameCitationIds: safeOptions.renameCitationIds !== false && citationKeyTemplate !== 'original',
+            citationKeyTemplate,
+            journalAbbreviations: safeOptions.journalAbbreviations || getDefaultJournalAbbreviations()
+        };
+    }
+    function createResult() {
+        return {
+            content: '',
+            stats: {
+                totalItems: 0,
+                itemTypes: {}
+            },
+            changes: [],
+            warnings: [],
+            errors: []
+        };
+    }
+    function recordEntry(stats, entryType) {
+        const normalizedType = (entryType || 'unknown').toLowerCase();
+        stats.totalItems++;
+        stats.itemTypes[normalizedType] = (stats.itemTypes[normalizedType] || 0) + 1;
+    }
+    function formatTidyStatus(stats) {
+        const typeSummary = Object.entries(stats.itemTypes)
+            .sort(([typeA, countA], [typeB, countB]) => countB - countA || typeA.localeCompare(typeB))
+            .map(([type, count]) => `${type}: ${count}`)
+            .join(', ');
+        if (!stats.totalItems) return 'Processed 0 BibTeX entries.';
+        return `Processed ${stats.totalItems} BibTeX entr${stats.totalItems === 1 ? 'y' : 'ies'}${typeSummary ? ` (${typeSummary})` : ''}.`;
+    }
+    function transformBibtexEntries(content, transformEntry, result) {
+        let output = '';
+        let position = 0;
+        let macroContext = '';
+        let entryIndex = 0;
+        while (position < content.length) {
+            const blockStart = content.indexOf('@', position);
+            if (blockStart === -1) {
+                output += content.slice(position);
+                break;
+            }
+            output += content.slice(position, blockStart);
+            const block = readBibtexBlock(content, blockStart);
+            if (!block) {
+                result.errors.push({
+                    type: 'parse',
+                    position: blockStart,
+                    message: `Could not find the end of the BibTeX block starting at character ${blockStart}.`
+                });
+                output += content.slice(blockStart);
+                break;
+            }
+            if (block.type === 'string') {
+                macroContext += normalizeBlockDelimiters(block.text) + '\n';
+                output += block.text;
+            } else if (isBibliographyEntryType(block.type)) {
+                output += transformEntry({ text: block.text, macroContext }, entryIndex);
+                entryIndex++;
+            } else {
+                output += block.text;
+            }
+            position = block.end;
+        }
+        return output;
+    }
+    function readBibtexBlock(content, atIndex) {
+        const directiveMatch = content.slice(atIndex).match(/^@([A-Za-z]+)\s*/);
+        if (!directiveMatch) return null;
+        const type = directiveMatch[1].toLowerCase();
+        const openIndex = atIndex + directiveMatch[0].length;
+        const opener = content[openIndex];
+        const closer = opener === '{' ? '}' : opener === '(' ? ')' : null;
+        if (!closer) return null;
+        let depth = 0;
+        let escaped = false;
+        let inQuote = false;
+        for (let index = openIndex; index < content.length; index++) {
+            const char = content[index];
+            if (char === '"' && !escaped) inQuote = !inQuote;
+            if (!inQuote) {
+                if (char === opener) {
+                    depth++;
+                } else if (char === closer) {
+                    depth--;
+                    if (depth === 0) {
+                        return {
+                            type,
+                            text: content.slice(atIndex, index + 1),
+                            end: index + 1
+                        };
+                    }
+                }
+            }
+            escaped = char === '\\' && !escaped;
+            if (char !== '\\') escaped = false;
+        }
+        return null;
+    }
+    function isBibliographyEntryType(type) {
+        return !ENTRY_DIRECTIVES.has(type);
+    }
+    function parseEntryBlock(rawEntry, result) {
+        const parser = getBibtexParser();
+        try {
+            const bibDatabase = parseWithMacroFallback(parser, rawEntry);
+            const entry = bibDatabase[bibDatabase.length - 1];
+            if (!entry || !entry.entryTags) {
+                result.warnings.push({
+                    type: 'empty-entry',
+                    message: 'Skipped a BibTeX block because it did not contain entry fields.'
+                });
+                return null;
+            }
+            return {
+                citationKey: entry.citationKey || '',
+                entryType: (entry.entryType || 'misc').toLowerCase(),
+                entryTags: normalizeEntryTags(entry.entryTags)
+            };
+        } catch (error) {
+            result.errors.push({
+                type: 'parse',
+                message: `Failed to parse BibTeX entry: ${error.message || error}`
+            });
+            return null;
+        }
+    }
+    function parseWithMacroFallback(parser, rawEntry) {
+        const normalizedText = normalizeBlockDelimiters(rawEntry.text);
+        try {
+            return parser.toJSON(rawEntry.macroContext + normalizedText);
+        } catch (error) {
+            if (!rawEntry.macroContext) throw error;
+            return parser.toJSON(normalizedText);
+        }
+    }
+    function normalizeBlockDelimiters(text) {
+        const directiveMatch = text.match(/^(@[A-Za-z]+\s*)\(/);
+        if (!directiveMatch || !text.endsWith(')')) return text;
+        return `${directiveMatch[1]}{${text.slice(directiveMatch[0].length, -1)}}`;
+    }
+    function normalizeEntryTags(entryTags) {
+        const normalized = {};
+        Object.entries(entryTags || {}).forEach(([key, value]) => {
+            normalized[key.toLowerCase().trim()] = String(value).trim();
+        });
+        return normalized;
+    }
+    function formatBibEntry(entry, options) {
+        const originalTags = Object.assign({}, entry.entryTags);
+        const transformedTags = Object.assign({}, entry.entryTags);
+        const fieldOrder = options.fieldOrder;
+        if (transformedTags.journal) {
+            transformedTags.journal = capitalizeTitle(transformedTags.journal);
+            if (options.abbreviateJournals) {
+                transformedTags.journal = abbreviateJournal(transformedTags.journal, options.journalAbbreviations);
+            }
+        }
+        if (transformedTags.booktitle) {
+            transformedTags.booktitle = capitalizeTitle(transformedTags.booktitle);
+        }
+        if (transformedTags.title) {
+            transformedTags.title = normalizeTitleCapitalization(transformedTags.title);
+        }
+        if (transformedTags.doi) {
+            transformedTags.doi = normalizeDoi(transformedTags.doi);
+        }
+        const citationKey = options.renameCitationIds
+            ? buildCitationKey(entry, transformedTags, options.citationKeyTemplate)
+            : entry.citationKey;
+        const keptFields = fieldOrder.filter(field => transformedTags[field]);
+        const removedFields = Object.keys(originalTags)
+            .filter(field => !fieldOrder.includes(field))
+            .sort();
+        const modifiedFields = keptFields
+            .filter(field => originalTags[field] !== transformedTags[field])
+            .map(field => ({
+                field,
+                before: originalTags[field],
+                after: transformedTags[field]
+            }));
+        let formattedBib = `@${entry.entryType}{${citationKey},\n`;
+        const valueColumn = getValueColumn(keptFields);
+        keptFields.forEach(field => {
+            formattedBib += formatFieldLine(field, transformedTags[field], valueColumn);
+        });
+        return {
+            entry: {
+                citationKey,
+                entryType: entry.entryType,
+                entryTags: transformedTags
+            },
+            text: formattedBib.trim().replace(/,$/, '') + '\n}',
+            change: {
+                entryType: entry.entryType,
+                originalCitationKey: entry.citationKey,
+                citationKey,
+                citationKeyChanged: entry.citationKey !== citationKey,
+                removedFields,
+                modifiedFields
+            }
+        };
+    }
+    function formatLibraryEntry(entry, options) {
+        const entryType = (entry.entryType || 'misc').toLowerCase().trim() || 'misc';
+        const citationKey = String(entry.citationKey || '').trim() || buildCitationKey(entry, entry.entryTags || {}, 'author-year-title-colon');
+        const tags = Object.assign({}, entry.entryTags || {});
+        const orderedFields = getLibraryFieldOrder(tags, options.fieldOrder);
+        const writableFields = orderedFields.filter(field => {
+            const value = tags[field];
+            return value !== undefined && value !== null && String(value).trim() !== '';
+        });
+        const valueColumn = getValueColumn(writableFields);
+        let formattedBib = `@${entryType}{${citationKey},\n`;
+        writableFields.forEach(field => {
+            const value = tags[field];
+            formattedBib += formatFieldLine(field, String(value).trim(), valueColumn);
+        });
+        return formattedBib.trim().replace(/,$/, '') + '\n}';
+    }
+    function getValueColumn(fields) {
+        if (!fields.length) return 0;
+        return Math.max(...fields.map(field => `  ${field} =`.length)) + 1;
+    }
+    function formatFieldLine(field, value, valueColumn) {
+        const prefix = `  ${field} =`;
+        const padding = ' '.repeat(Math.max(1, valueColumn - prefix.length));
+        return `${prefix}${padding}{${value}},\n`;
+    }
+    function getLibraryFieldOrder(tags, preferredFields) {
+        const preferred = (preferredFields || FIELD_PRESETS.complete).filter(field => tags[field]);
+        const remaining = Object.keys(tags)
+            .filter(field => !preferred.includes(field))
+            .sort((fieldA, fieldB) => fieldA.localeCompare(fieldB));
+        return preferred.concat(remaining);
+    }
+    function recordEntryDiagnostics(originalEntry, formattedEntry, result, seenKeys, entryIndex) {
+        const key = formattedEntry.citationKey || originalEntry.citationKey || `(entry ${entryIndex + 1})`;
+        if (seenKeys.has(key)) {
+            result.warnings.push({
+                type: 'duplicate-key',
+                citationKey: key,
+                message: `Duplicate citation key "${key}" also appears in entry ${seenKeys.get(key) + 1}.`
+            });
+        } else {
+            seenKeys.set(key, entryIndex);
+        }
+        const requiredFields = REQUIRED_FIELDS[originalEntry.entryType] || ['author', 'title', 'year'];
+        requiredFields.forEach(field => {
+            if (!originalEntry.entryTags[field]) {
+                result.warnings.push({
+                    type: 'missing-field',
+                    citationKey: key,
+                    field,
+                    message: `${key} is missing required field "${field}".`
+                });
+            }
+        });
+        if (originalEntry.entryTags.doi && !isPlausibleDoi(normalizeDoi(originalEntry.entryTags.doi))) {
+            result.warnings.push({
+                type: 'doi',
+                citationKey: key,
+                message: `${key} has a DOI that does not look valid.`
+            });
+        }
+    }
+    function buildCitationKey(entry, tags, template) {
+        if (template === 'original') return entry.citationKey;
+        const authorPart = getFirstAuthorPart(tags.author);
+        const yearPart = tags.year ? sanitizeKeyPart(tags.year) : 'noyear';
+        const titlePart = getTitlePart(tags.title);
+        if (template === 'author-year-title-camel') {
+            return `${authorPart}${yearPart}${titlePart}`;
+        }
+        return `${authorPart}:${yearPart}:${titlePart}`;
+    }
+    function getFirstAuthorPart(author) {
+        if (!author) return 'noauthor';
+        const firstAuthor = author.split(/\s+and\s+/i)[0].trim();
+        const surname = firstAuthor.includes(',')
+            ? firstAuthor.split(',')[0].trim()
+            : firstAuthor.split(/\s+/).slice(-1)[0];
+        return sanitizeKeyPart(surname) || 'noauthor';
+    }
+    function getTitlePart(title) {
+        if (!title) return 'notitle';
+        const words = stripOuterBraces(title)
+            .replace(/[{}]/g, '')
+            .split(/[^A-Za-z0-9]+/)
+            .filter(Boolean);
+        const initials = words.slice(0, 5).map(word => word[0].toUpperCase());
+        return initials.join('') || 'notitle';
+    }
+    function sanitizeKeyPart(text) {
+        return String(text || '').replace(/[^A-Za-z0-9_-]/g, '');
+    }
+    function normalizeTitleCapitalization(title) {
+        if (!title) return '';
+        const acronymWords = new Set([
+            'ACM', 'AI', 'API', 'CNN', 'CPU', 'DCT', 'DNA', 'DNN', 'FFT', 'GAN',
+            'GPU', 'HTTP', 'HTTPS', 'IEEE', 'IOT', 'LSTM', 'ML', 'NLP', 'PDE',
+            'RGB', 'RNA', 'RNN', 'SQL', 'SVD', 'SVM', 'URL', 'XML'
+        ]);
+        const preservedTitleTerms = new Map([
+            ['abelian', 'Abelian'], ['bayesian', 'Bayesian'], ['bernoulli', 'Bernoulli'],
+            ['boolean', 'Boolean'], ['carlo', 'Carlo'], ['cartesian', 'Cartesian'],
+            ['cauchy', 'Cauchy'], ['chebyshev', 'Chebyshev'], ['dirichlet', 'Dirichlet'],
+            ['euclidean', 'Euclidean'], ['euler', 'Euler'], ['fermat', 'Fermat'],
+            ['fourier', 'Fourier'], ['galois', 'Galois'], ['gaussian', 'Gaussian'],
+            ['green', 'Green'], ['hamiltonian', 'Hamiltonian'], ['hermite', 'Hermite'],
+            ['hilbert', 'Hilbert'], ['jacobian', 'Jacobian'], ['lagrange', 'Lagrange'],
+            ['laplacian', 'Laplacian'], ['laurent', 'Laurent'], ['legendre', 'Legendre'],
+            ['markov', 'Markov'], ['monte', 'Monte'], ['newton', 'Newton'],
+            ['noetherian', 'Noetherian'], ['poisson', 'Poisson'], ['riemann', 'Riemann'],
+            ['schrodinger', 'Schrodinger'], ['taylor', 'Taylor'],
+            ['vandermerwe', 'VanDerMerwe'], ['wiener', 'Wiener'], ['zariski', 'Zariski']
+        ]);
+        let seenFirstWord = false;
+        const normalizedTitle = stripRedundantOuterBraces(title);
+        return splitProtectedBibtexText(normalizedTitle).map(part => {
+            if (part.protected) {
+                if (/[A-Za-z]/.test(part.text)) seenFirstWord = true;
+                return collapseProtectedBraces(part.text);
+            }
+            return part.text.replace(/[A-Za-z]+(?:[-'][A-Za-z]+)*/g, word => {
+                const normalizedWord = normalizeTitleWord(word, !seenFirstWord, acronymWords, preservedTitleTerms);
+                seenFirstWord = true;
+                return normalizedWord;
+            });
+        }).join('');
+    }
+    function splitProtectedBibtexText(text) {
+        const parts = [];
+        let buffer = '';
+        let depth = 0;
+        let protectedPart = false;
+        for (const char of text) {
+            const nextProtectedPart = depth > 0 || char === '{';
+            if (buffer && nextProtectedPart !== protectedPart) {
+                parts.push({ text: buffer, protected: protectedPart });
+                buffer = '';
+            }
+            buffer += char;
+            protectedPart = nextProtectedPart;
+            if (char === '{') depth++;
+            if (char === '}') depth = Math.max(0, depth - 1);
+        }
+        if (buffer) parts.push({ text: buffer, protected: protectedPart });
+        return parts;
+    }
+    function normalizeTitleWord(word, isFirstWord, acronymWords, preservedTitleTerms) {
+        return word.split('-').map((part, index) => {
+            if (/[a-z][A-Z]/.test(part)) return `{${part}}`;
+            if (shouldKeepTitleWordPart(part, acronymWords)) return `{${part.toUpperCase()}}`;
+            const preservedTerm = getPreservedTitleTerm(part, preservedTitleTerms);
+            if (preservedTerm) return `{${preservedTerm}}`;
+            const lowerPart = part.toLowerCase();
+            if (isFirstWord && index === 0) {
+                return lowerPart.charAt(0).toUpperCase() + lowerPart.slice(1);
+            }
+            return lowerPart;
+        }).join('-');
+    }
+    function shouldKeepTitleWordPart(wordPart, acronymWords) {
+        const normalizedWord = wordPart.replace(/[^A-Za-z]/g, '').toUpperCase();
+        if (acronymWords.has(normalizedWord)) return true;
+        return /[A-Z]/.test(wordPart) && /\d/.test(wordPart);
+    }
+    function getPreservedTitleTerm(wordPart, preservedTitleTerms) {
+        if (!/^[A-Z]/.test(wordPart)) return null;
+        return preservedTitleTerms.get(wordPart.toLowerCase()) || null;
+    }
+    function stripRedundantOuterBraces(text) {
+        let value = String(text || '').trim();
+        while (isWrappedInSingleBracePair(value)) {
+            value = value.slice(1, -1).trim();
+        }
+        return value;
+    }
+    function isWrappedInSingleBracePair(text) {
+        if (!text.startsWith('{') || !text.endsWith('}')) return false;
+        let depth = 0;
+        let escaped = false;
+        for (let index = 0; index < text.length; index++) {
+            const char = text[index];
+            if (char === '{' && !escaped) depth++;
+            if (char === '}' && !escaped) {
+                depth--;
+                if (depth === 0 && index < text.length - 1) return false;
+            }
+            escaped = char === '\\' && !escaped;
+            if (char !== '\\') escaped = false;
+        }
+        return depth === 0;
+    }
+    function collapseProtectedBraces(text) {
+        const inner = stripRedundantOuterBraces(text);
+        if (!inner) return '';
+        return `{${inner}}`;
+    }
+    function capitalizeTitle(title) {
+        if (!title) return '';
+        const prepositions = new Set(['of', 'the', 'and', 'in', 'on', 'for', 'with', 'a', 'an', 'by', 'at', 'to']);
+        const specialWords = new Set(['IEEE', 'ACM', 'IEEE/ACM']);
+        return title.split(' ').map(word => {
+            if (word.startsWith('{') && word.endsWith('}')) return word;
+            if (specialWords.has(word)) return word;
+            if (prepositions.has(word.toLowerCase())) return word.toLowerCase();
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }).join(' ');
+    }
+    function abbreviateJournal(journal, abbreviations) {
+        return abbreviations[journal] || journal;
+    }
+    function normalizeDoi(doi) {
+        return String(doi || '')
+            .trim()
+            .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, '')
+            .replace(/^doi:\s*/i, '');
+    }
+    function isPlausibleDoi(doi) {
+        return /^10\.\d{4,9}\/\S+$/i.test(doi);
+    }
+    function stripOuterBraces(text) {
+        const trimmed = String(text || '').trim();
+        if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+            return trimmed.slice(1, -1);
+        }
+        return trimmed;
+    }
+    function getDefaultJournalAbbreviations() {
+        if (typeof journalAbbreviations !== 'undefined') return journalAbbreviations;
+        return root.journalAbbreviations || {};
+    }
+    function getBibtexParser() {
+        if (typeof bibtexParse !== 'undefined') return bibtexParse;
+        if (root.bibtexParse) return root.bibtexParse;
+        throw new Error('bibtexParse is not loaded.');
+    }
+    return {
+        tidyBibtex,
+        validateBibtex,
+        parseBibtexLibrary,
+        serializeBibtexLibrary,
+        formatReport,
+        formatTidyStatus,
+        _private: {
+            buildCitationKey,
+            formatLibraryEntry,
+            normalizeTitleCapitalization,
+            readBibtexBlock
+        }
+    };
+});
+;
+/* scripts.js */
+document.addEventListener('DOMContentLoaded', () => {
+    const textLeft = document.getElementById('text-left');
+    const textRight = document.getElementById('text-right');
+    const browseButton = document.getElementById('browse-button');
+    const fileInput = document.getElementById('file-input');
+    const openLocalButton = document.getElementById('open-local-button');
+    const reloadLocalButton = document.getElementById('reload-local-button');
+    const newEntryButton = document.getElementById('new-entry-button');
+    const importEntryButton = document.getElementById('import-entry-button');
+    const deleteEntryButton = document.getElementById('delete-entry-button');
+    const tidyButton = document.getElementById('tidy-button');
+    const validateButton = document.getElementById('validate-button');
+    const saveButton = document.getElementById('save-button');
+    const saveLocalButton = document.getElementById('save-local-button');
+    const exitButton = document.getElementById('exit-button');
+    const loadSourceButton = document.getElementById('load-source-button');
+    const applyAbbreviation = document.getElementById('abbreviate-checkbox');
+    const renameCitationIds = document.getElementById('rename-id-checkbox');
+    const presetSelect = document.getElementById('preset-select');
+    const citationTemplateSelect = document.getElementById('citation-template-select');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const projectButton = document.getElementById('project-button');
+    const projectName = document.getElementById('project-name');
+    const projectState = document.getElementById('project-state');
+    const workspaceEyebrow = document.getElementById('workspace-eyebrow');
+    const workspaceTitle = document.getElementById('workspace-title');
+    const outputMessage = document.getElementById('output-message');
+    const tidyWorkspace = document.querySelector('.tidy-workspace');
+    const reportResizer = document.getElementById('report-resizer');
+    const librarySearch = document.getElementById('library-search');
+    const librarySort = document.getElementById('library-sort');
+    const libraryCount = document.getElementById('library-count');
+    const libraryTypeSummary = document.getElementById('library-type-summary');
+    const entryList = document.getElementById('entry-list');
+    const entryDetailForm = document.getElementById('entry-detail-form');
+    const emptyDetail = document.getElementById('empty-detail');
+    const importPanel = document.getElementById('import-panel');
+    const importBibtexText = document.getElementById('import-bibtex-text');
+    const addImportButton = document.getElementById('add-import-button');
+    const cancelImportButton = document.getElementById('cancel-import-button');
+    const detailEntryType = document.getElementById('detail-entry-type');
+    const detailCitationKey = document.getElementById('detail-citation-key');
+    const detailFields = document.getElementById('detail-fields');
+    const addFieldButton = document.getElementById('add-field-button');
+    const viewTabs = Array.from(document.querySelectorAll('.view-tab'));
+    const pageViews = Array.from(document.querySelectorAll('.page-view'));
+    const viewActions = Array.from(document.querySelectorAll('[data-view-action]'));
+    const pinnedFields = [
+        'author', 'title', 'journal', 'booktitle', 'year', 'publisher',
+        'school', 'institution', 'volume', 'number', 'pages', 'doi',
+        'url', 'keywords', 'abstract', 'note'
+    ];
+    const multilineFields = new Set(['author', 'title', 'abstract', 'note', 'keywords']);
+    const listSummaryFields = new Set([
+        'author', 'title', 'journal', 'booktitle', 'year',
+        'publisher', 'school', 'institution'
+    ]);
+    const entryMetaStorageKey = 'bibtidy:entry-meta:v1';
+    let originalFileName = 'sample-bibliography';
+    let libraryEntries = [];
+    let preservedBlocks = [];
+    let sourceBlocks = [];
+    let selectedEntryId = null;
+    let nextEntryId = 1;
+    let sourceNeedsLibrarySync = false;
+    let formattedOutputIsCurrent = false;
+    let pendingLibraryRenderTimer = 0;
+    let pendingHighlightTimer = 0;
+    let linkedFileHandle = null;
+    let linkedFileLastModified = 0;
+    let linkedFileSignature = '';
+    let externalUpdateNoticeShown = false;
+    let projectMode = 'Sample';
+    let projectDirty = false;
+    const initialInputContent = `@inproceedings{ WOS:000766209400010,
+Author = {Li, Yue and Abady, Lydia and Wang, Hongxia and Barni, Mauro},
+Editor = {Zhao, X and Piva, A and ComesanaAlfaro, P},
+Title = {A Feature-Map-Based Large-Payload DNN Watermarking Algorithm},
+Booktitle = {DIGITAL FORENSICS AND WATERMARKING, IWDW 2021},
+Series = {Lecture Notes in Computer Science},
+Year = {2022},
+Volume = {13180},
+Pages = {135-148},
+Note = {20th International Workshop on Digital-Forensics and Watermarking
+   (IWDW), Beijing, PEOPLES R CHINA, NOV 20-22, 2021},
+Organization = {Chinese Acad Sci, Inst Informat Engn, State Key Lab Informat Secur; New
+   Jersey Institute of Technology; Springer},
+DOI = {10.1007/978-3-030-95398-0\\_10},
+ISSN = {0302-9743},
+EISSN = {1611-3349},
+ISBN = {978-3-030-95398-0; 978-3-030-95397-3},
+Unique-ID = {WOS:000766209400010},
+}`;
+    textLeft.value = initialInputContent;
+    loadLibraryFromText(initialInputContent, 'Loaded sample bibliography.');
+    runTidy();
+    setActiveView('library');
+    setInterval(() => checkLinkedFileForUpdates(), 3000);
+    window.addEventListener('focus', () => checkLinkedFileForUpdates({ forceContentCompare: true }));
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            checkLinkedFileForUpdates({ forceContentCompare: true });
+        }
+    });
+    browseButton.addEventListener('click', () => {
+        fileInput.click();
+    });
+    fileInput.addEventListener('change', event => {
+        const file = event.target.files[0];
+        if (!file) return;
+        originalFileName = file.name.replace(/\.[^.]+$/, '') || 'bibliography';
+        const reader = new FileReader();
+        reader.onload = readEvent => {
+            const content = readEvent.target.result;
+            textLeft.value = content;
+            textRight.value = '';
+            formattedOutputIsCurrent = false;
+            linkedFileHandle = null;
+            linkedFileSignature = '';
+            projectMode = 'Uploaded';
+            loadLibraryFromText(content, `Loaded file: ${file.name}`);
+            updateLinkedFileActions();
+        };
+        reader.readAsText(file);
+    });
+    openLocalButton.addEventListener('click', openLocalBibFile);
+    reloadLocalButton.addEventListener('click', reloadLocalBibFile);
+    projectButton.addEventListener('click', openLocalBibFile);
+    newEntryButton.addEventListener('click', () => {
+        const entry = createNewEntry();
+        libraryEntries.unshift(entry);
+        selectedEntryId = entry.id;
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Added ${entry.citationKey}.`;
+    });
+    importEntryButton.addEventListener('click', () => {
+        importPanel.classList.toggle('is-hidden');
+        if (!importPanel.classList.contains('is-hidden')) {
+            importBibtexText.focus();
+        }
+    });
+    addImportButton.addEventListener('click', () => {
+        importEntriesFromText(importBibtexText.value, 'Imported BibTeX into library.');
+    });
+    cancelImportButton.addEventListener('click', () => {
+        importBibtexText.value = '';
+        importPanel.classList.add('is-hidden');
+    });
+    deleteEntryButton.addEventListener('click', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        libraryEntries = libraryEntries.filter(entry => entry.id !== selectedEntry.id);
+        selectedEntryId = libraryEntries[0] ? libraryEntries[0].id : null;
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Deleted ${selectedEntry.citationKey || 'selected item'}.`;
+    });
+    tidyButton.addEventListener('click', runTidy);
+    validateButton.addEventListener('click', runValidate);
+    saveButton.addEventListener('click', () => {
+        syncPendingLibraryChanges();
+        const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `tidy-${originalFileName}.bib`;
+        a.click();
+        URL.revokeObjectURL(url);
+        if (!linkedFileHandle) {
+            projectDirty = false;
+            updateProjectUi();
+        }
+        appendReportLine('Saved file.');
+    });
+    saveLocalButton.addEventListener('click', saveLocalBibFile);
+    exitButton.addEventListener('click', () => {
+        window.close();
+    });
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
+    });
+    viewTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            setActiveView(tab.dataset.view);
+        });
+    });
+    loadSourceButton.addEventListener('click', () => {
+        loadLibraryFromText(textLeft.value, 'Loaded source into manager.');
+    });
+    librarySearch.addEventListener('input', () => {
+        scheduleLibraryRender();
+    });
+    librarySort.addEventListener('change', () => {
+        scheduleLibraryRender();
+    });
+    entryList.addEventListener('click', event => {
+        const row = event.target.closest('.entry-row');
+        if (!row) return;
+        selectedEntryId = row.dataset.entryId;
+        updateSelectedEntryRow();
+        renderDetail();
+    });
+    detailEntryType.addEventListener('change', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.entryType = detailEntryType.value;
+        markLibraryChanged();
+        scheduleLibraryRender();
+    });
+    detailCitationKey.addEventListener('input', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.citationKey = detailCitationKey.value.trim();
+        markLibraryChanged();
+        scheduleLibraryRender();
+    });
+    detailFields.addEventListener('input', event => {
+        const field = event.target.dataset.field;
+        if (!field) return;
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        selectedEntry.entryTags[field] = event.target.value;
+        markLibraryChanged();
+        if (listSummaryFields.has(field)) {
+            scheduleLibraryRender();
+        }
+    });
+    detailFields.addEventListener('click', event => {
+        const removeButton = event.target.closest('.remove-field-button');
+        if (!removeButton) return;
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        delete selectedEntry.entryTags[removeButton.dataset.field];
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+    });
+    addFieldButton.addEventListener('click', () => {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        const fieldName = normalizeFieldName(prompt('Field name'));
+        if (!fieldName) return;
+        if (Object.prototype.hasOwnProperty.call(selectedEntry.entryTags, fieldName)) {
+            outputMessage.value = `${fieldName} already exists on this item.`;
+            return;
+        }
+        selectedEntry.entryTags[fieldName] = '';
+        markLibraryChanged();
+        renderDetail();
+    });
+    citationTemplateSelect.addEventListener('change', () => {
+        const useOriginalKeys = citationTemplateSelect.value === 'original';
+        renameCitationIds.checked = !useOriginalKeys;
+    });
+    renameCitationIds.addEventListener('change', () => {
+        if (!renameCitationIds.checked && citationTemplateSelect.value !== 'original') {
+            citationTemplateSelect.value = 'original';
+        } else if (renameCitationIds.checked && citationTemplateSelect.value === 'original') {
+            citationTemplateSelect.value = 'author-year-title-colon';
+        }
+    });
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            if (!targetId) return;
+            const targetTextArea = document.getElementById(targetId);
+            if (!targetTextArea) return;
+            copyText(targetTextArea).then(() => {
+                const originalLabel = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalLabel;
+                }, 1600);
+            }).catch(error => {
+                appendReportLine(`Copy failed: ${error.message}`);
+            });
+        });
+    });
+    textLeft.addEventListener('input', () => {
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        projectDirty = true;
+        updateProjectUi();
+        scheduleHighlighting();
+    });
+    textRight.addEventListener('input', scheduleHighlighting);
+    setupReportResizer();
+    function loadLibraryFromText(content, message) {
+        const result = bibTidyCore.parseBibtexLibrary(content);
+        preservedBlocks = result.preservedBlocks || [];
+        sourceBlocks = result.sourceBlocks || [];
+        libraryEntries = result.entries.map((entry, index) => hydrateEntryMetadata({
+            id: createEntryId(),
+            sourceId: entry.sourceId,
+            citationKey: entry.citationKey,
+            entryType: entry.entryType,
+            entryTags: Object.assign({}, entry.entryTags)
+        }, index));
+        persistEntryMetadata(libraryEntries);
+        selectedEntryId = libraryEntries[0] ? libraryEntries[0].id : null;
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        renderLibrary();
+        renderDetail();
+        scheduleHighlighting();
+        outputMessage.value = formatLibraryReport(result, message);
+        projectDirty = false;
+        updateProjectUi();
+    }
+    async function openLocalBibFile() {
+        if (!supportsFileSystemAccess()) {
+            outputMessage.value = 'Open Local needs Chrome File System Access support. Use Upload as a fallback.';
+            return;
+        }
+        try {
+            const [handle] = await window.showOpenFilePicker({
+                multiple: false,
+                types: [
+                    {
+                        description: 'BibTeX library',
+                        accept: {
+                            'application/x-bibtex': ['.bib'],
+                            'text/plain': ['.bib', '.txt']
+                        }
+                    }
+                ]
+            });
+            linkedFileHandle = handle;
+            projectMode = 'Local';
+            await loadFromLinkedFile(`Opened local file: ${handle.name}`);
+            updateLinkedFileActions();
+        } catch (error) {
+            if (error && error.name === 'AbortError') return;
+            outputMessage.value = `Open local file failed: ${error.message}`;
+        }
+    }
+    async function reloadLocalBibFile() {
+        if (!linkedFileHandle) return;
+        try {
+            await loadFromLinkedFile(`Reloaded local file: ${linkedFileHandle.name}`);
+        } catch (error) {
+            outputMessage.value = `Reload local file failed: ${error.message}`;
+        }
+    }
+    async function loadFromLinkedFile(message) {
+        const file = await linkedFileHandle.getFile();
+        originalFileName = file.name.replace(/\.[^.]+$/, '') || 'bibliography';
+        const content = await file.text();
+        linkedFileLastModified = file.lastModified || Date.now();
+        linkedFileSignature = getLinkedFileSignature(file);
+        externalUpdateNoticeShown = false;
+        projectMode = 'Local';
+        textLeft.value = content;
+        textRight.value = '';
+        loadLibraryFromText(content, message);
+    }
+    async function checkLinkedFileForUpdates(options = {}) {
+        if (!linkedFileHandle || !linkedFileSignature) return;
+        try {
+            const file = await linkedFileHandle.getFile();
+            const nextSignature = getLinkedFileSignature(file);
+            if (nextSignature === linkedFileSignature && !options.forceContentCompare) return;
+            const content = await file.text();
+            if (content === textLeft.value) {
+                linkedFileLastModified = file.lastModified || linkedFileLastModified;
+                linkedFileSignature = nextSignature;
+                externalUpdateNoticeShown = false;
+                return;
+            }
+            if (sourceNeedsLibrarySync) {
+                if (!externalUpdateNoticeShown) {
+                    appendReportLine(`Local file changed outside BibTidy. Save or reload ${linkedFileHandle.name} when ready.`);
+                    externalUpdateNoticeShown = true;
+                }
+                return;
+            }
+            linkedFileLastModified = file.lastModified || Date.now();
+            linkedFileSignature = nextSignature;
+            externalUpdateNoticeShown = false;
+            textLeft.value = content;
+            textRight.value = '';
+            loadLibraryFromText(content, `Local file updated: ${linkedFileHandle.name}`);
+        } catch (error) {
+            if (!externalUpdateNoticeShown) {
+                appendReportLine(`Could not check linked file: ${error.message}`);
+                externalUpdateNoticeShown = true;
+            }
+        }
+    }
+    async function saveLocalBibFile() {
+        if (!linkedFileHandle) {
+            await openLocalBibFile();
+            return;
+        }
+        try {
+            syncPendingLibraryChanges();
+            const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
+            const writable = await linkedFileHandle.createWritable();
+            await writable.write(content);
+            await writable.close();
+            textLeft.value = content;
+            formattedOutputIsCurrent = false;
+            const file = await linkedFileHandle.getFile();
+            linkedFileLastModified = file.lastModified || Date.now();
+            linkedFileSignature = getLinkedFileSignature(file);
+            externalUpdateNoticeShown = false;
+            projectDirty = false;
+            updateProjectUi();
+            scheduleHighlighting();
+            appendReportLine(`Saved local file: ${linkedFileHandle.name}.`);
+        } catch (error) {
+            appendReportLine(`Save local file failed: ${error.message}`);
+        }
+    }
+    function importEntriesFromText(content, message) {
+        const result = bibTidyCore.parseBibtexLibrary(content);
+        if (!result.entries.length) {
+            outputMessage.value = formatLibraryReport(result, 'No BibTeX entries found to import.');
+            return;
+        }
+        const existingKeys = new Set(libraryEntries.map(entry => entry.citationKey).filter(Boolean));
+        const importedEntries = result.entries.map(entry => {
+            const citationKey = createUniqueCitationKey(entry.citationKey, existingKeys);
+            existingKeys.add(citationKey);
+            return {
+                id: createEntryId(),
+                sourceId: null,
+                citationKey,
+                entryType: entry.entryType || 'misc',
+                entryTags: Object.assign({}, entry.entryTags),
+                addedAt: new Date().toISOString()
+            };
+        });
+        persistEntryMetadata(importedEntries);
+        libraryEntries = importedEntries.concat(libraryEntries);
+        selectedEntryId = importedEntries[0].id;
+        importBibtexText.value = '';
+        importPanel.classList.add('is-hidden');
+        markLibraryChanged();
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = formatLibraryReport(result, `${message} Added ${importedEntries.length} item${importedEntries.length === 1 ? '' : 's'}.`);
+    }
+    function runTidy() {
+        syncPendingLibraryChanges();
+        const result = bibTidyCore.tidyBibtex(textLeft.value, getTidyOptions());
+        textRight.value = result.content;
+        formattedOutputIsCurrent = true;
+        outputMessage.value = bibTidyCore.formatReport(result);
+        scheduleHighlighting();
+    }
+    function runValidate() {
+        syncPendingLibraryChanges();
+        const result = bibTidyCore.validateBibtex(textLeft.value, getTidyOptions());
+        outputMessage.value = bibTidyCore.formatReport(result);
+        scheduleHighlighting();
+    }
+    function getTidyOptions() {
+        const citationKeyTemplate = renameCitationIds.checked
+            ? citationTemplateSelect.value
+            : 'original';
+        return {
+            preset: presetSelect.value,
+            abbreviateJournals: applyAbbreviation.checked,
+            renameCitationIds: renameCitationIds.checked,
+            citationKeyTemplate
+        };
+    }
+    function renderLibrary() {
+        pendingLibraryRenderTimer = 0;
+        const filteredEntries = getVisibleEntries();
+        libraryCount.textContent = `${libraryEntries.length} item${libraryEntries.length === 1 ? '' : 's'}`;
+        renderTypeSummary();
+        entryList.replaceChildren();
+        if (!filteredEntries.length) {
+            const emptyRow = document.createElement('div');
+            emptyRow.className = 'empty-state compact-empty';
+            emptyRow.textContent = libraryEntries.length ? 'No matches.' : 'No BibTeX items.';
+            entryList.appendChild(emptyRow);
+            return;
+        }
+        const fragment = document.createDocumentFragment();
+        filteredEntries.forEach(entry => {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = entry.id === selectedEntryId ? 'entry-row selected' : 'entry-row';
+            row.dataset.entryId = entry.id;
+            row.setAttribute('role', 'option');
+            row.setAttribute('aria-selected', entry.id === selectedEntryId ? 'true' : 'false');
+            const title = document.createElement('span');
+            title.className = 'entry-title';
+            title.textContent = cleanDisplayText(entry.entryTags.title) || '(untitled)';
+            const meta = document.createElement('span');
+            meta.className = 'entry-meta';
+            meta.textContent = [
+                cleanDisplayText(entry.entryTags.author),
+                getVenue(entry),
+                entry.entryTags.year
+            ].filter(Boolean).join(' - ');
+            const keyLine = document.createElement('span');
+            keyLine.className = 'entry-key';
+            keyLine.textContent = [
+                entry.entryType || 'misc',
+                entry.citationKey || '(no key)',
+                `added ${formatEntryDate(entry.addedAt)}`
+            ].filter(Boolean).join(' - ');
+            row.append(title, meta, keyLine);
+            fragment.appendChild(row);
+        });
+        entryList.appendChild(fragment);
+    }
+    function scheduleLibraryRender() {
+        if (pendingLibraryRenderTimer) {
+            clearTimeout(pendingLibraryRenderTimer);
+        }
+        pendingLibraryRenderTimer = setTimeout(renderLibrary, 80);
+    }
+    function updateSelectedEntryRow() {
+        entryList.querySelectorAll('.entry-row').forEach(row => {
+            const isSelected = row.dataset.entryId === selectedEntryId;
+            row.classList.toggle('selected', isSelected);
+            row.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        });
+    }
+    function renderTypeSummary() {
+        const counts = libraryEntries.reduce((map, entry) => {
+            const type = entry.entryType || 'misc';
+            map[type] = (map[type] || 0) + 1;
+            return map;
+        }, {});
+        const summary = Object.entries(counts)
+            .sort(([typeA, countA], [typeB, countB]) => countB - countA || typeA.localeCompare(typeB))
+            .slice(0, 5)
+            .map(([type, count]) => `${type} ${count}`);
+        libraryTypeSummary.textContent = summary.join(' | ');
+    }
+    function renderDetail() {
+        const selectedEntry = getSelectedEntry();
+        entryDetailForm.classList.toggle('is-hidden', !selectedEntry);
+        emptyDetail.classList.toggle('is-hidden', Boolean(selectedEntry));
+        deleteEntryButton.disabled = !selectedEntry;
+        addFieldButton.disabled = !selectedEntry;
+        if (!selectedEntry) {
+            detailFields.replaceChildren();
+            return;
+        }
+        detailEntryType.value = selectedEntry.entryType || 'misc';
+        detailCitationKey.value = selectedEntry.citationKey || '';
+        detailFields.replaceChildren();
+        getVisibleFields(selectedEntry).forEach(field => {
+            detailFields.appendChild(createFieldControl(field, selectedEntry.entryTags[field] || ''));
+        });
+    }
+    function createFieldControl(field, value) {
+        const wrapper = document.createElement('label');
+        wrapper.className = 'field-control';
+        const labelRow = document.createElement('span');
+        labelRow.className = 'field-label-row';
+        const labelText = document.createElement('span');
+        labelText.textContent = field;
+        labelRow.appendChild(labelText);
+        if (!pinnedFields.includes(field)) {
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'remove-field-button';
+            removeButton.dataset.field = field;
+            removeButton.textContent = 'Remove';
+            labelRow.appendChild(removeButton);
+        }
+        const input = multilineFields.has(field) ? document.createElement('textarea') : document.createElement('input');
+        input.dataset.field = field;
+        input.value = value;
+        if (input.tagName === 'INPUT') input.type = 'text';
+        if (field === 'url') input.inputMode = 'url';
+        wrapper.append(labelRow, input);
+        return wrapper;
+    }
+    function getVisibleFields(entry) {
+        const existingFields = Object.keys(entry.entryTags || {});
+        const remaining = existingFields
+            .filter(field => !pinnedFields.includes(field))
+            .sort((fieldA, fieldB) => fieldA.localeCompare(fieldB));
+        return pinnedFields.concat(remaining);
+    }
+    function getVisibleEntries() {
+        const query = librarySearch.value.trim().toLowerCase();
+        const filteredEntries = query ? libraryEntries.filter(entry => {
+            const haystack = [
+                entry.citationKey,
+                entry.entryType,
+                entry.entryTags.title,
+                entry.entryTags.author,
+                getVenue(entry),
+                entry.entryTags.year,
+                entry.entryTags.doi,
+                entry.entryTags.keywords
+            ].join(' ').toLowerCase();
+            return haystack.includes(query);
+        }) : libraryEntries.slice();
+        return sortEntries(filteredEntries);
+    }
+    function createNewEntry() {
+        const year = new Date().getFullYear();
+        const count = libraryEntries.length + 1;
+        const entry = {
+            id: createEntryId(),
+            entryType: 'article',
+            citationKey: `newitem${count}`,
+            addedAt: new Date().toISOString(),
+            entryTags: {
+                author: '',
+                title: 'Untitled',
+                journal: '',
+                year: String(year),
+                doi: ''
+            }
+        };
+        persistEntryMetadata([entry]);
+        return entry;
+    }
+    function syncAndRenderList() {
+        markLibraryChanged();
+        scheduleLibraryRender();
+    }
+    function markLibraryChanged() {
+        persistEntryMetadata(libraryEntries);
+        sourceNeedsLibrarySync = true;
+        formattedOutputIsCurrent = false;
+        projectDirty = true;
+        updateProjectUi();
+    }
+    function syncPendingLibraryChanges() {
+        if (sourceNeedsLibrarySync) {
+            syncSourceFromLibrary();
+        }
+    }
+    function syncSourceFromLibrary() {
+        textLeft.value = bibTidyCore.serializeBibtexLibrary({
+            preservedBlocks,
+            sourceBlocks,
+            entries: libraryEntries
+        }, { preset: 'complete', citationKeyTemplate: 'original', renameCitationIds: false });
+        sourceNeedsLibrarySync = false;
+        formattedOutputIsCurrent = false;
+        scheduleHighlighting();
+        projectDirty = true;
+        updateProjectUi();
+    }
+    function setActiveView(viewName) {
+        const nextView = viewName === 'tidy' ? 'tidy' : 'library';
+        if (nextView === 'tidy') {
+            syncPendingLibraryChanges();
+        }
+        document.body.dataset.view = nextView;
+        viewTabs.forEach(tab => {
+            const isActive = tab.dataset.view === nextView;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+        pageViews.forEach(page => {
+            page.classList.toggle('active', page.dataset.page === nextView);
+        });
+        workspaceEyebrow.textContent = nextView === 'tidy' ? 'Tidy' : 'Library';
+        workspaceTitle.textContent = nextView === 'tidy' ? 'BibTeX Cleanup' : 'Reference Library';
+        viewActions.forEach(action => {
+            const actionView = action.dataset.viewAction;
+            const isVisible = actionView === 'all' || actionView === nextView;
+            const needsLinkedFile = action === reloadLocalButton || action === saveLocalButton;
+            action.classList.toggle('is-hidden', !isVisible || (needsLinkedFile && !linkedFileHandle));
+        });
+    }
+    function updateLinkedFileActions() {
+        reloadLocalButton.classList.toggle('is-hidden', !linkedFileHandle);
+        saveLocalButton.classList.toggle('is-hidden', !linkedFileHandle);
+        setActiveView(document.body.dataset.view || 'library');
+        updateProjectUi();
+    }
+    function supportsFileSystemAccess() {
+        return 'showOpenFilePicker' in window;
+    }
+    function getLinkedFileSignature(file) {
+        return `${file.name}:${file.size}:${file.lastModified || 0}`;
+    }
+    function updateProjectUi() {
+        const displayName = linkedFileHandle
+            ? linkedFileHandle.name
+            : `${originalFileName}.bib`;
+        const sourceLabel = linkedFileHandle ? 'linked local file' : 'not linked';
+        projectName.textContent = displayName;
+        projectState.textContent = `${projectMode} - ${sourceLabel} - ${projectDirty ? 'unsaved changes' : 'saved'}`;
+        projectButton.classList.toggle('unsaved', projectDirty);
+    }
+    function getSelectedEntry() {
+        return libraryEntries.find(entry => entry.id === selectedEntryId) || null;
+    }
+    function getVenue(entry) {
+        return cleanDisplayText(
+            entry.entryTags.journal ||
+            entry.entryTags.booktitle ||
+            entry.entryTags.publisher ||
+            entry.entryTags.school ||
+            entry.entryTags.institution ||
+            ''
+        );
+    }
+    function sortEntries(entries) {
+        const direction = librarySort.value.endsWith('-desc') ? -1 : 1;
+        const sortType = librarySort.value.startsWith('name') ? 'name' : 'added';
+        const collator = new Intl.Collator(undefined, { sensitivity: 'base', numeric: true });
+        return entries.slice().sort((entryA, entryB) => {
+            if (sortType === 'name') {
+                const nameA = getEntrySortName(entryA);
+                const nameB = getEntrySortName(entryB);
+                return direction * (collator.compare(nameA, nameB) || compareAddedAt(entryB, entryA));
+            }
+            return direction * (compareAddedAt(entryA, entryB) || collator.compare(getEntrySortName(entryA), getEntrySortName(entryB)));
+        });
+    }
+    function getEntrySortName(entry) {
+        return cleanDisplayText(entry.entryTags.title) ||
+            cleanDisplayText(entry.citationKey) ||
+            cleanDisplayText(entry.entryTags.author) ||
+            '';
+    }
+    function compareAddedAt(entryA, entryB) {
+        const timeA = Date.parse(entryA.addedAt || '') || 0;
+        const timeB = Date.parse(entryB.addedAt || '') || 0;
+        return timeA - timeB;
+    }
+    function hydrateEntryMetadata(entry, index) {
+        const metadata = readEntryMetadata();
+        const fingerprint = getEntryFingerprint(entry);
+        const fallbackTime = new Date(Date.now() - index).toISOString();
+        return Object.assign(entry, {
+            addedAt: metadata[fingerprint] && metadata[fingerprint].addedAt
+                ? metadata[fingerprint].addedAt
+                : fallbackTime
+        });
+    }
+    function persistEntryMetadata(entries) {
+        const metadata = readEntryMetadata();
+        entries.forEach(entry => {
+            const fingerprint = getEntryFingerprint(entry);
+            if (!fingerprint) return;
+            metadata[fingerprint] = {
+                addedAt: entry.addedAt || new Date().toISOString()
+            };
+        });
+        writeEntryMetadata(metadata);
+    }
+    function getEntryFingerprint(entry) {
+        const tags = entry.entryTags || {};
+        const stableParts = [
+            cleanDisplayText(tags.doi).toLowerCase(),
+            cleanDisplayText(tags.title).toLowerCase(),
+            cleanDisplayText(tags.author).toLowerCase(),
+            cleanDisplayText(tags.year).toLowerCase(),
+            cleanDisplayText(getVenue(entry)).toLowerCase()
+        ].filter(Boolean);
+        if (stableParts.length) {
+            return stableParts.join('|');
+        }
+        return [
+            cleanDisplayText(entry.entryType).toLowerCase(),
+            cleanDisplayText(entry.citationKey).toLowerCase()
+        ].join('|');
+    }
+    function readEntryMetadata() {
+        try {
+            return JSON.parse(localStorage.getItem(entryMetaStorageKey) || '{}') || {};
+        } catch (error) {
+            return {};
+        }
+    }
+    function writeEntryMetadata(metadata) {
+        try {
+            localStorage.setItem(entryMetaStorageKey, JSON.stringify(metadata));
+        } catch (error) {
+            // Metadata is a convenience for sorting; the BibTeX file remains the source of truth.
+        }
+    }
+    function formatEntryDate(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return 'unknown';
+        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+    function cleanDisplayText(text) {
+        return String(text || '').replace(/[{}]/g, '').replace(/\s+/g, ' ').trim();
+    }
+    function normalizeFieldName(fieldName) {
+        return String(fieldName || '').toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+    }
+    function createUniqueCitationKey(candidateKey, usedKeys) {
+        const baseKey = String(candidateKey || 'importeditem').trim() || 'importeditem';
+        if (!usedKeys.has(baseKey)) return baseKey;
+        let suffix = 2;
+        let nextKey = `${baseKey}${suffix}`;
+        while (usedKeys.has(nextKey)) {
+            suffix++;
+            nextKey = `${baseKey}${suffix}`;
+        }
+        return nextKey;
+    }
+    function createEntryId() {
+        if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+        const id = `entry-${nextEntryId}`;
+        nextEntryId++;
+        return id;
+    }
+    function formatLibraryReport(result, message) {
+        const lines = [message, bibTidyCore.formatTidyStatus(result.stats)];
+        if (result.warnings.length) {
+            lines.push('');
+            lines.push(`Warnings (${result.warnings.length})`);
+            result.warnings.slice(0, 12).forEach(warning => lines.push(`- ${warning.message}`));
+        }
+        if (result.errors.length) {
+            lines.push('');
+            lines.push(`Errors (${result.errors.length})`);
+            result.errors.slice(0, 12).forEach(error => lines.push(`- ${error.message}`));
+        }
+        return lines.join('\n');
+    }
+    function appendReportLine(line) {
+        outputMessage.value = outputMessage.value
+            ? `${outputMessage.value}\n${line}`
+            : line;
+    }
+    function copyText(textArea) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(textArea.value);
+        }
+        textArea.focus();
+        textArea.select();
+        const copied = document.execCommand('copy');
+        textArea.setSelectionRange(textArea.value.length, textArea.value.length);
+        if (copied) return Promise.resolve();
+        return Promise.reject(new Error('Clipboard copy is not available in this browser'));
+    }
+    function scheduleHighlighting() {
+        if (pendingHighlightTimer) {
+            clearTimeout(pendingHighlightTimer);
+        }
+        pendingHighlightTimer = setTimeout(applyHighlighting, 120);
+    }
+    function applyHighlighting() {
+        pendingHighlightTimer = 0;
+        document.querySelectorAll('.highlight-bibtex').forEach(textArea => {
+            const highlightedDiv = textArea.nextElementSibling;
+            if (!highlightedDiv) return;
+            const highlightIsHidden = window.getComputedStyle(highlightedDiv).display === 'none';
+            if (highlightIsHidden) {
+                highlightedDiv.textContent = '';
+                return;
+            }
+            highlightedDiv.innerHTML = highlightBibtex(textArea.value);
+        });
+    }
+    function setupReportResizer() {
+        if (!tidyWorkspace || !reportResizer || !outputMessage) return;
+        const setReportHeight = height => {
+            const maxHeight = Math.max(120, Math.floor(window.innerHeight * 0.42));
+            const nextHeight = Math.min(maxHeight, Math.max(96, Math.round(height)));
+            tidyWorkspace.style.setProperty('--report-height', `${nextHeight}px`);
+            reportResizer.setAttribute('aria-valuenow', String(nextHeight));
+        };
+        const getReportHeight = () => outputMessage.getBoundingClientRect().height || 132;
+        reportResizer.setAttribute('aria-valuemin', '96');
+        reportResizer.setAttribute('aria-valuemax', String(Math.floor(window.innerHeight * 0.42)));
+        reportResizer.setAttribute('aria-valuenow', String(Math.round(getReportHeight())));
+        reportResizer.addEventListener('pointerdown', event => {
+            event.preventDefault();
+            const startY = event.clientY;
+            const startHeight = getReportHeight();
+            reportResizer.setPointerCapture(event.pointerId);
+            document.body.classList.add('resizing-report');
+            const handlePointerMove = moveEvent => {
+                setReportHeight(startHeight + startY - moveEvent.clientY);
+            };
+            const stopResize = () => {
+                document.body.classList.remove('resizing-report');
+                reportResizer.removeEventListener('pointermove', handlePointerMove);
+                reportResizer.removeEventListener('pointerup', stopResize);
+                reportResizer.removeEventListener('pointercancel', stopResize);
+            };
+            reportResizer.addEventListener('pointermove', handlePointerMove);
+            reportResizer.addEventListener('pointerup', stopResize);
+            reportResizer.addEventListener('pointercancel', stopResize);
+        });
+        reportResizer.addEventListener('keydown', event => {
+            if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+            event.preventDefault();
+            setReportHeight(getReportHeight() + (event.key === 'ArrowUp' ? 16 : -16));
+        });
+        window.addEventListener('resize', () => {
+            reportResizer.setAttribute('aria-valuemax', String(Math.floor(window.innerHeight * 0.42)));
+            setReportHeight(getReportHeight());
+        });
+    }
+});
