@@ -13893,6 +13893,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const presetSelect = document.getElementById('preset-select');
     const citationTemplateSelect = document.getElementById('citation-template-select');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const guideButton = document.getElementById('guide-button');
+    const onboardingOverlay = document.getElementById('onboarding-overlay');
+    const onboardingProgress = document.getElementById('onboarding-progress');
+    const onboardingTitle = document.getElementById('onboarding-title');
+    const onboardingBody = document.getElementById('onboarding-body');
+    const onboardingSkip = document.getElementById('onboarding-skip');
+    const onboardingBack = document.getElementById('onboarding-back');
+    const onboardingNext = document.getElementById('onboarding-next');
     const projectButton = document.getElementById('project-button');
     const projectName = document.getElementById('project-name');
     const projectState = document.getElementById('project-state');
@@ -13930,6 +13938,33 @@ document.addEventListener('DOMContentLoaded', () => {
         'publisher', 'school', 'institution'
     ]);
     const entryMetaStorageKey = 'bibtidy:entry-meta:v1';
+    const onboardingStorageKey = 'bibtidy:onboarding-complete:v1';
+    const onboardingSteps = [
+        {
+            view: 'library',
+            target: '#open-local-button',
+            title: 'Start with a BibTeX file',
+            body: 'Open a local .bib file when your browser supports it, or upload one to work in the browser.'
+        },
+        {
+            view: 'library',
+            target: '#entry-list',
+            title: 'Review your library',
+            body: 'Search, sort, select an item, and edit its fields in the details panel.'
+        },
+        {
+            view: 'tidy',
+            target: '#tidy-button',
+            title: 'Clean and validate',
+            body: 'Use Tidy to format BibTeX, or Validate to check for missing fields, duplicate keys, and parse issues.'
+        },
+        {
+            view: 'library',
+            target: '#save-button',
+            title: 'Save your result',
+            body: 'Export a .bib file from the browser, or save back to a linked local file when available.'
+        }
+    ];
     let originalFileName = 'sample-bibliography';
     let libraryEntries = [];
     let preservedBlocks = [];
@@ -13946,6 +13981,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let externalUpdateNoticeShown = false;
     let projectMode = 'Sample';
     let projectDirty = false;
+    let currentOnboardingStep = 0;
+    let shouldRememberOnboardingCompletion = true;
     const initialInputContent = `@inproceedings{ WOS:000766209400010,
 Author = {Li, Yue and Abady, Lydia and Wang, Hongxia and Barni, Mauro},
 Editor = {Zhao, X and Piva, A and ComesanaAlfaro, P},
@@ -13969,6 +14006,7 @@ Unique-ID = {WOS:000766209400010},
     loadLibraryFromText(initialInputContent, 'Loaded sample bibliography.');
     runTidy();
     setActiveView('library');
+    showOnboardingForFirstVisit();
     setInterval(() => checkLinkedFileForUpdates(), 3000);
     window.addEventListener('focus', () => checkLinkedFileForUpdates({ forceContentCompare: true }));
     document.addEventListener('visibilitychange', () => {
@@ -14057,6 +14095,22 @@ Unique-ID = {WOS:000766209400010},
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
+    });
+    guideButton.addEventListener('click', () => {
+        openOnboarding({ rememberCompletion: false });
+    });
+    onboardingSkip.addEventListener('click', () => {
+        closeOnboarding({ markComplete: true });
+    });
+    onboardingBack.addEventListener('click', () => {
+        showOnboardingStep(currentOnboardingStep - 1);
+    });
+    onboardingNext.addEventListener('click', () => {
+        if (currentOnboardingStep >= onboardingSteps.length - 1) {
+            closeOnboarding({ markComplete: true });
+            return;
+        }
+        showOnboardingStep(currentOnboardingStep + 1);
     });
     viewTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -14553,6 +14607,55 @@ Unique-ID = {WOS:000766209400010},
         saveLocalButton.classList.toggle('is-hidden', !linkedFileHandle);
         setActiveView(document.body.dataset.view || 'library');
         updateProjectUi();
+    }
+    function showOnboardingForFirstVisit() {
+        try {
+            if (localStorage.getItem(onboardingStorageKey) === 'true') return;
+        } catch (error) {
+            // The guide can still run when storage is blocked; it simply will not be remembered.
+        }
+        window.setTimeout(() => openOnboarding({ rememberCompletion: true }), 400);
+    }
+    function openOnboarding(options = {}) {
+        shouldRememberOnboardingCompletion = options.rememberCompletion !== false;
+        onboardingOverlay.classList.remove('is-hidden');
+        document.body.classList.add('onboarding-active');
+        showOnboardingStep(0);
+    }
+    function closeOnboarding(options = {}) {
+        onboardingOverlay.classList.add('is-hidden');
+        document.body.classList.remove('onboarding-active');
+        clearOnboardingTarget();
+        if (options.markComplete && shouldRememberOnboardingCompletion) {
+            try {
+                localStorage.setItem(onboardingStorageKey, 'true');
+            } catch (error) {
+                // Remembering the guide is optional; the app itself does not depend on storage.
+            }
+        }
+    }
+    function showOnboardingStep(stepIndex) {
+        currentOnboardingStep = Math.max(0, Math.min(stepIndex, onboardingSteps.length - 1));
+        const step = onboardingSteps[currentOnboardingStep];
+        setActiveView(step.view);
+        onboardingProgress.textContent = `Step ${currentOnboardingStep + 1} of ${onboardingSteps.length}`;
+        onboardingTitle.textContent = step.title;
+        onboardingBody.textContent = step.body;
+        onboardingBack.disabled = currentOnboardingStep === 0;
+        onboardingNext.textContent = currentOnboardingStep === onboardingSteps.length - 1 ? 'Done' : 'Next';
+        onboardingSkip.textContent = currentOnboardingStep === onboardingSteps.length - 1 ? 'Close' : 'Skip';
+        clearOnboardingTarget();
+        const target = document.querySelector(step.target);
+        if (target) {
+            target.classList.add('guide-target');
+            target.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+        }
+        onboardingNext.focus({ preventScroll: true });
+    }
+    function clearOnboardingTarget() {
+        document.querySelectorAll('.guide-target').forEach(target => {
+            target.classList.remove('guide-target');
+        });
     }
     function supportsFileSystemAccess() {
         return 'showOpenFilePicker' in window;

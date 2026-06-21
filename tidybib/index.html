@@ -90,6 +90,7 @@
             </section>
 
             <section class="sidebar-group sidebar-footer" aria-label="Application actions">
+                <button id="guide-button" class="secondary-button wide-button" type="button">Guide</button>
                 <button id="dark-mode-toggle" class="secondary-button wide-button" type="button">Dark</button>
                 <button id="exit-button" class="ghost-button wide-button" type="button" data-view-action="all">Exit</button>
             </section>
@@ -210,5 +211,18 @@
             </section>
         </section>
     </main>
+
+    <section id="onboarding-overlay" class="onboarding-overlay is-hidden" aria-labelledby="onboarding-title" aria-modal="true" role="dialog">
+        <article class="onboarding-card">
+            <div class="onboarding-step" id="onboarding-progress">Step 1 of 4</div>
+            <h2 id="onboarding-title">Start with a BibTeX file</h2>
+            <p id="onboarding-body">Open a local .bib file when your browser supports it, or upload one to work in the browser.</p>
+            <div class="onboarding-actions">
+                <button id="onboarding-skip" class="ghost-button" type="button">Skip</button>
+                <button id="onboarding-back" class="secondary-button" type="button">Back</button>
+                <button id="onboarding-next" class="primary-button" type="button">Next</button>
+            </div>
+        </article>
+    </section>
 </body>
 </html>
