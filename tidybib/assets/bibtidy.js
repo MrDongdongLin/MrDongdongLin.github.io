@@ -13249,6 +13249,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         article: ['author', 'title', 'journal', 'year'],
         inproceedings: ['author', 'title', 'booktitle', 'year'],
         conference: ['author', 'title', 'booktitle', 'year'],
+        proceedings: ['title', 'year'],
         book: ['title', 'year'],
         incollection: ['author', 'title', 'booktitle', 'year'],
         phdthesis: ['author', 'title', 'school', 'year'],
@@ -13264,7 +13265,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             if (!parsed) return rawEntry.text;
             const formatted = formatBibEntry(parsed, normalizedOptions);
             recordEntry(result.stats, parsed.entryType);
-            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index);
+            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index, normalizedOptions);
             result.changes.push(formatted.change);
             return formatted.text;
         }, result);
@@ -13279,7 +13280,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             if (!parsed) return rawEntry.text;
             const formatted = formatBibEntry(parsed, normalizedOptions);
             recordEntry(result.stats, parsed.entryType);
-            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index);
+            recordEntryDiagnostics(parsed, formatted.entry, result, seenKeys, index, normalizedOptions);
             result.changes.push(formatted.change);
             return rawEntry.text;
         }, result);
@@ -13335,6 +13336,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 result.errors.push({
                     type: 'parse',
                     position: blockStart,
+                    severity: 'error',
                     message: `Could not find the end of the BibTeX block starting at character ${blockStart}.`
                 });
                 break;
@@ -13344,7 +13346,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 preservedBlocks.push(block.text);
                 sourceBlocks.push({ type: 'preserved', text: block.text });
             } else if (isBibliographyEntryType(block.type)) {
-                const parsed = parseEntryBlock({ text: block.text, macroContext }, result);
+                const parsed = parseEntryBlock({ text: block.text, macroContext, entryIndex: sourceEntryIndex, position: blockStart }, result);
                 if (parsed) {
                     parsed.sourceId = `source-entry-${sourceEntryIndex}`;
                     sourceEntryIndex++;
@@ -13352,7 +13354,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                     entries.push(parsed);
                     sourceBlocks.push({ type: 'entry', sourceId: parsed.sourceId });
                     recordEntry(result.stats, parsed.entryType);
-                    recordEntryDiagnostics(parsed, parsed, result, seenKeys, entries.length - 1);
+                    recordEntryDiagnostics(parsed, parsed, result, seenKeys, entries.length - 1, null);
                 } else {
                     sourceBlocks.push({ type: 'preserved', text: block.text });
                 }
@@ -13413,14 +13415,35 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         const safeOptions = options || {};
         const preset = FIELD_PRESETS[safeOptions.preset] ? safeOptions.preset : 'clean';
         const citationKeyTemplate = safeOptions.citationKeyTemplate || DEFAULT_TEMPLATE;
+        const customFieldsByType = normalizeCustomFieldsByType(safeOptions.customFieldsByType);
         return {
             preset,
             fieldOrder: FIELD_PRESETS[preset],
+            customFieldsByType,
             abbreviateJournals: Boolean(safeOptions.abbreviateJournals),
             renameCitationIds: safeOptions.renameCitationIds !== false && citationKeyTemplate !== 'original',
             citationKeyTemplate,
             journalAbbreviations: safeOptions.journalAbbreviations || getDefaultJournalAbbreviations()
         };
+    }
+    function normalizeCustomFieldsByType(customFieldsByType) {
+        if (!customFieldsByType || typeof customFieldsByType !== 'object') return {};
+        return Object.entries(customFieldsByType).reduce((map, [entryType, fields]) => {
+            if (!Array.isArray(fields)) return map;
+            const normalizedType = normalizeFieldName(entryType) || 'misc';
+            const seenFields = new Set();
+            const normalizedFields = fields
+                .map(normalizeFieldName)
+                .filter(field => {
+                    if (!field || seenFields.has(field)) return false;
+                    seenFields.add(field);
+                    return true;
+                });
+            if (normalizedFields.length) {
+                map[normalizedType] = normalizedFields;
+            }
+            return map;
+        }, {});
     }
     function createResult() {
         return {
@@ -13473,7 +13496,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 macroContext += normalizeBlockDelimiters(block.text) + '\n';
                 output += block.text;
             } else if (isBibliographyEntryType(block.type)) {
-                output += transformEntry({ text: block.text, macroContext }, entryIndex);
+                output += transformEntry({ text: block.text, macroContext, entryIndex, position: blockStart }, entryIndex);
                 entryIndex++;
             } else {
                 output += block.text;
@@ -13526,6 +13549,8 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             if (!entry || !entry.entryTags) {
                 result.warnings.push({
                     type: 'empty-entry',
+                    entryIndex: rawEntry.entryIndex,
+                    position: rawEntry.position,
                     message: 'Skipped a BibTeX block because it did not contain entry fields.'
                 });
                 return null;
@@ -13538,6 +13563,9 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         } catch (error) {
             result.errors.push({
                 type: 'parse',
+                entryIndex: rawEntry.entryIndex,
+                position: rawEntry.position,
+                severity: 'error',
                 message: `Failed to parse BibTeX entry: ${error.message || error}`
             });
             return null;
@@ -13567,7 +13595,8 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     function formatBibEntry(entry, options) {
         const originalTags = Object.assign({}, entry.entryTags);
         const transformedTags = Object.assign({}, entry.entryTags);
-        const fieldOrder = options.fieldOrder;
+        const customFields = getCustomFieldsForType(entry.entryType, options);
+        const fieldOrder = customFields || options.fieldOrder;
         if (transformedTags.journal) {
             transformedTags.journal = capitalizeTitle(transformedTags.journal);
             if (options.abbreviateJournals) {
@@ -13586,27 +13615,33 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         const citationKey = options.renameCitationIds
             ? buildCitationKey(entry, transformedTags, options.citationKeyTemplate)
             : entry.citationKey;
-        const keptFields = fieldOrder.filter(field => transformedTags[field]);
+        const keptFields = customFields
+            ? fieldOrder
+            : fieldOrder.filter(field => transformedTags[field]);
         const removedFields = Object.keys(originalTags)
-            .filter(field => !fieldOrder.includes(field))
+            .filter(field => !keptFields.includes(field))
             .sort();
         const modifiedFields = keptFields
             .filter(field => originalTags[field] !== transformedTags[field])
             .map(field => ({
                 field,
                 before: originalTags[field],
-                after: transformedTags[field]
+                after: transformedTags[field] || ''
             }));
         let formattedBib = `@${entry.entryType}{${citationKey},\n`;
         const valueColumn = getValueColumn(keptFields);
         keptFields.forEach(field => {
-            formattedBib += formatFieldLine(field, transformedTags[field], valueColumn);
+            formattedBib += formatFieldLine(field, transformedTags[field] || '', valueColumn);
+        });
+        const outputTags = {};
+        keptFields.forEach(field => {
+            outputTags[field] = transformedTags[field] || '';
         });
         return {
             entry: {
                 citationKey,
                 entryType: entry.entryType,
-                entryTags: transformedTags
+                entryTags: customFields ? outputTags : transformedTags
             },
             text: formattedBib.trim().replace(/,$/, '') + '\n}',
             change: {
@@ -13623,8 +13658,10 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         const entryType = (entry.entryType || 'misc').toLowerCase().trim() || 'misc';
         const citationKey = String(entry.citationKey || '').trim() || buildCitationKey(entry, entry.entryTags || {}, 'author-year-title-colon');
         const tags = Object.assign({}, entry.entryTags || {});
-        const orderedFields = getLibraryFieldOrder(tags, options.fieldOrder);
+        const customFields = getCustomFieldsForType(entryType, options);
+        const orderedFields = customFields || getLibraryFieldOrder(tags, options.fieldOrder);
         const writableFields = orderedFields.filter(field => {
+            if (customFields) return true;
             const value = tags[field];
             return value !== undefined && value !== null && String(value).trim() !== '';
         });
@@ -13632,7 +13669,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         let formattedBib = `@${entryType}{${citationKey},\n`;
         writableFields.forEach(field => {
             const value = tags[field];
-            formattedBib += formatFieldLine(field, String(value).trim(), valueColumn);
+            formattedBib += formatFieldLine(field, value === undefined || value === null ? '' : String(value).trim(), valueColumn);
         });
         return formattedBib.trim().replace(/,$/, '') + '\n}';
     }
@@ -13652,12 +13689,26 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             .sort((fieldA, fieldB) => fieldA.localeCompare(fieldB));
         return preferred.concat(remaining);
     }
-    function recordEntryDiagnostics(originalEntry, formattedEntry, result, seenKeys, entryIndex) {
+    function getCustomFieldsForType(entryType, options) {
+        const normalizedType = normalizeFieldName(entryType) || 'misc';
+        return options.customFieldsByType[normalizedType] || null;
+    }
+    function normalizeFieldName(fieldName) {
+        return String(fieldName || '').toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+    }
+    function recordEntryDiagnostics(originalEntry, formattedEntry, result, seenKeys, entryIndex, options) {
         const key = formattedEntry.citationKey || originalEntry.citationKey || `(entry ${entryIndex + 1})`;
+        const diagnosticBase = {
+            citationKey: key,
+            originalCitationKey: originalEntry.citationKey || '',
+            entryIndex,
+            entryType: originalEntry.entryType || ''
+        };
         if (seenKeys.has(key)) {
             result.warnings.push({
+                ...diagnosticBase,
                 type: 'duplicate-key',
-                citationKey: key,
+                duplicateOfEntryIndex: seenKeys.get(key),
                 message: `Duplicate citation key "${key}" also appears in entry ${seenKeys.get(key) + 1}.`
             });
         } else {
@@ -13667,17 +13718,29 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         requiredFields.forEach(field => {
             if (!originalEntry.entryTags[field]) {
                 result.warnings.push({
+                    ...diagnosticBase,
                     type: 'missing-field',
-                    citationKey: key,
                     field,
                     message: `${key} is missing required field "${field}".`
                 });
             }
         });
+        const customFields = options ? getCustomFieldsForType(originalEntry.entryType, options) : null;
+        if (customFields) {
+            customFields.forEach(field => {
+                if (formattedEntry.entryTags[field]) return;
+                result.warnings.push({
+                    ...diagnosticBase,
+                    type: 'empty-custom-field',
+                    field,
+                    message: `${key} keeps custom field "${field}" but it has no content.`
+                });
+            });
+        }
         if (originalEntry.entryTags.doi && !isPlausibleDoi(normalizeDoi(originalEntry.entryTags.doi))) {
             result.warnings.push({
+                ...diagnosticBase,
                 type: 'doi',
-                citationKey: key,
                 message: `${key} has a DOI that does not look valid.`
             });
         }
@@ -13892,6 +13955,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const renameCitationIds = document.getElementById('rename-id-checkbox');
     const presetSelect = document.getElementById('preset-select');
     const citationTemplateSelect = document.getElementById('citation-template-select');
+    const customFieldsCheckbox = document.getElementById('custom-fields-checkbox');
+    const fieldTypeSelect = document.getElementById('field-type-select');
+    const fieldTemplateList = document.getElementById('field-template-list');
+    const customFieldName = document.getElementById('custom-field-name');
+    const addCustomFieldButton = document.getElementById('add-custom-field-button');
+    const resetFieldTemplateButton = document.getElementById('reset-field-template-button');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const guideButton = document.getElementById('guide-button');
     const onboardingOverlay = document.getElementById('onboarding-overlay');
@@ -13907,15 +13976,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const workspaceEyebrow = document.getElementById('workspace-eyebrow');
     const workspaceTitle = document.getElementById('workspace-title');
     const outputMessage = document.getElementById('output-message');
+    const reportDiagnostics = document.getElementById('report-diagnostics');
     const tidyWorkspace = document.querySelector('.tidy-workspace');
     const reportResizer = document.getElementById('report-resizer');
     const librarySearch = document.getElementById('library-search');
     const librarySort = document.getElementById('library-sort');
     const libraryCount = document.getElementById('library-count');
     const libraryTypeSummary = document.getElementById('library-type-summary');
+    const tagFilterCount = document.getElementById('tag-filter-count');
+    const tagFileStatus = document.getElementById('tag-file-status');
+    const clearTagsButton = document.getElementById('clear-tags-button');
+    const tagCloud = document.getElementById('tag-cloud');
     const entryList = document.getElementById('entry-list');
     const entryDetailForm = document.getElementById('entry-detail-form');
     const emptyDetail = document.getElementById('empty-detail');
+    const detailTagList = document.getElementById('detail-tag-list');
+    const detailTagInput = document.getElementById('detail-tag-input');
     const importPanel = document.getElementById('import-panel');
     const importBibtexText = document.getElementById('import-bibtex-text');
     const addImportButton = document.getElementById('add-import-button');
@@ -13937,14 +14013,46 @@ document.addEventListener('DOMContentLoaded', () => {
         'author', 'title', 'journal', 'booktitle', 'year',
         'publisher', 'school', 'institution'
     ]);
+    const fieldTemplateTypes = [
+        'inproceedings', 'proceedings', 'misc', 'book', 'article',
+        'incollection', 'conference', 'phdthesis', 'mastersthesis', 'techreport'
+    ];
+    const commonTemplateFields = [
+        'author', 'title', 'year', 'doi', 'url', 'keywords', 'abstract', 'note'
+    ];
+    const defaultFieldTemplates = {
+        inproceedings: ['author', 'title', 'booktitle', 'year', 'editor', 'volume', 'number', 'series', 'pages', 'publisher', 'doi'],
+        proceedings: ['title', 'year', 'editor', 'publisher', 'volume', 'number', 'series', 'organization', 'address', 'month'],
+        misc: ['author', 'title', 'howpublished', 'year', 'month'],
+        book: ['author', 'title', 'year', 'edition', 'publisher', 'address', 'doi'],
+        article: ['author', 'title', 'journal', 'year', 'volume', 'number', 'pages', 'doi'],
+        incollection: ['author', 'title', 'booktitle', 'pages', 'year'],
+        conference: ['author', 'title', 'booktitle', 'year', 'editor', 'volume', 'number', 'series', 'pages', 'publisher', 'doi'],
+        phdthesis: ['author', 'title', 'school', 'year', 'address', 'doi', 'url'],
+        mastersthesis: ['author', 'title', 'school', 'year', 'address', 'doi', 'url'],
+        techreport: ['author', 'title', 'institution', 'year', 'number', 'address', 'doi', 'url']
+    };
+    const extraFieldTemplateOptions = {
+        inproceedings: ['month', 'organization', 'address', 'isbn', 'url'],
+        proceedings: ['doi', 'url', 'isbn', 'note'],
+        misc: ['doi', 'url', 'note', 'organization', 'publisher'],
+        book: ['editor', 'series', 'volume', 'number', 'isbn', 'url'],
+        article: ['month', 'issn', 'eissn', 'pmid', 'pmcid', 'url'],
+        incollection: ['editor', 'publisher', 'address', 'chapter', 'series', 'volume', 'number', 'isbn', 'doi', 'url'],
+        conference: ['month', 'organization', 'address', 'isbn', 'url'],
+        phdthesis: ['school', 'address', 'type', 'month'],
+        mastersthesis: ['school', 'address', 'type', 'month'],
+        techreport: ['institution', 'number', 'type', 'address', 'month']
+    };
     const entryMetaStorageKey = 'bibtidy:entry-meta:v1';
-    const onboardingStorageKey = 'bibtidy:onboarding-complete:v2';
+    const fieldTemplateStorageKey = 'bibtidy:field-templates:v2';
+    const onboardingStorageKey = 'bibtidy:onboarding-complete:v3';
     const onboardingSteps = [
         {
             view: 'library',
             target: '#open-local-button',
             title: 'Import a .bib file',
-            body: 'Use Open Local to link a .bib file and save back to it later. Use Upload when you only want to import a browser copy.'
+            body: 'Use Open Local to choose the folder containing your .bib file. BibTidy will automatically maintain a matching tag file there.'
         },
         {
             view: 'library',
@@ -13968,7 +14076,7 @@ document.addEventListener('DOMContentLoaded', () => {
             view: 'library',
             target: '.sidebar-file-actions',
             title: 'Sync with Chrome Clipper',
-            body: 'In the Chrome extension, choose the same .bib file, then Save to Local Library. Back here, Open Local links that file and Reload Local refreshes changes.'
+            body: 'In the Chrome extension, choose the same .bib file, then Save to Local Library. Back here, Reload Local refreshes changes while tags stay in the sidecar file.'
         },
         {
             view: 'library',
@@ -13987,12 +14095,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let formattedOutputIsCurrent = false;
     let pendingLibraryRenderTimer = 0;
     let pendingHighlightTimer = 0;
+    let linkedDirectoryHandle = null;
     let linkedFileHandle = null;
     let linkedFileLastModified = 0;
     let linkedFileSignature = '';
     let externalUpdateNoticeShown = false;
     let projectMode = 'Sample';
     let projectDirty = false;
+    let activeTagFilters = new Set();
+    let tagFileHandle = null;
+    let tagFileName = '';
+    let tagFileRecords = [];
+    let tagAssignments = new Map();
+    let tagFileDirty = false;
+    let fieldTemplateState = createDefaultFieldTemplateState();
     let currentOnboardingStep = 0;
     let shouldRememberOnboardingCompletion = true;
     const initialInputContent = `@inproceedings{ WOS:000766209400010,
@@ -14014,6 +14130,9 @@ EISSN = {1611-3349},
 ISBN = {978-3-030-95398-0; 978-3-030-95397-3},
 Unique-ID = {WOS:000766209400010},
 }`;
+    fieldTemplateState = readFieldTemplateState();
+    populateFieldTypeSelect();
+    renderFieldTemplatePanel();
     textLeft.value = initialInputContent;
     loadLibraryFromText(initialInputContent, 'Loaded sample bibliography.');
     runTidy();
@@ -14039,8 +14158,14 @@ Unique-ID = {WOS:000766209400010},
             textLeft.value = content;
             textRight.value = '';
             formattedOutputIsCurrent = false;
+            linkedDirectoryHandle = null;
             linkedFileHandle = null;
             linkedFileSignature = '';
+            tagFileHandle = null;
+            tagFileName = '';
+            tagFileRecords = [];
+            tagAssignments = new Map();
+            tagFileDirty = false;
             projectMode = 'Uploaded';
             loadLibraryFromText(content, `Loaded file: ${file.name}`);
             updateLinkedFileActions();
@@ -14084,6 +14209,40 @@ Unique-ID = {WOS:000766209400010},
     });
     tidyButton.addEventListener('click', runTidy);
     validateButton.addEventListener('click', runValidate);
+    customFieldsCheckbox.addEventListener('change', () => {
+        fieldTemplateState.enabled = customFieldsCheckbox.checked;
+        writeFieldTemplateState();
+        renderFieldTemplatePanel();
+    });
+    fieldTypeSelect.addEventListener('change', () => {
+        renderFieldTemplatePanel();
+    });
+    fieldTemplateList.addEventListener('change', event => {
+        const checkbox = event.target.closest('input[type="checkbox"][data-field]');
+        if (!checkbox) return;
+        const entryType = getSelectedFieldTemplateType();
+        const fieldName = checkbox.dataset.field;
+        const selectedFields = getFieldTemplateSelection(entryType);
+        if (checkbox.checked) {
+            setFieldTemplateSelection(entryType, mergeTags(selectedFields.concat(fieldName)));
+        } else {
+            setFieldTemplateSelection(entryType, selectedFields.filter(field => field !== fieldName));
+        }
+        writeFieldTemplateState();
+        renderFieldTemplatePanel();
+    });
+    addCustomFieldButton.addEventListener('click', addCustomTemplateField);
+    customFieldName.addEventListener('keydown', event => {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+        addCustomTemplateField();
+    });
+    resetFieldTemplateButton.addEventListener('click', () => {
+        const entryType = getSelectedFieldTemplateType();
+        fieldTemplateState.selections[entryType] = getDefaultFieldTemplate(entryType).slice();
+        writeFieldTemplateState();
+        renderFieldTemplatePanel();
+    });
     saveButton.addEventListener('click', () => {
         syncPendingLibraryChanges();
         const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
@@ -14136,6 +14295,20 @@ Unique-ID = {WOS:000766209400010},
     librarySort.addEventListener('change', () => {
         scheduleLibraryRender();
     });
+    tagCloud.addEventListener('click', event => {
+        const tagButton = event.target.closest('.tag-cloud-chip');
+        if (!tagButton) return;
+        toggleTagFilter(tagButton.dataset.tag);
+    });
+    clearTagsButton.addEventListener('click', () => {
+        activeTagFilters.clear();
+        renderLibrary();
+    });
+    reportDiagnostics.addEventListener('click', event => {
+        const button = event.target.closest('.diagnostic-item');
+        if (!button) return;
+        locateDiagnostic(button.dataset);
+    });
     entryList.addEventListener('click', event => {
         const row = event.target.closest('.entry-row');
         if (!row) return;
@@ -14148,6 +14321,7 @@ Unique-ID = {WOS:000766209400010},
         if (!selectedEntry) return;
         selectedEntry.entryType = detailEntryType.value;
         markLibraryChanged();
+        renderFieldTemplatePanel();
         scheduleLibraryRender();
     });
     detailCitationKey.addEventListener('input', () => {
@@ -14175,8 +14349,25 @@ Unique-ID = {WOS:000766209400010},
         if (!selectedEntry) return;
         delete selectedEntry.entryTags[removeButton.dataset.field];
         markLibraryChanged();
+        renderFieldTemplatePanel();
         renderLibrary();
         renderDetail();
+    });
+    detailTagList.addEventListener('click', event => {
+        const removeButton = event.target.closest('.tag-remove-button');
+        if (!removeButton) return;
+        removeTagFromSelectedEntry(removeButton.dataset.tag);
+    });
+    detailTagInput.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ',') return;
+        event.preventDefault();
+        addTagsToSelectedEntry(detailTagInput.value);
+    });
+    detailTagInput.addEventListener('paste', event => {
+        const pastedText = event.clipboardData && event.clipboardData.getData('text');
+        if (!pastedText || !/[,\n;]/.test(pastedText)) return;
+        event.preventDefault();
+        addTagsToSelectedEntry(pastedText);
     });
     addFieldButton.addEventListener('click', () => {
         const selectedEntry = getSelectedEntry();
@@ -14189,6 +14380,7 @@ Unique-ID = {WOS:000766209400010},
         }
         selectedEntry.entryTags[fieldName] = '';
         markLibraryChanged();
+        renderFieldTemplatePanel();
         renderDetail();
     });
     citationTemplateSelect.addEventListener('change', () => {
@@ -14240,34 +14432,31 @@ Unique-ID = {WOS:000766209400010},
             entryTags: Object.assign({}, entry.entryTags)
         }, index));
         persistEntryMetadata(libraryEntries);
+        applyTagRecordsToLibrary();
         selectedEntryId = libraryEntries[0] ? libraryEntries[0].id : null;
+        activeTagFilters.clear();
         sourceNeedsLibrarySync = false;
         formattedOutputIsCurrent = false;
+        renderFieldTemplatePanel();
         renderLibrary();
         renderDetail();
         scheduleHighlighting();
-        outputMessage.value = formatLibraryReport(result, message);
+        renderReportResult(result, formatLibraryReport(result, message));
         projectDirty = false;
         updateProjectUi();
     }
     async function openLocalBibFile() {
         if (!supportsFileSystemAccess()) {
-            outputMessage.value = 'Open Local needs Chrome File System Access support. Use Upload as a fallback.';
+            outputMessage.value = 'Open Local needs Chrome folder access support. Use Upload as a read-only fallback.';
             return;
         }
         try {
-            const [handle] = await window.showOpenFilePicker({
-                multiple: false,
-                types: [
-                    {
-                        description: 'BibTeX library',
-                        accept: {
-                            'application/x-bibtex': ['.bib'],
-                            'text/plain': ['.bib', '.txt']
-                        }
-                    }
-                ]
+            const directoryHandle = await window.showDirectoryPicker({
+                mode: 'readwrite'
             });
+            const handle = await chooseBibFileFromDirectory(directoryHandle);
+            if (!handle) return;
+            linkedDirectoryHandle = directoryHandle;
             linkedFileHandle = handle;
             projectMode = 'Local';
             await loadFromLinkedFile(`Opened local file: ${handle.name}`);
@@ -14285,6 +14474,30 @@ Unique-ID = {WOS:000766209400010},
             outputMessage.value = `Reload local file failed: ${error.message}`;
         }
     }
+    async function chooseBibFileFromDirectory(directoryHandle) {
+        const bibFiles = [];
+        for await (const [name, handle] of directoryHandle.entries()) {
+            if (handle.kind === 'file' && /\.bib$/i.test(name)) {
+                bibFiles.push({ name, handle });
+            }
+        }
+        bibFiles.sort((fileA, fileB) => fileA.name.localeCompare(fileB.name));
+        if (!bibFiles.length) {
+            outputMessage.value = 'No .bib files found in that folder.';
+            return null;
+        }
+        if (bibFiles.length === 1) {
+            return bibFiles[0].handle;
+        }
+        const choices = bibFiles.map((file, index) => `${index + 1}. ${file.name}`).join('\n');
+        const answer = prompt(`Choose a BibTeX file:\n${choices}`, '1');
+        const selectedIndex = Number.parseInt(answer, 10) - 1;
+        if (!Number.isInteger(selectedIndex) || !bibFiles[selectedIndex]) {
+            outputMessage.value = 'No BibTeX file selected.';
+            return null;
+        }
+        return bibFiles[selectedIndex].handle;
+    }
     async function loadFromLinkedFile(message) {
         const file = await linkedFileHandle.getFile();
         originalFileName = file.name.replace(/\.[^.]+$/, '') || 'bibliography';
@@ -14295,7 +14508,32 @@ Unique-ID = {WOS:000766209400010},
         projectMode = 'Local';
         textLeft.value = content;
         textRight.value = '';
+        await loadAutoTagFile();
         loadLibraryFromText(content, message);
+    }
+    async function loadAutoTagFile() {
+        tagFileRecords = [];
+        tagAssignments = new Map();
+        tagFileHandle = null;
+        tagFileName = '';
+        tagFileDirty = false;
+        if (!linkedDirectoryHandle || !linkedFileHandle) {
+            updateTagFileUi();
+            return;
+        }
+        tagFileName = getSuggestedTagFileName();
+        try {
+            tagFileHandle = await linkedDirectoryHandle.getFileHandle(tagFileName, { create: true });
+            const tagFile = await tagFileHandle.getFile();
+            const content = await tagFile.text();
+            if (content.trim()) {
+                const parsed = parseTagFile(content);
+                tagFileRecords = parsed.records;
+            }
+        } catch (error) {
+            appendReportLine(`Could not open tag file: ${error.message}`);
+        }
+        updateTagFileUi();
     }
     async function checkLinkedFileForUpdates(options = {}) {
         if (!linkedFileHandle || !linkedFileSignature) return;
@@ -14322,6 +14560,7 @@ Unique-ID = {WOS:000766209400010},
             externalUpdateNoticeShown = false;
             textLeft.value = content;
             textRight.value = '';
+            await loadAutoTagFile();
             loadLibraryFromText(content, `Local file updated: ${linkedFileHandle.name}`);
         } catch (error) {
             if (!externalUpdateNoticeShown) {
@@ -14355,10 +14594,126 @@ Unique-ID = {WOS:000766209400010},
             appendReportLine(`Save local file failed: ${error.message}`);
         }
     }
+    async function saveTagFile() {
+        if (!tagFileHandle && linkedDirectoryHandle) {
+            tagFileName = getSuggestedTagFileName();
+            tagFileHandle = await linkedDirectoryHandle.getFileHandle(tagFileName, { create: true });
+        }
+        if (!tagFileHandle) {
+            tagFileDirty = true;
+            updateTagFileUi();
+            return;
+        }
+        const tagData = buildTagFileData();
+        const content = `${JSON.stringify(tagData, null, 2)}\n`;
+        try {
+            const writable = await tagFileHandle.createWritable();
+            await writable.write(content);
+            await writable.close();
+            const file = await tagFileHandle.getFile();
+            tagFileName = file.name || getSuggestedTagFileName();
+            tagFileRecords = tagData.records;
+            tagFileDirty = false;
+            updateTagFileUi();
+        } catch (error) {
+            tagFileDirty = true;
+            updateTagFileUi();
+            appendReportLine(`Save tag file failed: ${error.message}`);
+        }
+    }
+    function parseTagFile(content) {
+        const parsed = JSON.parse(content);
+        const rawRecords = Array.isArray(parsed.records)
+            ? parsed.records
+            : Object.entries(parsed.entries || {}).map(([id, tags]) => ({ id, tags }));
+        return {
+            records: rawRecords.map(record => ({
+                id: String(record.id || '').trim(),
+                citationKey: cleanDisplayText(record.citationKey),
+                doi: cleanDisplayText(record.doi),
+                fingerprint: cleanDisplayText(record.fingerprint),
+                tags: Array.isArray(record.tags) ? mergeTags(record.tags) : parseTags(record.tags)
+            })).filter(record => record.id && record.tags.length)
+        };
+    }
+    function buildTagFileData() {
+        const records = libraryEntries.map(entry => {
+            const tags = getEntryTags(entry);
+            return {
+                id: getEntryTagId(entry),
+                citationKey: entry.citationKey || '',
+                doi: cleanDisplayText(entry.entryTags && entry.entryTags.doi),
+                fingerprint: getEntryFingerprint(entry),
+                title: cleanDisplayText(entry.entryTags && entry.entryTags.title),
+                tags
+            };
+        }).filter(record => record.tags.length);
+        return {
+            version: 1,
+            app: 'BibTidy',
+            library: linkedFileHandle ? linkedFileHandle.name : `${originalFileName}.bib`,
+            updatedAt: new Date().toISOString(),
+            records
+        };
+    }
+    function applyTagRecordsToLibrary() {
+        tagAssignments = new Map();
+        const lookup = buildTagRecordLookup(tagFileRecords);
+        libraryEntries.forEach(entry => {
+            const matchedRecord = getMatchingTagRecord(entry, lookup);
+            if (matchedRecord) {
+                entry.tagId = matchedRecord.id;
+                tagAssignments.set(matchedRecord.id, mergeTags(matchedRecord.tags));
+                return;
+            }
+            entry.tagId = buildEntryTagId(entry);
+        });
+        updateTagFileUi();
+    }
+    function buildTagRecordLookup(records) {
+        const lookup = new Map();
+        records.forEach(record => {
+            getRecordLookupKeys(record).forEach(key => {
+                if (!lookup.has(key)) lookup.set(key, record);
+            });
+        });
+        return lookup;
+    }
+    function getMatchingTagRecord(entry, lookup) {
+        const keys = getEntryLookupKeys(entry);
+        for (const key of keys) {
+            if (lookup.has(key)) return lookup.get(key);
+        }
+        return null;
+    }
+    function getRecordLookupKeys(record) {
+        return [
+            record.id,
+            record.doi ? `doi:${record.doi.toLowerCase()}` : '',
+            record.citationKey ? `key:${record.citationKey.toLowerCase()}` : '',
+            record.fingerprint ? `fingerprint:${record.fingerprint}` : ''
+        ].filter(Boolean);
+    }
+    function getEntryLookupKeys(entry) {
+        return [
+            getEntryTagId(entry),
+            cleanDisplayText(entry.entryTags && entry.entryTags.doi)
+                ? `doi:${cleanDisplayText(entry.entryTags.doi).toLowerCase()}`
+                : '',
+            entry.citationKey ? `key:${String(entry.citationKey).toLowerCase()}` : '',
+            `fingerprint:${getEntryFingerprint(entry)}`
+        ].filter(Boolean);
+    }
+    function getSuggestedTagFileName() {
+        const baseName = linkedFileHandle
+            ? linkedFileHandle.name.replace(/\.[^.]+$/, '')
+            : originalFileName;
+        return `${baseName || 'bibliography'}.bibtidy-tags.json`;
+    }
     function importEntriesFromText(content, message) {
         const result = bibTidyCore.parseBibtexLibrary(content);
         if (!result.entries.length) {
-            outputMessage.value = formatLibraryReport(result, 'No BibTeX entries found to import.');
+            renderReportResult(result, formatLibraryReport(result, 'No BibTeX entries found to import.'));
             return;
         }
         const existingKeys = new Set(libraryEntries.map(entry => entry.citationKey).filter(Boolean));
@@ -14380,40 +14735,182 @@ Unique-ID = {WOS:000766209400010},
         importBibtexText.value = '';
         importPanel.classList.add('is-hidden');
         markLibraryChanged();
+        renderFieldTemplatePanel();
         renderLibrary();
         renderDetail();
-        outputMessage.value = formatLibraryReport(result, `${message} Added ${importedEntries.length} item${importedEntries.length === 1 ? '' : 's'}.`);
+        renderReportResult(result, formatLibraryReport(result, `${message} Added ${importedEntries.length} item${importedEntries.length === 1 ? '' : 's'}.`));
     }
     function runTidy() {
         syncPendingLibraryChanges();
         const result = bibTidyCore.tidyBibtex(textLeft.value, getTidyOptions());
         textRight.value = result.content;
         formattedOutputIsCurrent = true;
-        outputMessage.value = bibTidyCore.formatReport(result);
+        renderReportResult(result, bibTidyCore.formatReport(result));
         scheduleHighlighting();
     }
     function runValidate() {
         syncPendingLibraryChanges();
         const result = bibTidyCore.validateBibtex(textLeft.value, getTidyOptions());
-        outputMessage.value = bibTidyCore.formatReport(result);
+        renderReportResult(result, bibTidyCore.formatReport(result));
         scheduleHighlighting();
     }
     function getTidyOptions() {
         const citationKeyTemplate = renameCitationIds.checked
             ? citationTemplateSelect.value
             : 'original';
-        return {
+        const options = {
             preset: presetSelect.value,
             abbreviateJournals: applyAbbreviation.checked,
             renameCitationIds: renameCitationIds.checked,
             citationKeyTemplate
         };
+        if (fieldTemplateState.enabled) {
+            options.customFieldsByType = buildCustomFieldsByType();
+        }
+        return options;
+    }
+    function createDefaultFieldTemplateState() {
+        return {
+            enabled: false,
+            selections: Object.fromEntries(
+                fieldTemplateTypes.map(entryType => [entryType, defaultFieldTemplates[entryType].slice()])
+            ),
+            customOptions: {}
+        };
+    }
+    function readFieldTemplateState() {
+        const nextState = createDefaultFieldTemplateState();
+        try {
+            const stored = JSON.parse(localStorage.getItem(fieldTemplateStorageKey) || '{}') || {};
+            nextState.enabled = Boolean(stored.enabled);
+            Object.entries(stored.selections || {}).forEach(([entryType, fields]) => {
+                const normalizedType = normalizeFieldName(entryType);
+                if (!normalizedType || !Array.isArray(fields)) return;
+                nextState.selections[normalizedType] = mergeFieldNames(fields);
+            });
+            Object.entries(stored.customOptions || {}).forEach(([entryType, fields]) => {
+                const normalizedType = normalizeFieldName(entryType);
+                if (!normalizedType || !Array.isArray(fields)) return;
+                nextState.customOptions[normalizedType] = mergeFieldNames(fields);
+            });
+        } catch (error) {
+            return nextState;
+        }
+        return nextState;
+    }
+    function writeFieldTemplateState() {
+        try {
+            localStorage.setItem(fieldTemplateStorageKey, JSON.stringify(fieldTemplateState));
+        } catch (error) {
+            // Field templates are browser preferences; Tidy can still run with in-memory settings.
+        }
+    }
+    function populateFieldTypeSelect() {
+        const selectedType = getSelectedFieldTemplateType();
+        fieldTypeSelect.replaceChildren();
+        getFieldTemplateTypes().forEach(entryType => {
+            const option = document.createElement('option');
+            option.value = entryType;
+            option.textContent = entryType;
+            fieldTypeSelect.appendChild(option);
+        });
+        fieldTypeSelect.value = getFieldTemplateTypes().includes(selectedType) ? selectedType : 'article';
+    }
+    function renderFieldTemplatePanel() {
+        populateFieldTypeSelect();
+        const entryType = getSelectedFieldTemplateType();
+        customFieldsCheckbox.checked = fieldTemplateState.enabled;
+        fieldTemplateList.replaceChildren();
+        getAvailableTemplateFields(entryType).forEach(field => {
+            const option = document.createElement('label');
+            option.className = 'field-template-option';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.dataset.field = field;
+            checkbox.checked = getFieldTemplateSelection(entryType).includes(field);
+            const label = document.createElement('span');
+            label.textContent = field;
+            option.append(checkbox, label);
+            fieldTemplateList.appendChild(option);
+        });
+    }
+    function getSelectedFieldTemplateType() {
+        return normalizeFieldName(fieldTypeSelect.value) || 'article';
+    }
+    function getFieldTemplateTypes() {
+        return mergeFieldNames([
+            ...fieldTemplateTypes,
+            ...Object.keys(fieldTemplateState.selections || {}),
+            ...Object.keys(fieldTemplateState.customOptions || {}),
+            ...libraryEntries.map(entry => entry.entryType || 'misc')
+        ]);
+    }
+    function getDefaultFieldTemplate(entryType) {
+        const normalizedType = normalizeFieldName(entryType) || 'misc';
+        return defaultFieldTemplates[normalizedType] || defaultFieldTemplates.misc;
+    }
+    function getFieldTemplateSelection(entryType) {
+        const normalizedType = normalizeFieldName(entryType) || 'misc';
+        if (!fieldTemplateState.selections[normalizedType]) {
+            fieldTemplateState.selections[normalizedType] = getDefaultFieldTemplate(normalizedType).slice();
+        }
+        return fieldTemplateState.selections[normalizedType];
+    }
+    function setFieldTemplateSelection(entryType, fields) {
+        const normalizedType = normalizeFieldName(entryType) || 'misc';
+        fieldTemplateState.selections[normalizedType] = mergeFieldNames(fields);
+    }
+    function getAvailableTemplateFields(entryType) {
+        const normalizedType = normalizeFieldName(entryType) || 'misc';
+        const fieldsFromLibrary = new Set();
+        libraryEntries
+            .filter(entry => (entry.entryType || 'misc').toLowerCase() === normalizedType)
+            .forEach(entry => {
+                Object.keys(entry.entryTags || {}).forEach(field => fieldsFromLibrary.add(field));
+            });
+        return mergeFieldNames([
+            ...(defaultFieldTemplates[normalizedType] || defaultFieldTemplates.misc),
+            ...(extraFieldTemplateOptions[normalizedType] || []),
+            ...commonTemplateFields,
+            ...Array.from(fieldsFromLibrary),
+            ...(fieldTemplateState.customOptions[normalizedType] || []),
+            ...getFieldTemplateSelection(normalizedType)
+        ]);
+    }
+    function addCustomTemplateField() {
+        const entryType = getSelectedFieldTemplateType();
+        const fieldName = normalizeFieldName(customFieldName.value);
+        customFieldName.value = '';
+        if (!fieldName) return;
+        fieldTemplateState.customOptions[entryType] = mergeFieldNames(
+            (fieldTemplateState.customOptions[entryType] || []).concat(fieldName)
+        );
+        setFieldTemplateSelection(entryType, getFieldTemplateSelection(entryType).concat(fieldName));
+        writeFieldTemplateState();
+        renderFieldTemplatePanel();
+    }
+    function buildCustomFieldsByType() {
+        return getFieldTemplateTypes().reduce((fieldsByType, entryType) => {
+            fieldsByType[entryType] = getFieldTemplateSelection(entryType);
+            return fieldsByType;
+        }, {});
+    }
+    function mergeFieldNames(fields) {
+        const seenFields = new Set();
+        return fields
+            .map(normalizeFieldName)
+            .filter(field => {
+                if (!field || seenFields.has(field)) return false;
+                seenFields.add(field);
+                return true;
+            });
     }
     function renderLibrary() {
         pendingLibraryRenderTimer = 0;
-        const filteredEntries = getVisibleEntries();
         libraryCount.textContent = `${libraryEntries.length} item${libraryEntries.length === 1 ? '' : 's'}`;
         renderTypeSummary();
+        renderTagCloud();
+        const filteredEntries = getVisibleEntries();
         entryList.replaceChildren();
         if (!filteredEntries.length) {
             const emptyRow = document.createElement('div');
@@ -14447,7 +14944,23 @@ Unique-ID = {WOS:000766209400010},
                 entry.citationKey || '(no key)',
                 `added ${formatEntryDate(entry.addedAt)}`
             ].filter(Boolean).join(' - ');
+            const tags = getEntryTags(entry);
+            const tagPreview = document.createElement('span');
+            tagPreview.className = 'entry-tags';
+            tags.slice(0, 4).forEach(tag => {
+                const tagChip = document.createElement('span');
+                tagChip.className = 'entry-tag-chip';
+                tagChip.textContent = tag;
+                tagPreview.appendChild(tagChip);
+            });
+            if (tags.length > 4) {
+                const moreChip = document.createElement('span');
+                moreChip.className = 'entry-tag-chip muted-tag-chip';
+                moreChip.textContent = `+${tags.length - 4}`;
+                tagPreview.appendChild(moreChip);
+            }
             row.append(title, meta, keyLine);
+            if (tags.length) row.appendChild(tagPreview);
             fragment.appendChild(row);
         });
         entryList.appendChild(fragment);
@@ -14477,21 +14990,156 @@ Unique-ID = {WOS:000766209400010},
             .map(([type, count]) => `${type} ${count}`);
         libraryTypeSummary.textContent = summary.join(' | ');
     }
+    function renderTagCloud() {
+        const tagStats = getTagStats();
+        const availableKeys = new Set(tagStats.map(tag => tag.key));
+        activeTagFilters = new Set(Array.from(activeTagFilters).filter(tagKey => availableKeys.has(tagKey)));
+        tagCloud.replaceChildren();
+        clearTagsButton.disabled = activeTagFilters.size === 0;
+        tagFilterCount.textContent = activeTagFilters.size
+            ? `${activeTagFilters.size} selected`
+            : tagStats.length
+                ? `${tagStats.length} tag${tagStats.length === 1 ? '' : 's'}`
+                : 'No tags';
+        if (!tagStats.length) {
+            const emptyTags = document.createElement('div');
+            emptyTags.className = 'tag-cloud-empty';
+            emptyTags.textContent = 'Add tags in Details.';
+            tagCloud.appendChild(emptyTags);
+            return;
+        }
+        const maxCount = Math.max(...tagStats.map(tag => tag.count));
+        tagStats.slice(0, 32).forEach(tag => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'tag-cloud-chip';
+            button.dataset.tag = tag.key;
+            button.classList.toggle('active', activeTagFilters.has(tag.key));
+            button.classList.add(getTagWeightClass(tag.count, maxCount));
+            button.setAttribute('aria-pressed', activeTagFilters.has(tag.key) ? 'true' : 'false');
+            button.title = `${tag.label} (${tag.count})`;
+            const label = document.createElement('span');
+            label.textContent = tag.label;
+            const count = document.createElement('small');
+            count.textContent = tag.count;
+            button.append(label, count);
+            tagCloud.appendChild(button);
+        });
+    }
+    function getTagStats() {
+        const stats = new Map();
+        libraryEntries.forEach(entry => {
+            getEntryTags(entry).forEach(tag => {
+                const key = normalizeTagKey(tag);
+                if (!key) return;
+                const current = stats.get(key) || { key, label: tag, count: 0 };
+                current.count += 1;
+                if (tag.length < current.label.length) current.label = tag;
+                stats.set(key, current);
+            });
+        });
+        return Array.from(stats.values()).sort((tagA, tagB) => {
+            return tagB.count - tagA.count || tagA.label.localeCompare(tagB.label);
+        });
+    }
+    function getTagWeightClass(count, maxCount) {
+        if (maxCount <= 1) return 'tag-weight-small';
+        const ratio = count / maxCount;
+        if (ratio >= 0.75) return 'tag-weight-large';
+        if (ratio >= 0.4) return 'tag-weight-medium';
+        return 'tag-weight-small';
+    }
+    function toggleTagFilter(tagKey) {
+        if (!tagKey) return;
+        if (activeTagFilters.has(tagKey)) {
+            activeTagFilters.delete(tagKey);
+        } else {
+            activeTagFilters.add(tagKey);
+        }
+        renderLibrary();
+    }
     function renderDetail() {
         const selectedEntry = getSelectedEntry();
         entryDetailForm.classList.toggle('is-hidden', !selectedEntry);
         emptyDetail.classList.toggle('is-hidden', Boolean(selectedEntry));
         deleteEntryButton.disabled = !selectedEntry;
         addFieldButton.disabled = !selectedEntry;
+        detailTagInput.disabled = !selectedEntry;
         if (!selectedEntry) {
+            detailTagList.replaceChildren();
+            detailTagInput.value = '';
             detailFields.replaceChildren();
             return;
         }
         detailEntryType.value = selectedEntry.entryType || 'misc';
         detailCitationKey.value = selectedEntry.citationKey || '';
+        renderDetailTags(selectedEntry);
         detailFields.replaceChildren();
         getVisibleFields(selectedEntry).forEach(field => {
             detailFields.appendChild(createFieldControl(field, selectedEntry.entryTags[field] || ''));
+        });
+    }
+    function renderDetailTags(entry) {
+        detailTagList.replaceChildren();
+        detailTagInput.value = '';
+        const tags = getEntryTags(entry);
+        if (!tags.length) {
+            const emptyTag = document.createElement('span');
+            emptyTag.className = 'detail-tag-empty';
+            emptyTag.textContent = 'No tags yet.';
+            detailTagList.appendChild(emptyTag);
+            return;
+        }
+        tags.forEach(tag => {
+            const chip = document.createElement('span');
+            chip.className = 'detail-tag-chip';
+            const label = document.createElement('span');
+            label.textContent = tag;
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'tag-remove-button';
+            removeButton.dataset.tag = tag;
+            removeButton.setAttribute('aria-label', `Remove ${tag}`);
+            removeButton.textContent = 'x';
+            chip.append(label, removeButton);
+            detailTagList.appendChild(chip);
+        });
+    }
+    function addTagsToSelectedEntry(value) {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        const newTags = parseTags(value);
+        detailTagInput.value = '';
+        if (!newTags.length) return;
+        const combinedTags = mergeTags(getEntryTags(selectedEntry).concat(newTags));
+        setEntryTags(selectedEntry, combinedTags);
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Updated tags for ${selectedEntry.citationKey || 'selected item'}.`;
+    }
+    function removeTagFromSelectedEntry(tag) {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry) return;
+        const tagKey = normalizeTagKey(tag);
+        const nextTags = getEntryTags(selectedEntry).filter(currentTag => normalizeTagKey(currentTag) !== tagKey);
+        setEntryTags(selectedEntry, nextTags);
+        activeTagFilters.delete(tagKey);
+        renderLibrary();
+        renderDetail();
+        outputMessage.value = `Removed ${tag} from ${selectedEntry.citationKey || 'selected item'}.`;
+    }
+    function setEntryTags(entry, tags) {
+        const nextTags = mergeTags(tags);
+        const tagId = getEntryTagId(entry);
+        if (nextTags.length) {
+            tagAssignments.set(tagId, nextTags);
+        } else {
+            tagAssignments.delete(tagId);
+        }
+        tagFileDirty = true;
+        updateTagFileUi();
+        saveTagFile().catch(error => {
+            appendReportLine(`Save tag file failed: ${error.message}`);
         });
     }
     function createFieldControl(field, value) {
@@ -14527,7 +15175,11 @@ Unique-ID = {WOS:000766209400010},
     }
     function getVisibleEntries() {
         const query = librarySearch.value.trim().toLowerCase();
-        const filteredEntries = query ? libraryEntries.filter(entry => {
+        const filteredEntries = libraryEntries.filter(entry => {
+            const entryTagKeys = new Set(getEntryTags(entry).map(normalizeTagKey));
+            const matchesTags = Array.from(activeTagFilters).every(tagKey => entryTagKeys.has(tagKey));
+            if (!matchesTags) return false;
+            if (!query) return true;
             const haystack = [
                 entry.citationKey,
                 entry.entryType,
@@ -14536,10 +15188,11 @@ Unique-ID = {WOS:000766209400010},
                 getVenue(entry),
                 entry.entryTags.year,
                 entry.entryTags.doi,
-                entry.entryTags.keywords
+                entry.entryTags.keywords,
+                getEntryTags(entry).join(' ')
             ].join(' ').toLowerCase();
             return haystack.includes(query);
-        }) : libraryEntries.slice();
+        });
         return sortEntries(filteredEntries);
     }
     function createNewEntry() {
@@ -14685,7 +15338,7 @@ Unique-ID = {WOS:000766209400010},
         });
     }
     function supportsFileSystemAccess() {
-        return 'showOpenFilePicker' in window;
+        return 'showDirectoryPicker' in window;
     }
     function getLinkedFileSignature(file) {
         return `${file.name}:${file.size}:${file.lastModified || 0}`;
@@ -14698,6 +15351,14 @@ Unique-ID = {WOS:000766209400010},
         projectName.textContent = displayName;
         projectState.textContent = `${projectMode} - ${sourceLabel} - ${projectDirty ? 'unsaved changes' : 'saved'}`;
         projectButton.classList.toggle('unsaved', projectDirty);
+    }
+    function updateTagFileUi() {
+        const tagCount = Array.from(tagAssignments.values()).reduce((total, tags) => total + tags.length, 0);
+        if (tagFileName) {
+            tagFileStatus.textContent = `Auto: ${tagFileName}${tagFileDirty ? ' - saving' : ''}`;
+        } else {
+            tagFileStatus.textContent = tagCount ? 'Open Local to save tags' : 'Auto tag file';
+        }
     }
     function getSelectedEntry() {
         return libraryEntries.find(entry => entry.id === selectedEntryId) || null;
@@ -14793,6 +15454,43 @@ Unique-ID = {WOS:000766209400010},
         if (Number.isNaN(date.getTime())) return 'unknown';
         return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
     }
+    function getEntryTags(entry) {
+        return tagAssignments.get(getEntryTagId(entry)) || [];
+    }
+    function parseTags(value) {
+        return mergeTags(String(value || '')
+            .split(/[,;\n]+/)
+            .map(tag => tag.replace(/\s+/g, ' ').trim())
+            .filter(Boolean));
+    }
+    function mergeTags(tags) {
+        const seenTags = new Set();
+        const mergedTags = [];
+        tags.forEach(tag => {
+            const cleanTag = String(tag || '').replace(/\s+/g, ' ').trim();
+            const tagKey = normalizeTagKey(cleanTag);
+            if (!tagKey || seenTags.has(tagKey)) return;
+            seenTags.add(tagKey);
+            mergedTags.push(cleanTag);
+        });
+        return mergedTags;
+    }
+    function normalizeTagKey(tag) {
+        return String(tag || '').replace(/\s+/g, ' ').trim().toLowerCase();
+    }
+    function getEntryTagId(entry) {
+        if (!entry.tagId) {
+            entry.tagId = buildEntryTagId(entry);
+        }
+        return entry.tagId;
+    }
+    function buildEntryTagId(entry) {
+        const doi = cleanDisplayText(entry && entry.entryTags && entry.entryTags.doi).toLowerCase();
+        if (doi) return `doi:${doi}`;
+        const citationKey = cleanDisplayText(entry && entry.citationKey).toLowerCase();
+        if (citationKey) return `key:${citationKey}`;
+        return `fingerprint:${getEntryFingerprint(entry)}`;
+    }
     function cleanDisplayText(text) {
         return String(text || '').replace(/[{}]/g, '').replace(/\s+/g, ' ').trim();
     }
@@ -14829,6 +15527,92 @@ Unique-ID = {WOS:000766209400010},
             result.errors.slice(0, 12).forEach(error => lines.push(`- ${error.message}`));
         }
         return lines.join('\n');
+    }
+    function renderReportResult(result, text) {
+        outputMessage.value = text;
+        renderReportDiagnostics(result);
+    }
+    function renderReportDiagnostics(result) {
+        reportDiagnostics.replaceChildren();
+        const diagnostics = [
+            ...((result && result.errors) || []).map(item => Object.assign({ level: 'error' }, item)),
+            ...((result && result.warnings) || []).map(item => Object.assign({ level: 'warning' }, item))
+        ];
+        if (!diagnostics.length) {
+            reportDiagnostics.classList.add('is-hidden');
+            return;
+        }
+        reportDiagnostics.classList.remove('is-hidden');
+        const header = document.createElement('div');
+        header.className = 'diagnostic-summary';
+        const errorCount = diagnostics.filter(item => item.level === 'error').length;
+        const warningCount = diagnostics.length - errorCount;
+        header.textContent = [
+            errorCount ? `${errorCount} error${errorCount === 1 ? '' : 's'}` : '',
+            warningCount ? `${warningCount} warning${warningCount === 1 ? '' : 's'}` : ''
+        ].filter(Boolean).join(' | ');
+        reportDiagnostics.appendChild(header);
+        diagnostics.slice(0, 24).forEach(diagnostic => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `diagnostic-item diagnostic-${diagnostic.level}`;
+            button.dataset.citationKey = diagnostic.citationKey || '';
+            button.dataset.originalCitationKey = diagnostic.originalCitationKey || '';
+            if (Number.isInteger(diagnostic.entryIndex)) button.dataset.entryIndex = String(diagnostic.entryIndex);
+            if (Number.isInteger(diagnostic.position)) button.dataset.position = String(diagnostic.position);
+            const badge = document.createElement('span');
+            badge.className = 'diagnostic-badge';
+            badge.textContent = diagnostic.level === 'error' ? 'Error' : 'Warning';
+            const message = document.createElement('span');
+            message.className = 'diagnostic-message';
+            message.textContent = diagnostic.message || 'Diagnostic issue';
+            button.append(badge, message);
+            reportDiagnostics.appendChild(button);
+        });
+    }
+    function locateDiagnostic(dataset) {
+        const entry = findEntryForDiagnostic(dataset);
+        if (entry) {
+            activeTagFilters.clear();
+            librarySearch.value = '';
+            selectedEntryId = entry.id;
+            setActiveView('library');
+            renderLibrary();
+            renderDetail();
+            requestAnimationFrame(() => {
+                const row = Array.from(entryList.querySelectorAll('.entry-row'))
+                    .find(candidateRow => candidateRow.dataset.entryId === entry.id);
+                if (!row) return;
+                row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                row.classList.add('diagnostic-focus');
+                setTimeout(() => row.classList.remove('diagnostic-focus'), 1400);
+            });
+            return;
+        }
+        const position = Number.parseInt(dataset.position || '', 10);
+        if (Number.isInteger(position)) {
+            setActiveView('tidy');
+            const nextPosition = Math.max(0, Math.min(position, textLeft.value.length));
+            textLeft.focus();
+            textLeft.setSelectionRange(nextPosition, Math.min(textLeft.value.length, nextPosition + 1));
+            return;
+        }
+        appendReportLine('Could not locate that diagnostic in the current library.');
+    }
+    function findEntryForDiagnostic(dataset) {
+        const keys = [
+            dataset.originalCitationKey,
+            dataset.citationKey
+        ].map(value => String(value || '').trim().toLowerCase()).filter(Boolean);
+        for (const key of keys) {
+            const matchedEntry = libraryEntries.find(entry => String(entry.citationKey || '').trim().toLowerCase() === key);
+            if (matchedEntry) return matchedEntry;
+        }
+        const entryIndex = Number.parseInt(dataset.entryIndex || '', 10);
+        if (Number.isInteger(entryIndex) && libraryEntries[entryIndex]) {
+            return libraryEntries[entryIndex];
+        }
+        return null;
     }
     function appendReportLine(line) {
         outputMessage.value = outputMessage.value

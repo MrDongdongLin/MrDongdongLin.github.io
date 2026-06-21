@@ -89,6 +89,18 @@
                 <button id="save-button" class="secondary-button wide-button" type="button" data-view-action="all">Export .bib</button>
             </section>
 
+            <section class="sidebar-group tag-cloud-panel" aria-label="Tag filters">
+                <div class="sidebar-section-header">
+                    <div>
+                        <div class="sidebar-group-title">Tags</div>
+                        <span id="tag-filter-count" class="sidebar-hint">No tags</span>
+                        <span id="tag-file-status" class="sidebar-hint">No tag file</span>
+                    </div>
+                    <button id="clear-tags-button" class="link-button" type="button" disabled>Clear</button>
+                </div>
+                <div id="tag-cloud" class="tag-cloud" aria-label="Filter by tag"></div>
+            </section>
+
             <section class="sidebar-group sidebar-footer" aria-label="Application actions">
                 <button id="guide-button" class="secondary-button wide-button" type="button">Guide</button>
                 <button id="dark-mode-toggle" class="secondary-button wide-button" type="button">Dark</button>
@@ -143,6 +155,14 @@
                             <button id="add-field-button" class="copy-button" type="button">Add Field</button>
                         </div>
                         <form id="entry-detail-form" class="detail-form">
+                            <section class="tag-editor" aria-label="Entry tags">
+                                <div class="field-label-row">
+                                    <span>Tags</span>
+                                    <small>Auto-saved in tag file</small>
+                                </div>
+                                <div id="detail-tag-list" class="detail-tag-list" aria-label="Current tags"></div>
+                                <input id="detail-tag-input" type="text" autocomplete="off" placeholder="Add tag and press Enter">
+                            </section>
                             <div class="detail-grid two-columns">
                                 <label class="field-control" for="detail-entry-type">
                                     <span>Type</span>
@@ -172,6 +192,28 @@
 
             <section id="tidy-page" class="page-view" data-page="tidy">
                 <div class="tidy-workspace">
+                    <section class="field-template-panel" aria-label="Custom Tidy fields">
+                        <div class="field-template-header">
+                            <label class="switch-control" for="custom-fields-checkbox">
+                                <input type="checkbox" id="custom-fields-checkbox" class="styled-checkbox">
+                                <span class="switch-track" aria-hidden="true"></span>
+                                <span>Custom fields</span>
+                            </label>
+                            <label class="field-type-control" for="field-type-select">
+                                <span>Item type</span>
+                                <select id="field-type-select"></select>
+                            </label>
+                            <button id="reset-field-template-button" class="copy-button" type="button">Reset Type</button>
+                        </div>
+                        <div class="field-template-body">
+                            <div id="field-template-list" class="field-template-list" aria-label="Fields kept after Tidy"></div>
+                            <label class="field-add-control" for="custom-field-name">
+                                <span>Add field</span>
+                                <input id="custom-field-name" type="text" autocomplete="off" placeholder="fieldname">
+                                <button id="add-custom-field-button" class="copy-button" type="button">Add</button>
+                            </label>
+                        </div>
+                    </section>
                     <section class="editor" aria-label="BibTeX editor">
                         <article class="editor-panel">
                             <div class="panel-header">
@@ -206,6 +248,7 @@
                             <button class="copy-button" data-target="output-message" type="button">Copy</button>
                         </div>
                         <textarea id="output-message" readonly></textarea>
+                        <div id="report-diagnostics" class="report-diagnostics" aria-live="polite"></div>
                     </section>
                 </div>
             </section>
@@ -216,7 +259,7 @@
         <article class="onboarding-card">
             <div class="onboarding-step" id="onboarding-progress">Step 1 of 6</div>
             <h2 id="onboarding-title">Import a .bib file</h2>
-            <p id="onboarding-body">Use Open Local to link a .bib file and save back to it later. Use Upload when you only want to import a browser copy.</p>
+            <p id="onboarding-body">Use Open Local to choose the folder containing your .bib file. BibTidy will automatically maintain a matching tag file there.</p>
             <div class="onboarding-actions">
                 <button id="onboarding-skip" class="ghost-button" type="button">Skip</button>
                 <button id="onboarding-back" class="secondary-button" type="button">Back</button>
