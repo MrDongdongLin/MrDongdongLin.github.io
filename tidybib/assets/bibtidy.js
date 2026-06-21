@@ -13943,8 +13943,14 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             view: 'library',
             target: '#open-local-button',
-            title: 'Start with a BibTeX file',
-            body: 'Open a local .bib file when your browser supports it, or upload one to work in the browser.'
+            title: 'Import a .bib file',
+            body: 'Use Open Local to link a .bib file and save back to it later. Use Upload when you only want to import a browser copy.'
+        },
+        {
+            view: 'library',
+            target: '#import-entry-button',
+            title: 'Import one BibTeX record',
+            body: 'Use Import BibTeX to paste a single record, including BibTeX copied from BibTidy Clipper.'
         },
         {
             view: 'library',
@@ -13957,6 +13963,12 @@ document.addEventListener('DOMContentLoaded', () => {
             target: '#tidy-button',
             title: 'Clean and validate',
             body: 'Use Tidy to format BibTeX, or Validate to check for missing fields, duplicate keys, and parse issues.'
+        },
+        {
+            view: 'library',
+            target: '.sidebar-file-actions',
+            title: 'Sync with Chrome Clipper',
+            body: 'In the Chrome extension, choose the same .bib file, then Save to Local Library. Back here, Open Local links that file and Reload Local refreshes changes.'
         },
         {
             view: 'library',
@@ -14089,9 +14101,7 @@ Unique-ID = {WOS:000766209400010},
         appendReportLine('Saved file.');
     });
     saveLocalButton.addEventListener('click', saveLocalBibFile);
-    exitButton.addEventListener('click', () => {
-        window.close();
-    });
+    exitButton.addEventListener('click', exitApplication);
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
@@ -14607,6 +14617,23 @@ Unique-ID = {WOS:000766209400010},
         saveLocalButton.classList.toggle('is-hidden', !linkedFileHandle);
         setActiveView(document.body.dataset.view || 'library');
         updateProjectUi();
+    }
+    function exitApplication() {
+        if (projectDirty && !confirm('You have unsaved changes. Exit BibTidy anyway?')) {
+            return;
+        }
+        window.open('', '_self');
+        window.close();
+        window.setTimeout(() => {
+            if (document.visibilityState === 'hidden') return;
+            window.location.href = getExitUrl();
+        }, 120);
+    }
+    function getExitUrl() {
+        if (window.location.protocol === 'file:') {
+            return 'about:blank';
+        }
+        return new URL('../', window.location.href).href;
     }
     function showOnboardingForFirstVisit() {
         try {
