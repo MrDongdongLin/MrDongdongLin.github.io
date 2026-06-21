@@ -13938,7 +13938,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'publisher', 'school', 'institution'
     ]);
     const entryMetaStorageKey = 'bibtidy:entry-meta:v1';
-    const onboardingStorageKey = 'bibtidy:onboarding-complete:v1';
+    const onboardingStorageKey = 'bibtidy:onboarding-complete:v2';
     const onboardingSteps = [
         {
             view: 'library',
