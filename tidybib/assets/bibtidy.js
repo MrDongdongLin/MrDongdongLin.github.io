@@ -13346,7 +13346,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 preservedBlocks.push(block.text);
                 sourceBlocks.push({ type: 'preserved', text: block.text });
             } else if (isBibliographyEntryType(block.type)) {
-                const parsed = parseEntryBlock({ text: block.text, macroContext, entryIndex: sourceEntryIndex, position: blockStart }, result);
+                const parsed = parseEntryBlock({ text: block.text, macroContext, entryIndex: sourceEntryIndex, position: blockStart, endPosition: block.end }, result);
                 if (parsed) {
                     parsed.sourceId = `source-entry-${sourceEntryIndex}`;
                     sourceEntryIndex++;
@@ -13487,6 +13487,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 result.errors.push({
                     type: 'parse',
                     position: blockStart,
+                    severity: 'error',
                     message: `Could not find the end of the BibTeX block starting at character ${blockStart}.`
                 });
                 output += content.slice(blockStart);
@@ -13496,7 +13497,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                 macroContext += normalizeBlockDelimiters(block.text) + '\n';
                 output += block.text;
             } else if (isBibliographyEntryType(block.type)) {
-                output += transformEntry({ text: block.text, macroContext, entryIndex, position: blockStart }, entryIndex);
+                output += transformEntry({ text: block.text, macroContext, entryIndex, position: blockStart, endPosition: block.end }, entryIndex);
                 entryIndex++;
             } else {
                 output += block.text;
@@ -13551,6 +13552,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
                     type: 'empty-entry',
                     entryIndex: rawEntry.entryIndex,
                     position: rawEntry.position,
+                    endPosition: rawEntry.endPosition,
                     message: 'Skipped a BibTeX block because it did not contain entry fields.'
                 });
                 return null;
@@ -13558,13 +13560,16 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             return {
                 citationKey: entry.citationKey || '',
                 entryType: (entry.entryType || 'misc').toLowerCase(),
-                entryTags: normalizeEntryTags(entry.entryTags)
+                entryTags: normalizeEntryTags(entry.entryTags),
+                sourcePosition: rawEntry.position,
+                sourceEndPosition: rawEntry.endPosition
             };
         } catch (error) {
             result.errors.push({
                 type: 'parse',
                 entryIndex: rawEntry.entryIndex,
                 position: rawEntry.position,
+                endPosition: rawEntry.endPosition,
                 severity: 'error',
                 message: `Failed to parse BibTeX entry: ${error.message || error}`
             });
@@ -13702,7 +13707,9 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
             citationKey: key,
             originalCitationKey: originalEntry.citationKey || '',
             entryIndex,
-            entryType: originalEntry.entryType || ''
+            entryType: originalEntry.entryType || '',
+            position: originalEntry.sourcePosition,
+            endPosition: originalEntry.sourceEndPosition
         };
         if (seenKeys.has(key)) {
             result.warnings.push({
@@ -13949,7 +13956,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const validateButton = document.getElementById('validate-button');
     const saveButton = document.getElementById('save-button');
     const saveLocalButton = document.getElementById('save-local-button');
-    const exitButton = document.getElementById('exit-button');
     const loadSourceButton = document.getElementById('load-source-button');
     const applyAbbreviation = document.getElementById('abbreviate-checkbox');
     const renameCitationIds = document.getElementById('rename-id-checkbox');
@@ -14182,7 +14188,7 @@ Unique-ID = {WOS:000766209400010},
         markLibraryChanged();
         renderLibrary();
         renderDetail();
-        outputMessage.value = `Added ${entry.citationKey}.`;
+        setReportText(`Added ${entry.citationKey}.`);
     });
     importEntryButton.addEventListener('click', () => {
         importPanel.classList.toggle('is-hidden');
@@ -14205,7 +14211,7 @@ Unique-ID = {WOS:000766209400010},
         markLibraryChanged();
         renderLibrary();
         renderDetail();
-        outputMessage.value = `Deleted ${selectedEntry.citationKey || 'selected item'}.`;
+        setReportText(`Deleted ${selectedEntry.citationKey || 'selected item'}.`);
     });
     tidyButton.addEventListener('click', runTidy);
     validateButton.addEventListener('click', runValidate);
@@ -14260,7 +14266,6 @@ Unique-ID = {WOS:000766209400010},
         appendReportLine('Saved file.');
     });
     saveLocalButton.addEventListener('click', saveLocalBibFile);
-    exitButton.addEventListener('click', exitApplication);
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light' : 'Dark';
@@ -14375,7 +14380,7 @@ Unique-ID = {WOS:000766209400010},
         const fieldName = normalizeFieldName(prompt('Field name'));
         if (!fieldName) return;
         if (Object.prototype.hasOwnProperty.call(selectedEntry.entryTags, fieldName)) {
-            outputMessage.value = `${fieldName} already exists on this item.`;
+            setReportText(`${fieldName} already exists on this item.`);
             return;
         }
         selectedEntry.entryTags[fieldName] = '';
@@ -14447,7 +14452,7 @@ Unique-ID = {WOS:000766209400010},
     }
     async function openLocalBibFile() {
         if (!supportsFileSystemAccess()) {
-            outputMessage.value = 'Open Local needs Chrome folder access support. Use Upload as a read-only fallback.';
+            setReportText('Open Local needs Chrome folder access support. Use Upload as a read-only fallback.');
             return;
         }
         try {
@@ -14463,7 +14468,7 @@ Unique-ID = {WOS:000766209400010},
             updateLinkedFileActions();
         } catch (error) {
             if (error && error.name === 'AbortError') return;
-            outputMessage.value = `Open local file failed: ${error.message}`;
+            setReportText(`Open local file failed: ${error.message}`);
         }
     }
     async function reloadLocalBibFile() {
@@ -14471,7 +14476,7 @@ Unique-ID = {WOS:000766209400010},
         try {
             await loadFromLinkedFile(`Reloaded local file: ${linkedFileHandle.name}`);
         } catch (error) {
-            outputMessage.value = `Reload local file failed: ${error.message}`;
+            setReportText(`Reload local file failed: ${error.message}`);
         }
     }
     async function chooseBibFileFromDirectory(directoryHandle) {
@@ -14483,7 +14488,7 @@ Unique-ID = {WOS:000766209400010},
         }
         bibFiles.sort((fileA, fileB) => fileA.name.localeCompare(fileB.name));
         if (!bibFiles.length) {
-            outputMessage.value = 'No .bib files found in that folder.';
+            setReportText('No .bib files found in that folder.');
             return null;
         }
         if (bibFiles.length === 1) {
@@ -14493,7 +14498,7 @@ Unique-ID = {WOS:000766209400010},
         const answer = prompt(`Choose a BibTeX file:\n${choices}`, '1');
         const selectedIndex = Number.parseInt(answer, 10) - 1;
         if (!Number.isInteger(selectedIndex) || !bibFiles[selectedIndex]) {
-            outputMessage.value = 'No BibTeX file selected.';
+            setReportText('No BibTeX file selected.');
             return null;
         }
         return bibFiles[selectedIndex].handle;
@@ -15115,7 +15120,7 @@ Unique-ID = {WOS:000766209400010},
         setEntryTags(selectedEntry, combinedTags);
         renderLibrary();
         renderDetail();
-        outputMessage.value = `Updated tags for ${selectedEntry.citationKey || 'selected item'}.`;
+        setReportText(`Updated tags for ${selectedEntry.citationKey || 'selected item'}.`);
     }
     function removeTagFromSelectedEntry(tag) {
         const selectedEntry = getSelectedEntry();
@@ -15126,7 +15131,7 @@ Unique-ID = {WOS:000766209400010},
         activeTagFilters.delete(tagKey);
         renderLibrary();
         renderDetail();
-        outputMessage.value = `Removed ${tag} from ${selectedEntry.citationKey || 'selected item'}.`;
+        setReportText(`Removed ${tag} from ${selectedEntry.citationKey || 'selected item'}.`);
     }
     function setEntryTags(entry, tags) {
         const nextTags = mergeTags(tags);
@@ -15270,23 +15275,6 @@ Unique-ID = {WOS:000766209400010},
         saveLocalButton.classList.toggle('is-hidden', !linkedFileHandle);
         setActiveView(document.body.dataset.view || 'library');
         updateProjectUi();
-    }
-    function exitApplication() {
-        if (projectDirty && !confirm('You have unsaved changes. Exit BibTidy anyway?')) {
-            return;
-        }
-        window.open('', '_self');
-        window.close();
-        window.setTimeout(() => {
-            if (document.visibilityState === 'hidden') return;
-            window.location.href = getExitUrl();
-        }, 120);
-    }
-    function getExitUrl() {
-        if (window.location.protocol === 'file:') {
-            return 'about:blank';
-        }
-        return new URL('../', window.location.href).href;
     }
     function showOnboardingForFirstVisit() {
         try {
@@ -15530,28 +15518,48 @@ Unique-ID = {WOS:000766209400010},
     }
     function renderReportResult(result, text) {
         outputMessage.value = text;
-        renderReportDiagnostics(result);
+        renderReportDiagnostics(result, text);
     }
-    function renderReportDiagnostics(result) {
+    function setReportText(text) {
+        renderReportResult(null, text);
+    }
+    function renderReportDiagnostics(result, text) {
         reportDiagnostics.replaceChildren();
+        const displayLines = getReportDisplayLines(text);
         const diagnostics = [
             ...((result && result.errors) || []).map(item => Object.assign({ level: 'error' }, item)),
             ...((result && result.warnings) || []).map(item => Object.assign({ level: 'warning' }, item))
         ];
-        if (!diagnostics.length) {
-            reportDiagnostics.classList.add('is-hidden');
+        if (!displayLines.length && !diagnostics.length) {
+            const emptyReport = document.createElement('div');
+            emptyReport.className = 'report-line muted-report-line';
+            emptyReport.textContent = 'No report yet.';
+            reportDiagnostics.appendChild(emptyReport);
             return;
         }
         reportDiagnostics.classList.remove('is-hidden');
-        const header = document.createElement('div');
-        header.className = 'diagnostic-summary';
-        const errorCount = diagnostics.filter(item => item.level === 'error').length;
-        const warningCount = diagnostics.length - errorCount;
-        header.textContent = [
-            errorCount ? `${errorCount} error${errorCount === 1 ? '' : 's'}` : '',
-            warningCount ? `${warningCount} warning${warningCount === 1 ? '' : 's'}` : ''
-        ].filter(Boolean).join(' | ');
-        reportDiagnostics.appendChild(header);
+        if (displayLines.length) {
+            const reportLines = document.createElement('div');
+            reportLines.className = 'report-lines';
+            displayLines.forEach(line => {
+                const reportLine = document.createElement('div');
+                reportLine.className = line.startsWith('- ') ? 'report-line report-detail-line' : 'report-line';
+                reportLine.textContent = line;
+                reportLines.appendChild(reportLine);
+            });
+            reportDiagnostics.appendChild(reportLines);
+        }
+        if (diagnostics.length) {
+            const header = document.createElement('div');
+            header.className = 'diagnostic-summary';
+            const errorCount = diagnostics.filter(item => item.level === 'error').length;
+            const warningCount = diagnostics.length - errorCount;
+            header.textContent = [
+                errorCount ? `${errorCount} error${errorCount === 1 ? '' : 's'}` : '',
+                warningCount ? `${warningCount} warning${warningCount === 1 ? '' : 's'}` : ''
+            ].filter(Boolean).join(' | ');
+            reportDiagnostics.appendChild(header);
+        }
         diagnostics.slice(0, 24).forEach(diagnostic => {
             const button = document.createElement('button');
             button.type = 'button';
@@ -15560,6 +15568,7 @@ Unique-ID = {WOS:000766209400010},
             button.dataset.originalCitationKey = diagnostic.originalCitationKey || '';
             if (Number.isInteger(diagnostic.entryIndex)) button.dataset.entryIndex = String(diagnostic.entryIndex);
             if (Number.isInteger(diagnostic.position)) button.dataset.position = String(diagnostic.position);
+            if (Number.isInteger(diagnostic.endPosition)) button.dataset.endPosition = String(diagnostic.endPosition);
             const badge = document.createElement('span');
             badge.className = 'diagnostic-badge';
             badge.textContent = diagnostic.level === 'error' ? 'Error' : 'Warning';
@@ -15570,7 +15579,42 @@ Unique-ID = {WOS:000766209400010},
             reportDiagnostics.appendChild(button);
         });
     }
+    function getReportDisplayLines(text) {
+        const lines = String(text || '').split('\n');
+        const summaryParts = [];
+        let skippingDiagnostics = false;
+        lines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (/^(Warnings|Errors) \(\d+\)/.test(trimmedLine)) {
+                skippingDiagnostics = true;
+                return;
+            }
+            if (skippingDiagnostics) {
+                if (!trimmedLine || trimmedLine.startsWith('- ')) return;
+                skippingDiagnostics = false;
+            }
+            if (trimmedLine) summaryParts.push(formatReportSummaryPart(trimmedLine));
+        });
+        return summaryParts.length ? [summaryParts.join(' | ')] : [];
+    }
+    function formatReportSummaryPart(line) {
+        const compactLine = line.replace(/^\-\s*/, '').replace(/\.$/, '');
+        return compactLine
+            .replace(/^Processed (\d+) BibTeX entry\b/, 'Processed $1 entry')
+            .replace(/^Processed (\d+) BibTeX entries\b/, 'Processed $1 entries')
+            .replace(/^Renamed citation keys: /, 'renamed keys: ')
+            .replace(/^Modified fields: /, 'modified fields: ')
+            .replace(/^Removed fields: /, 'removed fields: ')
+            .replace(/^key: /, 'key ')
+            .replace(/^removed from /, 'removed from ');
+    }
     function locateDiagnostic(dataset) {
+        const position = Number.parseInt(dataset.position || '', 10);
+        const endPosition = Number.parseInt(dataset.endPosition || '', 10);
+        if (Number.isInteger(position)) {
+            focusInputBibtexRange(position, Number.isInteger(endPosition) ? endPosition : position + 1);
+            return;
+        }
         const entry = findEntryForDiagnostic(dataset);
         if (entry) {
             activeTagFilters.clear();
@@ -15589,15 +15633,23 @@ Unique-ID = {WOS:000766209400010},
             });
             return;
         }
-        const position = Number.parseInt(dataset.position || '', 10);
-        if (Number.isInteger(position)) {
-            setActiveView('tidy');
-            const nextPosition = Math.max(0, Math.min(position, textLeft.value.length));
-            textLeft.focus();
-            textLeft.setSelectionRange(nextPosition, Math.min(textLeft.value.length, nextPosition + 1));
-            return;
-        }
-        appendReportLine('Could not locate that diagnostic in the current library.');
+        appendReportLine('Could not locate that diagnostic in the current bibliography.');
+    }
+    function focusInputBibtexRange(startPosition, endPosition) {
+        setActiveView('tidy');
+        const textLength = textLeft.value.length;
+        const nextStart = Math.max(0, Math.min(startPosition, textLength));
+        const nextEnd = Math.max(nextStart, Math.min(endPosition, textLength));
+        textLeft.focus();
+        textLeft.setSelectionRange(nextStart, nextEnd || Math.min(textLength, nextStart + 1));
+        scrollTextareaToPosition(textLeft, nextStart);
+    }
+    function scrollTextareaToPosition(textarea, position) {
+        const textBeforePosition = textarea.value.slice(0, position);
+        const lineIndex = textBeforePosition.split('\n').length - 1;
+        const computedStyle = window.getComputedStyle(textarea);
+        const lineHeight = Number.parseFloat(computedStyle.lineHeight) || 20;
+        textarea.scrollTop = Math.max(0, (lineIndex - 2) * lineHeight);
     }
     function findEntryForDiagnostic(dataset) {
         const keys = [
@@ -15615,18 +15667,26 @@ Unique-ID = {WOS:000766209400010},
         return null;
     }
     function appendReportLine(line) {
-        outputMessage.value = outputMessage.value
+        const nextText = outputMessage.value
             ? `${outputMessage.value}\n${line}`
             : line;
+        setReportText(nextText);
     }
     function copyText(textArea) {
+        const text = textArea.value;
         if (navigator.clipboard && window.isSecureContext) {
-            return navigator.clipboard.writeText(textArea.value);
+            return navigator.clipboard.writeText(text);
         }
-        textArea.focus();
-        textArea.select();
+        const temporaryTextArea = document.createElement('textarea');
+        temporaryTextArea.value = text;
+        temporaryTextArea.setAttribute('readonly', '');
+        temporaryTextArea.style.position = 'fixed';
+        temporaryTextArea.style.left = '-9999px';
+        document.body.appendChild(temporaryTextArea);
+        temporaryTextArea.focus();
+        temporaryTextArea.select();
         const copied = document.execCommand('copy');
-        textArea.setSelectionRange(textArea.value.length, textArea.value.length);
+        document.body.removeChild(temporaryTextArea);
         if (copied) return Promise.resolve();
         return Promise.reject(new Error('Clipboard copy is not available in this browser'));
     }
@@ -15650,14 +15710,14 @@ Unique-ID = {WOS:000766209400010},
         });
     }
     function setupReportResizer() {
-        if (!tidyWorkspace || !reportResizer || !outputMessage) return;
+        if (!tidyWorkspace || !reportResizer || !reportDiagnostics) return;
         const setReportHeight = height => {
             const maxHeight = Math.max(120, Math.floor(window.innerHeight * 0.42));
             const nextHeight = Math.min(maxHeight, Math.max(96, Math.round(height)));
             tidyWorkspace.style.setProperty('--report-height', `${nextHeight}px`);
             reportResizer.setAttribute('aria-valuenow', String(nextHeight));
         };
-        const getReportHeight = () => outputMessage.getBoundingClientRect().height || 132;
+        const getReportHeight = () => reportDiagnostics.getBoundingClientRect().height || 132;
         reportResizer.setAttribute('aria-valuemin', '96');
         reportResizer.setAttribute('aria-valuemax', String(Math.floor(window.innerHeight * 0.42)));
         reportResizer.setAttribute('aria-valuenow', String(Math.round(getReportHeight())));

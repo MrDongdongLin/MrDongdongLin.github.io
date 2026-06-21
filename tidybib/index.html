@@ -41,41 +41,70 @@
                 <button class="view-tab" type="button" data-view="tidy" aria-pressed="false">Tidy</button>
             </nav>
 
-            <section class="sidebar-actions" aria-label="Current view actions">
-                <div class="action-group" data-view-action="library">
+            <section class="sidebar-actions" aria-label="Current view actions" data-view-action="library">
+                <div class="action-group">
                     <button id="new-entry-button" class="primary-button wide-button" type="button">New Item</button>
                     <button id="import-entry-button" class="secondary-button wide-button" type="button">Import BibTeX</button>
                     <button id="delete-entry-button" class="secondary-button danger-button wide-button" type="button">Delete</button>
                 </div>
-                <div class="action-group" data-view-action="tidy">
-                    <button id="tidy-button" class="primary-button wide-button" type="button">Tidy</button>
-                    <button id="validate-button" class="secondary-button wide-button" type="button">Validate</button>
-                    <label class="select-control wide-control" for="preset-select">
-                        <span>Preset</span>
-                        <select id="preset-select">
-                            <option value="clean" selected>Clean</option>
-                            <option value="minimal">Minimal</option>
-                            <option value="complete">Complete</option>
-                        </select>
-                    </label>
-                    <label class="select-control wide-control" for="citation-template-select">
-                        <span>Citation key</span>
-                        <select id="citation-template-select">
-                            <option value="author-year-title-colon" selected>Author:Year:Title</option>
-                            <option value="author-year-title-camel">AuthorYearTitle</option>
-                            <option value="original">Original</option>
-                        </select>
-                    </label>
-                    <label class="switch-control wide-control" for="abbreviate-checkbox">
-                        <input type="checkbox" id="abbreviate-checkbox" class="styled-checkbox">
-                        <span class="switch-track" aria-hidden="true"></span>
-                        <span>Journal abbreviation</span>
-                    </label>
-                    <label class="switch-control wide-control" for="rename-id-checkbox">
-                        <input type="checkbox" id="rename-id-checkbox" class="styled-checkbox" checked>
-                        <span class="switch-track" aria-hidden="true"></span>
-                        <span>Rename citation IDs</span>
-                    </label>
+            </section>
+
+            <section class="tidy-tools is-hidden" aria-label="Tidy tools" data-view-action="tidy">
+                <div class="tidy-tool-section tidy-run-tools" aria-label="Run Tidy">
+                    <div class="tidy-tool-title">Run</div>
+                    <div class="tidy-tool-body tidy-run-grid">
+                        <button id="tidy-button" class="primary-button wide-button" type="button">Tidy</button>
+                        <button id="validate-button" class="secondary-button wide-button" type="button">Validate</button>
+                        <label class="select-control wide-control" for="preset-select">
+                            <span>Preset</span>
+                            <select id="preset-select">
+                                <option value="clean" selected>Clean</option>
+                                <option value="minimal">Minimal</option>
+                                <option value="complete">Complete</option>
+                            </select>
+                        </label>
+                        <label class="select-control wide-control" for="citation-template-select">
+                            <span>Citation key</span>
+                            <select id="citation-template-select">
+                                <option value="author-year-title-colon" selected>Author:Year:Title</option>
+                                <option value="author-year-title-camel">AuthorYearTitle</option>
+                                <option value="original">Original</option>
+                            </select>
+                        </label>
+                        <label class="switch-control wide-control" for="abbreviate-checkbox">
+                            <input type="checkbox" id="abbreviate-checkbox" class="styled-checkbox">
+                            <span class="switch-track" aria-hidden="true"></span>
+                            <span>Journal abbreviation</span>
+                        </label>
+                        <label class="switch-control wide-control" for="rename-id-checkbox">
+                            <input type="checkbox" id="rename-id-checkbox" class="styled-checkbox" checked>
+                            <span class="switch-track" aria-hidden="true"></span>
+                            <span>Rename citation IDs</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="tidy-tool-section tidy-field-tools" aria-label="Custom Tidy fields">
+                    <div class="tidy-tool-title">Fields</div>
+                    <div class="field-template-header">
+                        <label class="switch-control wide-control" for="custom-fields-checkbox">
+                            <input type="checkbox" id="custom-fields-checkbox" class="styled-checkbox">
+                            <span class="switch-track" aria-hidden="true"></span>
+                            <span>Custom fields</span>
+                        </label>
+                        <label class="field-type-control" for="field-type-select">
+                            <span>Item type</span>
+                            <select id="field-type-select"></select>
+                        </label>
+                        <button id="reset-field-template-button" class="copy-button wide-button" type="button">Reset Type</button>
+                    </div>
+                    <div class="field-template-body">
+                        <div id="field-template-list" class="field-template-list" aria-label="Fields kept after Tidy"></div>
+                        <label class="field-add-control" for="custom-field-name">
+                            <span>Add field</span>
+                            <input id="custom-field-name" type="text" autocomplete="off" placeholder="fieldname">
+                            <button id="add-custom-field-button" class="copy-button" type="button">Add</button>
+                        </label>
+                    </div>
                 </div>
             </section>
 
@@ -89,7 +118,7 @@
                 <button id="save-button" class="secondary-button wide-button" type="button" data-view-action="all">Export .bib</button>
             </section>
 
-            <section class="sidebar-group tag-cloud-panel" aria-label="Tag filters">
+            <section class="sidebar-group tag-cloud-panel" aria-label="Tag filters" data-view-action="library">
                 <div class="sidebar-section-header">
                     <div>
                         <div class="sidebar-group-title">Tags</div>
@@ -101,11 +130,6 @@
                 <div id="tag-cloud" class="tag-cloud" aria-label="Filter by tag"></div>
             </section>
 
-            <section class="sidebar-group sidebar-footer" aria-label="Application actions">
-                <button id="guide-button" class="secondary-button wide-button" type="button">Guide</button>
-                <button id="dark-mode-toggle" class="secondary-button wide-button" type="button">Dark</button>
-                <button id="exit-button" class="ghost-button wide-button" type="button" data-view-action="all">Exit</button>
-            </section>
         </aside>
 
         <section class="app-main">
@@ -113,6 +137,10 @@
                 <div class="workspace-title">
                     <span id="workspace-eyebrow">Library</span>
                     <h2 id="workspace-title">Reference Library</h2>
+                </div>
+                <div class="workspace-actions" aria-label="Application actions">
+                    <button id="guide-button" class="secondary-button" type="button">Guide</button>
+                    <button id="dark-mode-toggle" class="secondary-button" type="button">Dark</button>
                 </div>
             </header>
 
@@ -192,28 +220,6 @@
 
             <section id="tidy-page" class="page-view" data-page="tidy">
                 <div class="tidy-workspace">
-                    <section class="field-template-panel" aria-label="Custom Tidy fields">
-                        <div class="field-template-header">
-                            <label class="switch-control" for="custom-fields-checkbox">
-                                <input type="checkbox" id="custom-fields-checkbox" class="styled-checkbox">
-                                <span class="switch-track" aria-hidden="true"></span>
-                                <span>Custom fields</span>
-                            </label>
-                            <label class="field-type-control" for="field-type-select">
-                                <span>Item type</span>
-                                <select id="field-type-select"></select>
-                            </label>
-                            <button id="reset-field-template-button" class="copy-button" type="button">Reset Type</button>
-                        </div>
-                        <div class="field-template-body">
-                            <div id="field-template-list" class="field-template-list" aria-label="Fields kept after Tidy"></div>
-                            <label class="field-add-control" for="custom-field-name">
-                                <span>Add field</span>
-                                <input id="custom-field-name" type="text" autocomplete="off" placeholder="fieldname">
-                                <button id="add-custom-field-button" class="copy-button" type="button">Add</button>
-                            </label>
-                        </div>
-                    </section>
                     <section class="editor" aria-label="BibTeX editor">
                         <article class="editor-panel">
                             <div class="panel-header">
@@ -247,7 +253,7 @@
                             <label for="output-message" class="textarea-label">Report</label>
                             <button class="copy-button" data-target="output-message" type="button">Copy</button>
                         </div>
-                        <textarea id="output-message" readonly></textarea>
+                        <textarea id="output-message" class="visually-hidden" readonly></textarea>
                         <div id="report-diagnostics" class="report-diagnostics" aria-live="polite"></div>
                     </section>
                 </div>
