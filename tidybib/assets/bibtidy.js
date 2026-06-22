@@ -14193,6 +14193,10 @@ Unique-ID = {WOS:000766209400010},
     fileInput.addEventListener('change', event => {
         const file = event.target.files[0];
         if (!file) return;
+        if (!confirmDiscardUnsavedChanges()) {
+            fileInput.value = '';
+            return;
+        }
         originalFileName = file.name.replace(/\.[^.]+$/, '') || 'bibliography';
         const reader = new FileReader();
         reader.onload = readEvent => {
@@ -14292,22 +14296,7 @@ Unique-ID = {WOS:000766209400010},
         writeFieldTemplateState();
         renderFieldTemplatePanel();
     });
-    saveButton.addEventListener('click', () => {
-        syncPendingLibraryChanges();
-        const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `tidy-${originalFileName}.bib`;
-        a.click();
-        URL.revokeObjectURL(url);
-        if (!linkedFileHandle) {
-            projectDirty = false;
-            updateProjectUi();
-        }
-        appendReportLine('Saved file.');
-    });
+    saveButton.addEventListener('click', exportBibFile);
     saveLocalButton.addEventListener('click', saveLocalBibFile);
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
@@ -14487,8 +14476,66 @@ Unique-ID = {WOS:000766209400010},
         updateProjectUi();
         scheduleHighlighting();
     });
-    textRight.addEventListener('input', scheduleHighlighting);
+    textRight.addEventListener('input', () => {
+        projectDirty = true;
+        updateProjectUi();
+        scheduleHighlighting();
+    });
+    document.addEventListener('keydown', handleGlobalShortcuts);
+    window.addEventListener('beforeunload', event => {
+        if (!hasUnsavedChanges()) return;
+        event.preventDefault();
+        event.returnValue = '';
+    });
     setupReportResizer();
+    function handleGlobalShortcuts(event) {
+        if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+        const key = event.key.toLowerCase();
+        if (key === 's') {
+            event.preventDefault();
+            saveCurrentBibFile().catch(error => {
+                appendReportLine(`Save failed: ${error.message}`);
+            });
+        } else if (key === 'o') {
+            event.preventDefault();
+            openLocalBibFile().catch(error => {
+                appendReportLine(`Open local file failed: ${error.message}`);
+            });
+        }
+    }
+    function hasUnsavedChanges() {
+        return projectDirty || tagFileDirty;
+    }
+    function confirmDiscardUnsavedChanges() {
+        if (!hasUnsavedChanges()) return true;
+        return window.confirm('You have unsaved changes. Discard them and continue?');
+    }
+    async function saveCurrentBibFile() {
+        if (linkedFileHandle) {
+            await saveLocalBibFile();
+        } else {
+            exportBibFile();
+        }
+        if (tagFileDirty) {
+            await saveTagFile();
+        }
+    }
+    function exportBibFile() {
+        syncPendingLibraryChanges();
+        const content = formattedOutputIsCurrent && textRight.value ? textRight.value : textLeft.value;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `tidy-${originalFileName}.bib`;
+        a.click();
+        URL.revokeObjectURL(url);
+        if (!linkedFileHandle) {
+            projectDirty = false;
+            updateProjectUi();
+        }
+        appendReportLine('Saved file.');
+    }
     function loadLibraryFromText(content, message) {
         const result = bibTidyCore.parseBibtexLibrary(content);
         preservedBlocks = result.preservedBlocks || [];
@@ -14519,6 +14566,9 @@ Unique-ID = {WOS:000766209400010},
             setReportText('Open Local needs Chrome folder access support. Use Upload as a read-only fallback.');
             return;
         }
+        if (!confirmDiscardUnsavedChanges()) {
+            return;
+        }
         try {
             const directoryHandle = await window.showDirectoryPicker({
                 mode: 'readwrite'
@@ -14538,6 +14588,7 @@ Unique-ID = {WOS:000766209400010},
     }
     async function reloadLocalBibFile() {
         if (!linkedFileHandle) return;
+        if (!confirmDiscardUnsavedChanges()) return;
         try {
             await loadFromLinkedFile(`Reloaded local file: ${linkedFileHandle.name}`);
         } catch (error) {
@@ -15595,6 +15646,7 @@ Unique-ID = {WOS:000766209400010},
     async function switchProject(projectId) {
         const project = projectRecords.find(item => item.id === projectId);
         if (!project || !project.fileHandle) return;
+        if (project.id !== activeProjectId && !confirmDiscardUnsavedChanges()) return;
         try {
             const fileAllowed = await ensureHandlePermission(project.fileHandle);
             const directoryAllowed = project.directoryHandle
