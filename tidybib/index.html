@@ -204,7 +204,10 @@
                                     <small>Auto-saved in tag file</small>
                                 </div>
                                 <div id="detail-tag-list" class="detail-tag-list" aria-label="Current tags"></div>
-                                <input id="detail-tag-input" type="text" autocomplete="off" placeholder="Add tag and press Enter">
+                                <div class="tag-input-wrap">
+                                    <input id="detail-tag-input" type="text" autocomplete="off" placeholder="Add tag and press Enter" aria-autocomplete="list" aria-controls="detail-tag-suggestions" aria-expanded="false">
+                                    <div id="detail-tag-suggestions" class="tag-suggestions is-hidden" role="listbox" aria-label="Existing tags"></div>
+                                </div>
                             </section>
                             <div class="detail-grid two-columns">
                                 <label class="field-control" for="detail-entry-type">

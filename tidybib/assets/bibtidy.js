@@ -14001,6 +14001,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyDetail = document.getElementById('empty-detail');
     const detailTagList = document.getElementById('detail-tag-list');
     const detailTagInput = document.getElementById('detail-tag-input');
+    const detailTagSuggestions = document.getElementById('detail-tag-suggestions');
     const importPanel = document.getElementById('import-panel');
     const importBibtexText = document.getElementById('import-bibtex-text');
     const addImportButton = document.getElementById('add-import-button');
@@ -14147,6 +14148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let tagFileRecords = [];
     let tagAssignments = new Map();
     let tagFileDirty = false;
+    let activeTagSuggestionIndex = 0;
     let fieldTemplateState = createDefaultFieldTemplateState();
     let currentOnboardingStep = 0;
     let shouldRememberOnboardingCompletion = true;
@@ -14405,9 +14407,30 @@ Unique-ID = {WOS:000766209400010},
         removeTagFromSelectedEntry(removeButton.dataset.tag);
     });
     detailTagInput.addEventListener('keydown', event => {
+        if (handleTagSuggestionKey(event)) return;
         if (event.key !== 'Enter' && event.key !== ',') return;
         event.preventDefault();
         addTagsToSelectedEntry(detailTagInput.value);
+    });
+    detailTagInput.addEventListener('focus', () => {
+        renderTagSuggestions();
+    });
+    detailTagInput.addEventListener('input', () => {
+        activeTagSuggestionIndex = 0;
+        renderTagSuggestions();
+    });
+    detailTagInput.addEventListener('blur', () => {
+        setTimeout(hideTagSuggestions, 120);
+    });
+    detailTagSuggestions.addEventListener('mousedown', event => {
+        event.preventDefault();
+    });
+    detailTagSuggestions.addEventListener('click', event => {
+        const option = event.target.closest('.tag-suggestion-option');
+        if (!option) return;
+        addTagsToSelectedEntry(option.dataset.tag);
+        hideTagSuggestions();
+        detailTagInput.focus();
     });
     detailTagInput.addEventListener('paste', event => {
         const pastedText = event.clipboardData && event.clipboardData.getData('text');
@@ -15115,6 +15138,7 @@ Unique-ID = {WOS:000766209400010},
         if (!selectedEntry) {
             detailTagList.replaceChildren();
             detailTagInput.value = '';
+            hideTagSuggestions();
             detailFields.replaceChildren();
             return;
         }
@@ -15162,7 +15186,101 @@ Unique-ID = {WOS:000766209400010},
         setEntryTags(selectedEntry, combinedTags);
         renderLibrary();
         renderDetail();
+        hideTagSuggestions();
         setReportText(`Updated tags for ${selectedEntry.citationKey || 'selected item'}.`);
+    }
+    function handleTagSuggestionKey(event) {
+        if (!isTagSuggestionOpen()) {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                activeTagSuggestionIndex = 0;
+                renderTagSuggestions();
+                return true;
+            }
+            return false;
+        }
+        const options = Array.from(detailTagSuggestions.querySelectorAll('.tag-suggestion-option'));
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            activeTagSuggestionIndex = Math.min(activeTagSuggestionIndex + 1, options.length - 1);
+            updateTagSuggestionActiveOption();
+            return true;
+        }
+        if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            activeTagSuggestionIndex = Math.max(activeTagSuggestionIndex - 1, 0);
+            updateTagSuggestionActiveOption();
+            return true;
+        }
+        if (event.key === 'Enter' && options[activeTagSuggestionIndex]) {
+            event.preventDefault();
+            addTagsToSelectedEntry(options[activeTagSuggestionIndex].dataset.tag);
+            hideTagSuggestions();
+            return true;
+        }
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            hideTagSuggestions();
+            return true;
+        }
+        return false;
+    }
+    function renderTagSuggestions() {
+        const selectedEntry = getSelectedEntry();
+        if (!selectedEntry || detailTagInput.disabled || document.activeElement !== detailTagInput) {
+            hideTagSuggestions();
+            return;
+        }
+        const suggestions = getTagSuggestions(detailTagInput.value);
+        detailTagSuggestions.replaceChildren();
+        if (!suggestions.length) {
+            hideTagSuggestions();
+            return;
+        }
+        activeTagSuggestionIndex = Math.min(activeTagSuggestionIndex, suggestions.length - 1);
+        suggestions.forEach((tag, index) => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'tag-suggestion-option';
+            option.classList.toggle('active', index === activeTagSuggestionIndex);
+            option.dataset.tag = tag.label;
+            option.setAttribute('role', 'option');
+            option.setAttribute('aria-selected', index === activeTagSuggestionIndex ? 'true' : 'false');
+            const label = document.createElement('span');
+            label.textContent = tag.label;
+            const count = document.createElement('small');
+            count.textContent = tag.count;
+            option.append(label, count);
+            detailTagSuggestions.appendChild(option);
+        });
+        detailTagSuggestions.classList.remove('is-hidden');
+        detailTagInput.setAttribute('aria-expanded', 'true');
+    }
+    function getTagSuggestions(query) {
+        const selectedEntry = getSelectedEntry();
+        const existingTagKeys = new Set(getEntryTags(selectedEntry).map(normalizeTagKey));
+        const queryKey = normalizeTagKey(query);
+        return getTagStats()
+            .filter(tag => !existingTagKeys.has(tag.key))
+            .filter(tag => !queryKey || tag.key.includes(queryKey))
+            .slice(0, 10);
+    }
+    function updateTagSuggestionActiveOption() {
+        Array.from(detailTagSuggestions.querySelectorAll('.tag-suggestion-option')).forEach((option, index) => {
+            const isActive = index === activeTagSuggestionIndex;
+            option.classList.toggle('active', isActive);
+            option.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            if (isActive) option.scrollIntoView({ block: 'nearest' });
+        });
+    }
+    function hideTagSuggestions() {
+        detailTagSuggestions.classList.add('is-hidden');
+        detailTagSuggestions.replaceChildren();
+        detailTagInput.setAttribute('aria-expanded', 'false');
+    }
+    function isTagSuggestionOpen() {
+        return !detailTagSuggestions.classList.contains('is-hidden') &&
+            Boolean(detailTagSuggestions.querySelector('.tag-suggestion-option'));
     }
     function removeTagFromSelectedEntry(tag) {
         const selectedEntry = getSelectedEntry();
