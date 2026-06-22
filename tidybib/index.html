@@ -11,123 +11,138 @@
     <main class="app-shell">
         <aside class="app-sidebar">
             <div class="brand">
-                <span class="brand-mark">B</span>
-                <div>
-                    <h1>BibTidy</h1>
-                    <p>Bibliography Manager</p>
+                <div class="brand-main">
+                    <span class="brand-mark">B</span>
+                    <div>
+                        <h1>BibTidy</h1>
+                        <p>Bibliography Manager</p>
+                    </div>
                 </div>
+
+                <section class="author-card" aria-label="Author contact">
+                    <div>
+                        <span>Author</span>
+                        <strong>Dongdong Lin</strong>
+                    </div>
+                    <a href="mailto:dongdonglin8@gmail.com">dongdonglin8@gmail.com</a>
+                    <div class="author-links">
+                        <a href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer">Scholar</a>
+                        <a href="https://github.com/MrDongdongLin" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    </div>
+                </section>
             </div>
 
-            <section class="author-card" aria-label="Author contact">
-                <div>
-                    <span>Author</span>
-                    <strong>Dongdong Lin</strong>
-                </div>
-                <a href="mailto:dongdonglin8@gmail.com">dongdonglin8@gmail.com</a>
-                <div class="author-links">
-                    <a href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer">Scholar</a>
-                    <a href="https://github.com/MrDongdongLin" target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
-            </section>
-
-            <button id="project-button" class="project-card" type="button" title="Open or switch local BibTeX file">
-                <span>Project</span>
-                <strong id="project-name">Sample bibliography</strong>
-                <small id="project-state">Sample data</small>
-            </button>
-
-            <nav class="app-tabs" aria-label="Primary views">
-                <button class="view-tab active" type="button" data-view="library" aria-pressed="true">Library</button>
-                <button class="view-tab" type="button" data-view="tidy" aria-pressed="false">Tidy</button>
-            </nav>
-
-            <section class="sidebar-actions" aria-label="Current view actions" data-view-action="library">
-                <div class="action-group">
-                    <button id="new-entry-button" class="primary-button wide-button" type="button">New Item</button>
-                    <button id="import-entry-button" class="secondary-button wide-button" type="button">Import BibTeX</button>
-                    <button id="delete-entry-button" class="secondary-button danger-button wide-button" type="button">Delete</button>
-                </div>
-            </section>
-
-            <section class="tidy-tools is-hidden" aria-label="Tidy tools" data-view-action="tidy">
-                <div class="tidy-tool-section tidy-run-tools" aria-label="Run Tidy">
-                    <div class="tidy-tool-title">Run</div>
-                    <div class="tidy-tool-body tidy-run-grid">
-                        <button id="tidy-button" class="primary-button wide-button" type="button">Tidy</button>
-                        <button id="validate-button" class="secondary-button wide-button" type="button">Validate</button>
-                        <label class="select-control wide-control" for="preset-select">
-                            <span>Preset</span>
-                            <select id="preset-select">
-                                <option value="clean" selected>Clean</option>
-                                <option value="minimal">Minimal</option>
-                                <option value="complete">Complete</option>
-                            </select>
-                        </label>
-                        <label class="select-control wide-control" for="citation-template-select">
-                            <span>Citation key</span>
-                            <select id="citation-template-select">
-                                <option value="author-year-title-colon" selected>Author:Year:Title</option>
-                                <option value="author-year-title-camel">AuthorYearTitle</option>
-                                <option value="original">Original</option>
-                            </select>
-                        </label>
-                        <label class="switch-control wide-control" for="abbreviate-checkbox">
-                            <input type="checkbox" id="abbreviate-checkbox" class="styled-checkbox">
-                            <span class="switch-track" aria-hidden="true"></span>
-                            <span>Journal abbreviation</span>
-                        </label>
-                        <label class="switch-control wide-control" for="rename-id-checkbox">
-                            <input type="checkbox" id="rename-id-checkbox" class="styled-checkbox" checked>
-                            <span class="switch-track" aria-hidden="true"></span>
-                            <span>Rename citation IDs</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="tidy-tool-section tidy-field-tools" aria-label="Custom Tidy fields">
-                    <div class="tidy-tool-title">Fields</div>
-                    <div class="field-template-header">
-                        <label class="switch-control wide-control" for="custom-fields-checkbox">
-                            <input type="checkbox" id="custom-fields-checkbox" class="styled-checkbox">
-                            <span class="switch-track" aria-hidden="true"></span>
-                            <span>Custom fields</span>
-                        </label>
-                        <label class="field-type-control" for="field-type-select">
-                            <span>Item type</span>
-                            <select id="field-type-select"></select>
-                        </label>
-                        <button id="reset-field-template-button" class="copy-button wide-button" type="button">Reset Type</button>
-                    </div>
-                    <div class="field-template-body">
-                        <div id="field-template-list" class="field-template-list" aria-label="Fields kept after Tidy"></div>
-                        <label class="field-add-control" for="custom-field-name">
-                            <span>Add field</span>
-                            <input id="custom-field-name" type="text" autocomplete="off" placeholder="fieldname">
-                            <button id="add-custom-field-button" class="copy-button" type="button">Add</button>
-                        </label>
-                    </div>
-                </div>
-            </section>
-
-            <section class="sidebar-group sidebar-file-actions" aria-label="Project file actions">
-                <div class="sidebar-group-title">File</div>
-                <input type="file" id="file-input" class="visually-hidden" accept=".bib,.txt">
-                <button id="open-local-button" class="secondary-button wide-button" type="button" data-view-action="all">Open Local</button>
-                <button id="reload-local-button" class="secondary-button wide-button is-hidden" type="button" data-view-action="all">Reload Local</button>
-                <button id="save-local-button" class="primary-button wide-button is-hidden" type="button" data-view-action="all">Save Local</button>
-                <button id="browse-button" class="secondary-button wide-button" type="button" data-view-action="all">Upload</button>
-                <button id="save-button" class="secondary-button wide-button" type="button" data-view-action="all">Export .bib</button>
-            </section>
-
-            <section class="sidebar-group tag-cloud-panel" aria-label="Tag filters" data-view-action="library">
+            <section class="sidebar-group project-panel" aria-label="Projects">
                 <div class="sidebar-section-header">
                     <div>
-                        <div class="sidebar-group-title">Tags</div>
-                        <span id="tag-filter-count" class="sidebar-hint">No tags</span>
-                        <span id="tag-file-status" class="sidebar-hint">No tag file</span>
+                        <div class="sidebar-group-title">Projects</div>
+                        <span id="project-count" class="sidebar-hint">No linked projects</span>
                     </div>
-                    <button id="clear-tags-button" class="link-button" type="button" disabled>Clear</button>
+                    <button id="add-project-button" class="link-button" type="button">Add</button>
                 </div>
-                <div id="tag-cloud" class="tag-cloud" aria-label="Filter by tag"></div>
+                <div id="project-list" class="project-list" aria-label="Linked projects"></div>
+            </section>
+
+            <section class="sidebar-group project-workspace-panel" aria-label="Selected project workspace">
+                <button id="project-button" class="project-card" type="button" title="Open or switch local BibTeX file">
+                    <span>Selected Project</span>
+                    <strong id="project-name">Sample bibliography</strong>
+                    <small id="project-state">Sample data</small>
+                </button>
+
+                <nav class="app-tabs" aria-label="Primary views">
+                    <button class="view-tab active" type="button" data-view="library" aria-pressed="true">Library</button>
+                    <button class="view-tab" type="button" data-view="tidy" aria-pressed="false">Tidy</button>
+                </nav>
+
+                <section class="sidebar-actions" aria-label="Current view actions" data-view-action="library">
+                    <div class="action-group">
+                        <button id="new-entry-button" class="primary-button wide-button" type="button">New Item</button>
+                        <button id="import-entry-button" class="secondary-button wide-button" type="button">Import BibTeX</button>
+                        <button id="delete-entry-button" class="secondary-button danger-button wide-button" type="button">Delete</button>
+                    </div>
+                </section>
+
+                <section class="tidy-tools is-hidden" aria-label="Tidy tools" data-view-action="tidy">
+                    <div class="tidy-tool-section tidy-run-tools" aria-label="Run Tidy">
+                        <div class="tidy-tool-title">Run</div>
+                        <div class="tidy-tool-body tidy-run-grid">
+                            <button id="tidy-button" class="primary-button wide-button" type="button">Tidy</button>
+                            <button id="validate-button" class="secondary-button wide-button" type="button">Validate</button>
+                            <label class="select-control wide-control" for="preset-select">
+                                <span>Preset</span>
+                                <select id="preset-select">
+                                    <option value="clean" selected>Clean</option>
+                                    <option value="minimal">Minimal</option>
+                                    <option value="complete">Complete</option>
+                                </select>
+                            </label>
+                            <label class="select-control wide-control" for="citation-template-select">
+                                <span>Citation key</span>
+                                <select id="citation-template-select">
+                                    <option value="author-year-title-colon" selected>Author:Year:Title</option>
+                                    <option value="author-year-title-camel">AuthorYearTitle</option>
+                                    <option value="original">Original</option>
+                                </select>
+                            </label>
+                            <label class="switch-control wide-control" for="abbreviate-checkbox">
+                                <input type="checkbox" id="abbreviate-checkbox" class="styled-checkbox">
+                                <span class="switch-track" aria-hidden="true"></span>
+                                <span>Journal abbreviation</span>
+                            </label>
+                            <label class="switch-control wide-control" for="rename-id-checkbox">
+                                <input type="checkbox" id="rename-id-checkbox" class="styled-checkbox" checked>
+                                <span class="switch-track" aria-hidden="true"></span>
+                                <span>Rename citation IDs</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="tidy-tool-section tidy-field-tools" aria-label="Custom Tidy fields">
+                        <div class="tidy-tool-title">Fields</div>
+                        <div class="field-template-header">
+                            <label class="switch-control wide-control" for="custom-fields-checkbox">
+                                <input type="checkbox" id="custom-fields-checkbox" class="styled-checkbox">
+                                <span class="switch-track" aria-hidden="true"></span>
+                                <span>Custom fields</span>
+                            </label>
+                            <label class="field-type-control" for="field-type-select">
+                                <span>Item type</span>
+                                <select id="field-type-select"></select>
+                            </label>
+                            <button id="reset-field-template-button" class="copy-button wide-button" type="button">Reset Type</button>
+                        </div>
+                        <div class="field-template-body">
+                            <div id="field-template-list" class="field-template-list" aria-label="Fields kept after Tidy"></div>
+                            <label class="field-add-control" for="custom-field-name">
+                                <span>Add field</span>
+                                <input id="custom-field-name" type="text" autocomplete="off" placeholder="fieldname">
+                                <button id="add-custom-field-button" class="copy-button" type="button">Add</button>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="sidebar-group sidebar-file-actions" aria-label="Project file actions">
+                    <div class="sidebar-group-title">File</div>
+                    <input type="file" id="file-input" class="visually-hidden" accept=".bib,.txt">
+                    <button id="open-local-button" class="secondary-button wide-button" type="button" data-view-action="all">Open Local</button>
+                    <button id="reload-local-button" class="secondary-button wide-button is-hidden" type="button" data-view-action="all">Reload Local</button>
+                    <button id="save-local-button" class="primary-button wide-button is-hidden" type="button" data-view-action="all">Save Local</button>
+                    <button id="browse-button" class="secondary-button wide-button" type="button" data-view-action="all">Upload</button>
+                    <button id="save-button" class="secondary-button wide-button" type="button" data-view-action="all">Export .bib</button>
+                </section>
+
+                <section class="sidebar-group tag-cloud-panel" aria-label="Tag filters" data-view-action="library">
+                    <div class="sidebar-section-header">
+                        <div>
+                            <div class="sidebar-group-title">Tags</div>
+                            <span id="tag-filter-count" class="sidebar-hint">No tags</span>
+                            <span id="tag-file-status" class="sidebar-hint">No tag file</span>
+                        </div>
+                        <button id="clear-tags-button" class="link-button" type="button" disabled>Clear</button>
+                    </div>
+                    <div id="tag-cloud" class="tag-cloud" aria-label="Filter by tag"></div>
+                </section>
             </section>
 
         </aside>
@@ -263,9 +278,9 @@
 
     <section id="onboarding-overlay" class="onboarding-overlay is-hidden" aria-labelledby="onboarding-title" aria-modal="true" role="dialog">
         <article class="onboarding-card">
-            <div class="onboarding-step" id="onboarding-progress">Step 1 of 6</div>
-            <h2 id="onboarding-title">Import a .bib file</h2>
-            <p id="onboarding-body">Use Open Local to choose the folder containing your .bib file. BibTidy will automatically maintain a matching tag file there.</p>
+            <div class="onboarding-step" id="onboarding-progress">Step 1 of 10</div>
+            <h2 id="onboarding-title">Create projects</h2>
+            <p id="onboarding-body">Use Add to link different .bib files as projects. The Projects column remembers recent local files when your browser supports file access.</p>
             <div class="onboarding-actions">
                 <button id="onboarding-skip" class="ghost-button" type="button">Skip</button>
                 <button id="onboarding-back" class="secondary-button" type="button">Back</button>

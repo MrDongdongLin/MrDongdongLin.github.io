@@ -13979,6 +13979,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectButton = document.getElementById('project-button');
     const projectName = document.getElementById('project-name');
     const projectState = document.getElementById('project-state');
+    const projectCount = document.getElementById('project-count');
+    const addProjectButton = document.getElementById('add-project-button');
+    const projectList = document.getElementById('project-list');
     const workspaceEyebrow = document.getElementById('workspace-eyebrow');
     const workspaceTitle = document.getElementById('workspace-title');
     const outputMessage = document.getElementById('output-message');
@@ -14052,25 +14055,46 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const entryMetaStorageKey = 'bibtidy:entry-meta:v1';
     const fieldTemplateStorageKey = 'bibtidy:field-templates:v2';
-    const onboardingStorageKey = 'bibtidy:onboarding-complete:v3';
+    const onboardingStorageKey = 'bibtidy:onboarding-complete:v4';
+    const projectDbName = 'bibtidy-projects';
+    const projectDbVersion = 1;
+    const projectStoreName = 'projects';
     const onboardingSteps = [
         {
             view: 'library',
-            target: '#open-local-button',
-            title: 'Import a .bib file',
-            body: 'Use Open Local to choose the folder containing your .bib file. BibTidy will automatically maintain a matching tag file there.'
+            target: '#add-project-button',
+            title: 'Create projects',
+            body: 'Use Add to link different .bib files as projects. The Projects column remembers recent local files when your browser supports file access.'
+        },
+        {
+            view: 'library',
+            target: '#project-button',
+            title: 'Open the selected project',
+            body: 'The Selected Project column controls the active .bib file. Click the project card or Open Local to choose a BibTeX file from its folder.'
         },
         {
             view: 'library',
             target: '#import-entry-button',
-            title: 'Import one BibTeX record',
-            body: 'Use Import BibTeX to paste a single record, including BibTeX copied from BibTidy Clipper.'
+            title: 'Import BibTeX records',
+            body: 'Use Import BibTeX to paste one or more records, including BibTeX copied from BibTidy Clipper. The new records appear at the top of Library.'
         },
         {
             view: 'library',
             target: '#entry-list',
             title: 'Review your library',
-            body: 'Search, sort, select an item, and edit its fields in the details panel.'
+            body: 'Search, sort, and select items in Library. The details panel on the right edits the selected item without leaving the page.'
+        },
+        {
+            view: 'library',
+            target: '#detail-tag-input',
+            title: 'Add tags',
+            body: 'Type a tag in Details and press Enter. Tags are stored in an automatic .bibtidy-tags.json file beside the opened .bib file, not inside BibTeX fields.'
+        },
+        {
+            view: 'library',
+            target: '#tag-cloud',
+            title: 'Filter by tag',
+            body: 'The Tags area builds a word cloud from all items. Click tags to filter the library, and use Clear to return to the full list.'
         },
         {
             view: 'tidy',
@@ -14079,17 +14103,24 @@ document.addEventListener('DOMContentLoaded', () => {
             body: 'Use Tidy to format BibTeX, or Validate to check for missing fields, duplicate keys, and parse issues.'
         },
         {
-            view: 'library',
-            target: '.sidebar-file-actions',
-            title: 'Sync with Chrome Clipper',
-            body: 'In the Chrome extension, choose the same .bib file, then Save to Local Library. Back here, Reload Local refreshes changes while tags stay in the sidecar file.'
+            view: 'tidy',
+            target: '#custom-fields-checkbox',
+            title: 'Customize kept fields',
+            body: 'Turn on Custom fields to choose the fields kept after Tidy for each item type. Missing selected fields produce warnings so you know what needs attention.'
+        },
+        {
+            view: 'tidy',
+            target: '#report-diagnostics',
+            placement: 'top',
+            title: 'Use Report links',
+            body: 'Report summarizes changes and lists warnings or errors. Click a warning or error to jump directly to the matching item in Input BibTeX.'
         },
         {
             view: 'library',
-            target: '#save-button',
-            title: 'Save your result',
-            body: 'Export a .bib file from the browser, or save back to a linked local file when available.'
-        }
+            target: '.sidebar-file-actions',
+            title: 'Sync and save',
+            body: 'For Chrome Clipper, choose the same project .bib file in the extension and save to the desired project. Back here, Reload Local pulls those changes; Save Local writes edits and tags beside the .bib file. Export .bib still downloads a copy.'
+        },
     ];
     let originalFileName = 'sample-bibliography';
     let libraryEntries = [];
@@ -14108,6 +14139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let externalUpdateNoticeShown = false;
     let projectMode = 'Sample';
     let projectDirty = false;
+    let projectRecords = [];
+    let activeProjectId = '';
     let activeTagFilters = new Set();
     let tagFileHandle = null;
     let tagFileName = '';
@@ -14143,6 +14176,7 @@ Unique-ID = {WOS:000766209400010},
     loadLibraryFromText(initialInputContent, 'Loaded sample bibliography.');
     runTidy();
     setActiveView('library');
+    restoreProjects();
     showOnboardingForFirstVisit();
     setInterval(() => checkLinkedFileForUpdates(), 3000);
     window.addEventListener('focus', () => checkLinkedFileForUpdates({ forceContentCompare: true }));
@@ -14167,6 +14201,7 @@ Unique-ID = {WOS:000766209400010},
             linkedDirectoryHandle = null;
             linkedFileHandle = null;
             linkedFileSignature = '';
+            activeProjectId = '';
             tagFileHandle = null;
             tagFileName = '';
             tagFileRecords = [];
@@ -14180,7 +14215,13 @@ Unique-ID = {WOS:000766209400010},
     });
     openLocalButton.addEventListener('click', openLocalBibFile);
     reloadLocalButton.addEventListener('click', reloadLocalBibFile);
+    addProjectButton.addEventListener('click', openLocalBibFile);
     projectButton.addEventListener('click', openLocalBibFile);
+    projectList.addEventListener('click', event => {
+        const projectRow = event.target.closest('.project-row');
+        if (!projectRow) return;
+        switchProject(projectRow.dataset.projectId);
+    });
     newEntryButton.addEventListener('click', () => {
         const entry = createNewEntry();
         libraryEntries.unshift(entry);
@@ -14464,6 +14505,7 @@ Unique-ID = {WOS:000766209400010},
             linkedDirectoryHandle = directoryHandle;
             linkedFileHandle = handle;
             projectMode = 'Local';
+            await saveLinkedProject(directoryHandle, handle);
             await loadFromLinkedFile(`Opened local file: ${handle.name}`);
             updateLinkedFileActions();
         } catch (error) {
@@ -15292,6 +15334,7 @@ Unique-ID = {WOS:000766209400010},
     }
     function closeOnboarding(options = {}) {
         onboardingOverlay.classList.add('is-hidden');
+        onboardingOverlay.classList.remove('onboarding-overlay-top');
         document.body.classList.remove('onboarding-active');
         clearOnboardingTarget();
         if (options.markComplete && shouldRememberOnboardingCompletion) {
@@ -15306,6 +15349,7 @@ Unique-ID = {WOS:000766209400010},
         currentOnboardingStep = Math.max(0, Math.min(stepIndex, onboardingSteps.length - 1));
         const step = onboardingSteps[currentOnboardingStep];
         setActiveView(step.view);
+        onboardingOverlay.classList.toggle('onboarding-overlay-top', step.placement === 'top');
         onboardingProgress.textContent = `Step ${currentOnboardingStep + 1} of ${onboardingSteps.length}`;
         onboardingTitle.textContent = step.title;
         onboardingBody.textContent = step.body;
@@ -15328,6 +15372,134 @@ Unique-ID = {WOS:000766209400010},
     function supportsFileSystemAccess() {
         return 'showDirectoryPicker' in window;
     }
+    function supportsProjectStorage() {
+        return supportsFileSystemAccess() && 'indexedDB' in window;
+    }
+    function createProjectId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+        }
+        return `project-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+    function openProjectDatabase() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(projectDbName, projectDbVersion);
+            request.onupgradeneeded = () => {
+                if (!request.result.objectStoreNames.contains(projectStoreName)) {
+                    request.result.createObjectStore(projectStoreName, { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+    async function readStoredProjects() {
+        if (!supportsProjectStorage()) return [];
+        const db = await openProjectDatabase();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(projectStoreName, 'readonly');
+            const request = transaction.objectStore(projectStoreName).getAll();
+            request.onsuccess = () => resolve((request.result || []).sort(compareProjectsByRecentUse));
+            request.onerror = () => reject(request.error);
+        });
+    }
+    async function writeProjectRecord(project) {
+        if (!supportsProjectStorage() || !project) return;
+        const db = await openProjectDatabase();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(projectStoreName, 'readwrite');
+            transaction.objectStore(projectStoreName).put(project);
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+        });
+    }
+    async function restoreProjects() {
+        try {
+            projectRecords = await readStoredProjects();
+        } catch (error) {
+            projectRecords = [];
+            appendReportLine(`Could not restore projects: ${error.message}`);
+        }
+        renderProjectList();
+        updateProjectUi();
+    }
+    function compareProjectsByRecentUse(projectA, projectB) {
+        return (projectB.lastOpenedAt || projectB.addedAt || 0) - (projectA.lastOpenedAt || projectA.addedAt || 0);
+    }
+    function normalizeProjectName(fileName) {
+        return cleanDisplayText(String(fileName || '').replace(/\.[^.]+$/, '')) || 'bibliography';
+    }
+    async function saveLinkedProject(directoryHandle, fileHandle) {
+        if (!supportsProjectStorage() || !fileHandle) {
+            renderProjectList();
+            return;
+        }
+        const now = Date.now();
+        const existingProject = await findStoredProjectForHandle(fileHandle);
+        const project = Object.assign({}, existingProject || {}, {
+            id: existingProject ? existingProject.id : createProjectId(),
+            name: normalizeProjectName(fileHandle.name),
+            fileName: fileHandle.name,
+            directoryHandle,
+            fileHandle,
+            addedAt: existingProject ? existingProject.addedAt : now,
+            lastOpenedAt: now
+        });
+        activeProjectId = project.id;
+        projectRecords = [project]
+            .concat(projectRecords.filter(item => item.id !== project.id))
+            .sort(compareProjectsByRecentUse);
+        renderProjectList();
+        try {
+            await writeProjectRecord(project);
+        } catch (error) {
+            appendReportLine(`Could not remember project: ${error.message}`);
+        }
+    }
+    async function findStoredProjectForHandle(fileHandle) {
+        for (const project of projectRecords) {
+            if (!project.fileHandle || typeof project.fileHandle.isSameEntry !== 'function') continue;
+            try {
+                if (await project.fileHandle.isSameEntry(fileHandle)) return project;
+            } catch (error) {
+                // Ignore stale handles and keep looking.
+            }
+        }
+        return null;
+    }
+    async function ensureHandlePermission(handle, mode = 'readwrite') {
+        if (!handle || typeof handle.queryPermission !== 'function') return true;
+        const options = { mode };
+        if ((await handle.queryPermission(options)) === 'granted') return true;
+        if (typeof handle.requestPermission !== 'function') return false;
+        return (await handle.requestPermission(options)) === 'granted';
+    }
+    async function switchProject(projectId) {
+        const project = projectRecords.find(item => item.id === projectId);
+        if (!project || !project.fileHandle) return;
+        try {
+            const fileAllowed = await ensureHandlePermission(project.fileHandle);
+            const directoryAllowed = project.directoryHandle
+                ? await ensureHandlePermission(project.directoryHandle)
+                : true;
+            if (!fileAllowed || !directoryAllowed) {
+                setReportText(`Permission was not granted for ${project.fileName || project.name}.`);
+                return;
+            }
+            activeProjectId = project.id;
+            linkedDirectoryHandle = project.directoryHandle || null;
+            linkedFileHandle = project.fileHandle;
+            projectMode = 'Local';
+            project.lastOpenedAt = Date.now();
+            await writeProjectRecord(project);
+            projectRecords = projectRecords.slice().sort(compareProjectsByRecentUse);
+            renderProjectList();
+            await loadFromLinkedFile(`Opened project: ${project.fileName || project.name}`);
+            updateLinkedFileActions();
+        } catch (error) {
+            setReportText(`Open project failed: ${error.message}`);
+        }
+    }
     function getLinkedFileSignature(file) {
         return `${file.name}:${file.size}:${file.lastModified || 0}`;
     }
@@ -15339,6 +15511,39 @@ Unique-ID = {WOS:000766209400010},
         projectName.textContent = displayName;
         projectState.textContent = `${projectMode} - ${sourceLabel} - ${projectDirty ? 'unsaved changes' : 'saved'}`;
         projectButton.classList.toggle('unsaved', projectDirty);
+        renderProjectList();
+    }
+    function renderProjectList() {
+        projectList.replaceChildren();
+        const canStoreProjects = supportsProjectStorage();
+        addProjectButton.disabled = !supportsFileSystemAccess();
+        if (!canStoreProjects) {
+            projectCount.textContent = supportsFileSystemAccess() ? 'Projects are not remembered' : 'Local projects unavailable';
+            return;
+        }
+        projectCount.textContent = projectRecords.length
+            ? `${projectRecords.length} linked project${projectRecords.length === 1 ? '' : 's'}`
+            : 'No linked projects';
+        if (!projectRecords.length) {
+            const empty = document.createElement('div');
+            empty.className = 'project-empty';
+            empty.textContent = 'Add a local .bib file';
+            projectList.appendChild(empty);
+            return;
+        }
+        projectRecords.slice(0, 8).forEach(project => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'project-row';
+            button.dataset.projectId = project.id;
+            button.classList.toggle('active', project.id === activeProjectId);
+            const name = document.createElement('strong');
+            name.textContent = project.name || normalizeProjectName(project.fileName);
+            const fileName = document.createElement('small');
+            fileName.textContent = project.fileName || 'Local .bib file';
+            button.append(name, fileName);
+            projectList.appendChild(button);
+        });
     }
     function updateTagFileUi() {
         const tagCount = Array.from(tagAssignments.values()).reduce((total, tags) => total + tags.length, 0);
@@ -15717,7 +15922,7 @@ Unique-ID = {WOS:000766209400010},
             tidyWorkspace.style.setProperty('--report-height', `${nextHeight}px`);
             reportResizer.setAttribute('aria-valuenow', String(nextHeight));
         };
-        const getReportHeight = () => reportDiagnostics.getBoundingClientRect().height || 132;
+        const getReportHeight = () => reportDiagnostics.getBoundingClientRect().height || 198;
         reportResizer.setAttribute('aria-valuemin', '96');
         reportResizer.setAttribute('aria-valuemax', String(Math.floor(window.innerHeight * 0.42)));
         reportResizer.setAttribute('aria-valuenow', String(Math.round(getReportHeight())));
