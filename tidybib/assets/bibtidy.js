@@ -14224,6 +14224,11 @@ Unique-ID = {WOS:000766209400010},
     addProjectButton.addEventListener('click', openLocalBibFile);
     projectButton.addEventListener('click', openLocalBibFile);
     projectList.addEventListener('click', event => {
+        const closeButton = event.target.closest('.project-close-button');
+        if (closeButton) {
+            closeProject(closeButton.dataset.projectId);
+            return;
+        }
         const projectRow = event.target.closest('.project-row');
         if (!projectRow) return;
         switchProject(projectRow.dataset.projectId);
@@ -15584,7 +15589,14 @@ Unique-ID = {WOS:000766209400010},
     }
     async function restoreProjects() {
         try {
-            projectRecords = await readStoredProjects();
+            const storedProjects = await readStoredProjects();
+            const dedupedProjects = dedupeProjectRecords(storedProjects);
+            projectRecords = dedupedProjects.projects;
+            try {
+                await Promise.all(dedupedProjects.duplicateIds.map(deleteProjectRecord));
+            } catch (cleanupError) {
+                appendReportLine(`Could not remove duplicate projects: ${cleanupError.message}`);
+            }
         } catch (error) {
             projectRecords = [];
             appendReportLine(`Could not restore projects: ${error.message}`);
@@ -15595,8 +15607,42 @@ Unique-ID = {WOS:000766209400010},
     function compareProjectsByRecentUse(projectA, projectB) {
         return (projectB.lastOpenedAt || projectB.addedAt || 0) - (projectA.lastOpenedAt || projectA.addedAt || 0);
     }
+    function dedupeProjectRecords(projects) {
+        const seenKeys = new Set();
+        const duplicateIds = [];
+        const uniqueProjects = [];
+        projects.slice().sort(compareProjectsByRecentUse).forEach(project => {
+            const projectKey = getProjectStorageKey(project);
+            if (seenKeys.has(projectKey)) {
+                duplicateIds.push(project.id);
+                return;
+            }
+            seenKeys.add(projectKey);
+            uniqueProjects.push(project);
+        });
+        return { projects: uniqueProjects, duplicateIds };
+    }
     function normalizeProjectName(fileName) {
         return cleanDisplayText(String(fileName || '').replace(/\.[^.]+$/, '')) || 'bibliography';
+    }
+    function getProjectFileName(project) {
+        if (!project) return 'Local .bib file';
+        return project.fileName || (project.fileHandle && project.fileHandle.name) || 'Local .bib file';
+    }
+    function getProjectDirectoryName(project) {
+        if (!project) return '';
+        return project.directoryName || (project.directoryHandle && project.directoryHandle.name) || '';
+    }
+    function getProjectShortPathLabel(project) {
+        if (!project) return 'Local .bib file';
+        const fileName = getProjectFileName(project);
+        const directoryName = getProjectDirectoryName(project);
+        return directoryName ? `${directoryName} / ${fileName}` : fileName;
+    }
+    function getProjectStorageKey(project) {
+        const fileName = getProjectFileName(project).toLowerCase();
+        const directoryName = getProjectDirectoryName(project).toLowerCase();
+        return `${directoryName}/${fileName}`;
     }
     async function saveLinkedProject(directoryHandle, fileHandle) {
         if (!supportsProjectStorage() || !fileHandle) {
@@ -15604,29 +15650,40 @@ Unique-ID = {WOS:000766209400010},
             return;
         }
         const now = Date.now();
-        const existingProject = await findStoredProjectForHandle(fileHandle);
+        const existingProject = await findStoredProjectForHandles(directoryHandle, fileHandle);
         const project = Object.assign({}, existingProject || {}, {
             id: existingProject ? existingProject.id : createProjectId(),
             name: normalizeProjectName(fileHandle.name),
             fileName: fileHandle.name,
+            directoryName: directoryHandle ? directoryHandle.name : '',
             directoryHandle,
             fileHandle,
             addedAt: existingProject ? existingProject.addedAt : now,
             lastOpenedAt: now
         });
         activeProjectId = project.id;
+        const projectKey = getProjectStorageKey(project);
+        const duplicateProjectIds = projectRecords
+            .filter(item => item.id !== project.id && getProjectStorageKey(item) === projectKey)
+            .map(item => item.id);
         projectRecords = [project]
-            .concat(projectRecords.filter(item => item.id !== project.id))
+            .concat(projectRecords.filter(item => item.id !== project.id && getProjectStorageKey(item) !== projectKey))
             .sort(compareProjectsByRecentUse);
         renderProjectList();
         try {
             await writeProjectRecord(project);
+            await Promise.all(duplicateProjectIds.map(deleteProjectRecord));
         } catch (error) {
             appendReportLine(`Could not remember project: ${error.message}`);
         }
     }
-    async function findStoredProjectForHandle(fileHandle) {
+    async function findStoredProjectForHandles(directoryHandle, fileHandle) {
+        const candidateKey = getProjectStorageKey({
+            directoryName: directoryHandle ? directoryHandle.name : '',
+            fileName: fileHandle ? fileHandle.name : ''
+        });
         for (const project of projectRecords) {
+            if (getProjectStorageKey(project) === candidateKey) return project;
             if (!project.fileHandle || typeof project.fileHandle.isSameEntry !== 'function') continue;
             try {
                 if (await project.fileHandle.isSameEntry(fileHandle)) return project;
@@ -15635,6 +15692,43 @@ Unique-ID = {WOS:000766209400010},
             }
         }
         return null;
+    }
+    async function deleteProjectRecord(projectId) {
+        if (!supportsProjectStorage() || !projectId) return;
+        const db = await openProjectDatabase();
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(projectStoreName, 'readwrite');
+            transaction.objectStore(projectStoreName).delete(projectId);
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+        });
+    }
+    async function closeProject(projectId) {
+        const project = projectRecords.find(item => item.id === projectId);
+        if (!project) return;
+        if (project.id === activeProjectId && !confirmDiscardUnsavedChanges()) return;
+        projectRecords = projectRecords.filter(item => item.id !== project.id);
+        if (project.id === activeProjectId) {
+            activeProjectId = '';
+            linkedDirectoryHandle = null;
+            linkedFileHandle = null;
+            linkedFileSignature = '';
+            tagFileHandle = null;
+            tagFileName = '';
+            tagFileRecords = [];
+            tagFileDirty = false;
+            projectMode = 'Unlinked';
+            projectDirty = false;
+            updateLinkedFileActions();
+            updateTagFileUi();
+        }
+        renderProjectList();
+        try {
+            await deleteProjectRecord(project.id);
+            appendReportLine(`Closed project: ${project.fileName || project.name}.`);
+        } catch (error) {
+            appendReportLine(`Could not forget project: ${error.message}`);
+        }
     }
     async function ensureHandlePermission(handle, mode = 'readwrite') {
         if (!handle || typeof handle.queryPermission !== 'function') return true;
@@ -15702,6 +15796,9 @@ Unique-ID = {WOS:000766209400010},
             return;
         }
         projectRecords.slice(0, 8).forEach(project => {
+            const row = document.createElement('div');
+            row.className = 'project-row-wrap';
+            row.classList.toggle('active', project.id === activeProjectId);
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'project-row';
@@ -15709,10 +15806,19 @@ Unique-ID = {WOS:000766209400010},
             button.classList.toggle('active', project.id === activeProjectId);
             const name = document.createElement('strong');
             name.textContent = project.name || normalizeProjectName(project.fileName);
-            const fileName = document.createElement('small');
-            fileName.textContent = project.fileName || 'Local .bib file';
-            button.append(name, fileName);
-            projectList.appendChild(button);
+            const projectPath = document.createElement('small');
+            projectPath.textContent = getProjectShortPathLabel(project);
+            button.title = getProjectShortPathLabel(project);
+            button.append(name, projectPath);
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'project-close-button';
+            closeButton.dataset.projectId = project.id;
+            closeButton.setAttribute('aria-label', `Close ${project.fileName || project.name}`);
+            closeButton.title = 'Close project';
+            closeButton.textContent = 'x';
+            row.append(button, closeButton);
+            projectList.appendChild(row);
         });
     }
     function updateTagFileUi() {
