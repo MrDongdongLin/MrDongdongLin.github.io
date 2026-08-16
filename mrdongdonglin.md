@@ -12,10 +12,11 @@ I serve as a CCF Professional Member, a CSIG Member, and an IEEE Member. I serve
 
 ## News
 
+- 2026.08 🎉 One paper is accepted to IEEE SPL
 - 2026.06 🎉 One paper is accepted to ESWA
-- 2025.04 🎉 One paper is accepted to ICASSP 2025
+- 2025.04 🎉 One paper is accepted to ICASSP
 - 2024.10 🎉 One paper is accepted to ACMMM
-- 2024.07 🎉 One paper is accepted to TDSC
+- 2024.07 🎉 One paper is accepted to IEEE TDSC
 
 ## Preprints
 
@@ -77,7 +78,9 @@ Yue Li, Weizhi Liu, **Dongdong Lin**
   year={2025}
 }
 
-[Protecting Your Voice: Temporal-aware Robust Watermarking](https://arxiv.org/abs/2504.14832)
+## Publications
+
+[Protecting Your Voice: Temporal-aware Robust Watermarking](https://ieeexplore.ieee.org/document/11655520)
 
 TAG: #Speech Watermarking
 
@@ -87,11 +90,13 @@ Yue Li, Weizhi Liu, **Dongdong Lin**, Hui Tian, Hongxia Wang
 @article{li2025protecting,
   title={Protecting Your Voice: Temporal-aware Robust Watermarking},
   author={Li, Yue and Liu, Weizhi and Lin, Dongdong and Tian, Hui and Wang, Hongxia},
-  journal={arXiv preprint arXiv:2504.14832},
-  year={2025}
+  journal={IEEE Signal Processing Letters},
+  year={2026},
+  volume={},
+  number={},
+  pages={1-5},
+  doi={10.1109/LSP.2026.3724105}
 }
-
-## Publications
 
 [An Efficient Watermarking Method for Latent Diffusion Models via Low-Rank Adaptation and Dynamic Loss Weighting](https://www.sciencedirect.com/science/article/abs/pii/S0957417426020816)
 
