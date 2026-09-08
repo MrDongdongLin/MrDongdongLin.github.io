@@ -80,21 +80,22 @@ Yue Li, Weizhi Liu, **Dongdong Lin**
 
 ## Publications
 
-[Protecting Your Voice: Temporal-aware Robust Watermarking](https://ieeexplore.ieee.org/document/11655520)
+[Protecting Your Voice: Temporal-Aware Robust Watermarking](https://ieeexplore.ieee.org/document/11655520)
 
 TAG: #Speech Watermarking
+
+Publication: IEEE Signal Processing Letters, 33, 3446–3450 (2026)
 
 Yue Li, Weizhi Liu, **Dongdong Lin**, Hui Tian, Hongxia Wang
 
 - Cite
 @article{li2025protecting,
-  title={Protecting Your Voice: Temporal-aware Robust Watermarking},
+  title={Protecting Your Voice: Temporal-Aware Robust Watermarking},
   author={Li, Yue and Liu, Weizhi and Lin, Dongdong and Tian, Hui and Wang, Hongxia},
   journal={IEEE Signal Processing Letters},
   year={2026},
-  volume={},
-  number={},
-  pages={1-5},
+  volume={33},
+  pages={3446--3450},
   doi={10.1109/LSP.2026.3724105}
 }
 
