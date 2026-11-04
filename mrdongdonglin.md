@@ -12,6 +12,7 @@ I serve as a CCF Professional Member, a CSIG Member, and an IEEE Member. I serve
 
 ## News
 
+- 2026.11 🎉 One paper is accepted to IEEE TDSC
 - 2026.08 🎉 One paper is accepted to IEEE SPL
 - 2026.06 🎉 One paper is accepted to ESWA
 - 2025.04 🎉 One paper is accepted to ICASSP
@@ -19,20 +20,6 @@ I serve as a CCF Professional Member, a CSIG Member, and an IEEE Member. I serve
 - 2024.07 🎉 One paper is accepted to IEEE TDSC
 
 ## Preprints
-
-[Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations](https://arxiv.org/abs/2604.01635)
-
-TAG: #Adversarial Example, #Deepfake Detection
-
-Yue Li, Linying Xue, Kaiqing Lin, Hanyu Quan, **Dongdong Lin**, Hui Tian, Hongxia Wang, Bin Wang
-
-- Cite
-@article{li2026diffusion,
-  title={Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations},
-  author={Li, Yue and Xue, Linying and Lin, Kaiqing and Quan, Hanyu and Lin, Dongdong and Tian, Hui and Wang, Hongxia and Wang, Bin},
-  journal={arXiv preprint arXiv:2604.01635},
-  year={2026}
-}
 
 [Towards Imperceptible Adversarial Defense: A Gradient-Driven Shield against Facial Manipulations](https://arxiv.org/abs/2510.01699)
 
@@ -79,6 +66,26 @@ Yue Li, Weizhi Liu, **Dongdong Lin**
 }
 
 ## Publications
+
+[Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations](https://ieeexplore.ieee.org/document/11755108)
+
+TAG: #Adversarial Example, #Deepfake Detection
+
+Publication: IEEE Transactions on Dependable and Secure Computing, 2026
+
+Yue Li, Linying Xue, Kaiqing Lin, Hanyu Quan, **Dongdong Lin**, Hui Tian, Hongxia Wang, Bin Wang
+
+[arXiv PDF](https://arxiv.org/pdf/2604.01635)
+
+- Cite
+@article{li2026diffusion,
+  title={Diffusion-Guided Adversarial Perturbation Injection for Generalizable Defense Against Facial Manipulations},
+  author={Li, Yue and Xue, Linying and Lin, Kaiqing and Quan, Hanyu and Lin, Dongdong and Tian, Hui and Wang, Hongxia and Wang, Bin},
+  journal={IEEE Transactions on Dependable and Secure Computing},
+  year={2026},
+  pages={1--18},
+  doi={10.1109/TDSC.2026.3747860}
+}
 
 [Protecting Your Voice: Temporal-Aware Robust Watermarking](https://ieeexplore.ieee.org/document/11655520)
 
