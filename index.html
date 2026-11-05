@@ -3,54 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dongdong Lin's academic homepage with biography, news, preprints, and publications.">
-  <title>Dongdong Lin | Academic Homepage</title>
+  <meta name="description" content="Dongdong Lin's academic homepage with biography, news, preprints, and publications." data-i18n-content="description">
+  <title data-i18n="pageTitle">Dongdong Lin | Academic Homepage</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div class="page-shell">
     <header class="topbar">
       <a class="topbar-brand" href="#top">
-        <span class="topbar-name">Dongdong Lin</span>
+        <span class="topbar-name" data-i18n="name">Dongdong Lin</span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+      <nav id="site-nav" class="topbar-nav" aria-label="Main navigation" data-i18n-aria-label="navigation">
+        <a href="#bio" data-i18n="bio">Bio</a>
+        <a href="#news" data-i18n="news">News</a>
+        <a href="#preprints" data-i18n="preprints">Preprints</a>
+        <a href="#publications" data-i18n="publications">Publications</a>
+      </nav>
+
+      <div class="language-switch" role="group" aria-label="Language / 语言">
+        <button type="button" lang="zh-CN" data-language="zh" aria-label="切换为中文" aria-pressed="false">中文</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" lang="en" data-language="en" aria-label="Switch to English" aria-pressed="true">EN</button>
+      </div>
+
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation" aria-expanded="false" aria-controls="site-nav">
         <span></span>
         <span></span>
       </button>
-
-      <nav id="site-nav" class="topbar-nav">
-        <a href="#bio">Bio</a>
-        <a href="#news">News</a>
-        <a href="#preprints">Preprints</a>
-        <a href="#publications">Publications</a>
-      </nav>
     </header>
 
     <main id="top" class="layout">
       <aside class="sidebar">
         <div class="sidebar-card">
           <div class="profile-art">
-            <img class="profile-avatar" src="./images/dongdonglin.jpg" alt="Portrait of Dongdong Lin">
+            <img class="profile-avatar" src="./images/dongdonglin.jpg" alt="Portrait of Dongdong Lin" data-i18n-alt="portrait">
           </div>
 
-          <h1>Dongdong Lin</h1>
-          <p class="sidebar-title">Lecturer</p>
-          <p class="sidebar-affiliation">Huaqiao University</p>
+          <h1 data-i18n="name">Dongdong Lin</h1>
+          <p class="sidebar-title" data-i18n="position">Lecturer</p>
+          <p class="sidebar-affiliation" data-i18n="university">Huaqiao University</p>
 
-          <h2 class="sidebar-heading">Research interests</h2>
-          <p class="sidebar-interests">AI Security; Model Watermarking; Deepfake Detection; Adversarial Robustness; Speech Watermarking; Multimedia Forensics.</p>
+          <h2 class="sidebar-heading" data-i18n="researchInterests">Research interests</h2>
+          <p class="sidebar-interests" data-i18n="interests">AI Security; Model Watermarking; Deepfake Detection; Adversarial Robustness; Speech Watermarking; Multimedia Forensics.</p>
 
           <div class="sidebar-actions">
-            <a class="sidebar-button" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN">Google Scholar</a>
+            <a class="sidebar-button" href="https://scholar.google.com.hk/citations?user=fpecOLUAAAAJ&hl=zh-CN" data-i18n="scholar">Google Scholar</a>
             <a class="sidebar-button" href="https://github.com/MrDongdongLin">GitHub</a>
           </div>
 
-          <div class="sidebar-projects" aria-label="Projects">
-            <h2>Projects</h2>
+          <div class="sidebar-projects" aria-label="Projects" data-i18n-aria-label="projects">
+            <h2 data-i18n="projects">Projects</h2>
             <a class="sidebar-project-link" href="https://mrdongdonglin.github.io/tidybib/">
               <span>TidyBib</span>
-              <small>Reference tidy tool</small>
+              <small data-i18n="tidybibDescription">Reference tidy tool</small>
             </a>
             <a class="sidebar-project-link" href="https://github.com/MrDongdongLin/QuickPick/blob/main/releases/QuickPick-0.2.7-win-x64.zip">
               <span>QuickPick</span>
@@ -59,7 +65,7 @@
           </div>
 
           <div class="sidebar-links">
-            <a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm">Faculty Page</a>
+            <a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm" data-i18n="facultyPage">Faculty Page</a>
           </div>
         </div>
       </aside>
@@ -67,51 +73,51 @@
       <section class="content">
         <section id="bio" class="content-section">
           <div class="section-head">
-            <h2>Bio</h2>
+            <h2 data-i18n="bio">Bio</h2>
           </div>
           <div class="bio-card">
-            <p>Dongdong Lin is currently a lecturer at <strong><a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm">Huaqiao University</a></strong>, working with <strong><a href="https://faculty.hqu.edu.cn/htian/">Hui Tian</a></strong>. He received his B.Sc. and M.Sc. degrees from Xiangtan University, supervised by <strong><a href="http://www.chengqingli.com/">Chengqing Li</a></strong>, and completed his Ph.D. at Shenzhen University, supervised by <strong><a href="https://scholar.google.com.hk/citations?user=g0iR9IkAAAAJ&hl=zh-CN">Bin Li</a></strong>. From 2020 to 2022, he was a visiting student at the University of Siena, Italy, working with <strong><a href="https://scholar.google.com.hk/citations?user=ntRScY8AAAAJ&hl=zh-CN">Mauro Barni</a></strong> and <strong><a href="https://scholar.google.com.hk/citations?user=xpNEfq4AAAAJ&hl=zh-CN">Benedetta Tondi</a></strong>.</p>
-            <p>His research focuses on AI security, deep model watermarking, deepfake detection, adversarial robustness, and multimedia forensics. Recent work spans watermarking for diffusion models, speech synthesis systems, and ownership verification of generative models.</p>
-            <p>He is currently interested in trustworthy AIGC, robust model ownership protection, and security problems around modern multimodal generative systems.</p>
-            <p>He serves as a CCF Professional Member, a CSIG Member, and an IEEE Member. He also serves as a reviewer for IEEE T-IFS/DSC/ASLP, SP, CVPR, ACM MM, and ICASSP.</p>
+            <p><span data-i18n="bioIntro">Dongdong Lin is currently a lecturer at </span><strong><a href="https://faculty.hqu.edu.cn/ddlin/zh_CN/index.htm" data-i18n="university">Huaqiao University</a></strong><span data-i18n="bioCollaborator">, working with </span><strong><a href="https://faculty.hqu.edu.cn/htian/" data-i18n="huiTian">Hui Tian</a></strong><span data-i18n="bioEducation">. He received his B.Sc. and M.Sc. degrees from Xiangtan University, supervised by </span><strong><a href="http://www.chengqingli.com/" data-i18n="chengqingLi">Chengqing Li</a></strong><span data-i18n="bioDoctorate">, and completed his Ph.D. at Shenzhen University, supervised by </span><strong><a href="https://scholar.google.com.hk/citations?user=g0iR9IkAAAAJ&hl=zh-CN" data-i18n="binLi">Bin Li</a></strong><span data-i18n="bioVisit">. From 2020 to 2022, he was a visiting student at the University of Siena, Italy, working with </span><strong><a href="https://scholar.google.com.hk/citations?user=ntRScY8AAAAJ&hl=zh-CN">Mauro Barni</a></strong><span data-i18n="and"> and </span><strong><a href="https://scholar.google.com.hk/citations?user=xpNEfq4AAAAJ&hl=zh-CN">Benedetta Tondi</a></strong><span data-i18n="bioEnd">.</span></p>
+            <p data-i18n="bioResearch">His research focuses on AI security, deep model watermarking, deepfake detection, adversarial robustness, and multimedia forensics. Recent work spans watermarking for diffusion models, speech synthesis systems, and ownership verification of generative models.</p>
+            <p data-i18n="bioFocus">He is currently interested in trustworthy AIGC, robust model ownership protection, and security problems around modern multimodal generative systems.</p>
+            <p data-i18n="bioService">He serves as a CCF Professional Member, a CSIG Member, and an IEEE Member. He also serves as a reviewer for IEEE T-IFS/DSC/ASLP, SP, CVPR, ACM MM, and ICASSP.</p>
           </div>
         </section>
 
         <section id="news" class="content-section">
           <div class="section-head">
-            <h2>News</h2>
+            <h2 data-i18n="news">News</h2>
           </div>
           <div class="news-list">
             <article class="news-item">
               <div class="news-date">2026.11</div>
-              <div class="news-text">One paper is accepted to IEEE TDSC.</div>
+              <div class="news-text" data-i18n="newsTDSC">One paper is accepted to IEEE TDSC.</div>
             </article>
             <article class="news-item">
               <div class="news-date">2026.08</div>
-              <div class="news-text">One paper is accepted to IEEE SPL.</div>
+              <div class="news-text" data-i18n="newsSPL">One paper is accepted to IEEE SPL.</div>
             </article>
             <article class="news-item">
               <div class="news-date">2026.06</div>
-              <div class="news-text">One paper is accepted to ESWA.</div>
+              <div class="news-text" data-i18n="newsESWA">One paper is accepted to ESWA.</div>
             </article>
             <article class="news-item">
               <div class="news-date">2025.04</div>
-              <div class="news-text">One paper is accepted to ICASSP.</div>
+              <div class="news-text" data-i18n="newsICASSP">One paper is accepted to ICASSP.</div>
             </article>
             <article class="news-item">
               <div class="news-date">2024.10</div>
-              <div class="news-text">One paper is accepted to ACM MM.</div>
+              <div class="news-text" data-i18n="newsACMMM">One paper is accepted to ACM MM.</div>
             </article>
             <article class="news-item">
               <div class="news-date">2024.07</div>
-              <div class="news-text">One paper is accepted to IEEE TDSC.</div>
+              <div class="news-text" data-i18n="newsTDSC">One paper is accepted to IEEE TDSC.</div>
             </article>
           </div>
         </section>
 
         <section id="preprints" class="content-section">
           <div class="section-head">
-            <h2>Preprints</h2>
+            <h2 data-i18n="preprints">Preprints</h2>
           </div>
           <div class="publication-list">
             <article class="paper-item">
@@ -126,7 +132,7 @@
                   <p class="paper-meta">arXiv preprint, 2025</p>
                   <div class="paper-links">
                     <a href="https://arxiv.org/pdf/2510.01699">PDF</a>
-                    <a href="https://arxiv.org/abs/2510.01699">Paper</a>
+                    <a href="https://arxiv.org/abs/2510.01699" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pre-2" aria-expanded="false" aria-controls="cite-pre-2">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">Deepfake Detection</span></p>
@@ -157,7 +163,7 @@
                     <p class="paper-meta">arXiv preprint, 2025</p>
                     <div class="paper-links">
                       <a href="https://arxiv.org/pdf/2504.20532">PDF</a>
-                      <a href="https://arxiv.org/abs/2504.20532">Paper</a>
+                      <a href="https://arxiv.org/abs/2504.20532" data-i18n="paper">Paper</a>
                       <button class="cite-toggle" type="button" data-target="cite-pre-4" aria-expanded="false" aria-controls="cite-pre-4">Cite</button>
                     </div>
                     <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
@@ -183,7 +189,7 @@
                     <p class="paper-meta">arXiv preprint, 2025</p>
                     <div class="paper-links">
                       <a href="https://arxiv.org/pdf/2504.15035">PDF</a>
-                      <a href="https://arxiv.org/abs/2504.15035">Paper</a>
+                      <a href="https://arxiv.org/abs/2504.15035" data-i18n="paper">Paper</a>
                       <button class="cite-toggle" type="button" data-target="cite-pre-5" aria-expanded="false" aria-controls="cite-pre-5">Cite</button>
                     </div>
                     <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
@@ -203,9 +209,9 @@
 
         <section id="publications" class="content-section">
           <div class="section-head">
-            <h2>Publications</h2>
+            <h2 data-i18n="publications">Publications</h2>
           </div>
-          <div class="publication-filters" role="group" aria-label="Filter publications by year" hidden></div>
+          <div class="publication-filters" role="group" aria-label="Filter publications by year" data-i18n-aria-label="filterPublications" hidden></div>
           <div id="publication-results" class="publication-list">
             <article class="paper-item" data-year="2026">
               <div class="paper-main">
@@ -219,7 +225,7 @@
                   <p class="paper-meta">IEEE Transactions on Dependable and Secure Computing, 2026</p>
                   <div class="paper-links">
                     <a href="https://arxiv.org/pdf/2604.01635">arXiv PDF</a>
-                    <a href="https://ieeexplore.ieee.org/document/11755108">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/document/11755108" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-diffusion" aria-expanded="false" aria-controls="cite-pub-diffusion">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">Deepfake Detection</span></p>
@@ -246,7 +252,7 @@
                   <p class="paper-authors">Yue Li, Weizhi Liu, <span class="author-self">Dongdong Lin</span>, Hui Tian, Hongxia Wang</p>
                   <p class="paper-meta">IEEE Signal Processing Letters, 33, 3446&ndash;3450 (2026)</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/document/11655520">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/document/11655520" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-spl" aria-expanded="false" aria-controls="cite-pub-spl">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Speech Watermarking</span></p>
@@ -274,7 +280,7 @@
                   <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Yue Li, Benedetta Tondi, Kaiqing Lin, Bin Li, Mauro Barni</p>
                   <p class="paper-meta">Expert Systems with Applications, 331, 133172 (2026)</p>
                   <div class="paper-links">
-                    <a href="https://www.sciencedirect.com/science/article/abs/pii/S0957417426020816">Paper</a>
+                    <a href="https://www.sciencedirect.com/science/article/abs/pii/S0957417426020816" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-eswa" aria-expanded="false" aria-controls="cite-pub-eswa">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Model Watermarking</span><span class="paper-tag">Text-to-image Model</span><span class="paper-tag">Low-Rank Adaptation</span></p>
@@ -299,7 +305,7 @@
                   <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Yue Li, Bin Li, Jiwu Huang</p>
                   <p class="paper-meta">2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/abstract/document/10890107">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10890107" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-1" aria-expanded="false" aria-controls="cite-pub-1">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Model Watermarking</span><span class="paper-tag">Watermark Robustness</span><span class="paper-tag">CCF-B</span></p>
@@ -326,7 +332,7 @@
                   <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Benedetta Tondi, Bin Li, Mauro Barni</p>
                   <p class="paper-meta">IEEE Transactions on Dependable and Secure Computing</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/abstract/document/10591362">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10591362" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-3" aria-expanded="false" aria-controls="cite-pub-3">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">GAN Watermarking</span><span class="paper-tag">Ownership Verification</span><span class="paper-tag">TDSC 2025</span><span class="paper-tag">CCF-A</span></p>
@@ -355,7 +361,7 @@
                   <p class="paper-authors">Weizhi Liu, Yue Li, <span class="author-self">Dongdong Lin</span>, Hui Tian, Haizhou Li</p>
                   <p class="paper-meta">Proceedings of the 32nd ACM International Conference on Multimedia (ACMMM)</p>
                   <div class="paper-links">
-                    <a href="https://dl.acm.org/doi/abs/10.1145/3664647.3680596">Paper</a>
+                    <a href="https://dl.acm.org/doi/abs/10.1145/3664647.3680596" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-2" aria-expanded="false" aria-controls="cite-pub-2">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Audio Watermarking</span><span class="paper-tag">ACM MM 2024</span><span class="paper-tag">CCF-A</span></p>
@@ -380,7 +386,7 @@ numpages = {9}
                   <p class="paper-authors">Han Chen, Yuezun Li, <span class="author-self">Dongdong Lin</span>, Bin Li, Junqiang Wu</p>
                   <p class="paper-meta">Pattern Recognition</p>
                   <div class="paper-links">
-                    <a href="https://www.sciencedirect.com/science/article/pii/S0031320322006586">Paper</a>
+                    <a href="https://www.sciencedirect.com/science/article/pii/S0031320322006586" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-4" aria-expanded="false" aria-controls="cite-pub-4">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Deepfake Detection</span><span class="paper-tag">PR 2023</span><span class="paper-tag">CCF-B</span></p>
@@ -405,7 +411,7 @@ author = {Han Chen and Yuezun Li and Dongdong Lin and Bin Li and Junqiang Wu}
                   <p class="paper-authors"><span class="author-self">Dongdong Lin</span>, Benedetta Tondi, Bin Li, Mauro Barni</p>
                   <p class="paper-meta">2022 IEEE International Joint Conference on Biometrics (IJCB)</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/abstract/document/10007959">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10007959" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-5" aria-expanded="false" aria-controls="cite-pub-5">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Adversarial Example</span><span class="paper-tag">IJCB 2022</span><span class="paper-tag">CCF-C</span></p>
@@ -429,7 +435,7 @@ author = {Han Chen and Yuezun Li and Dongdong Lin and Bin Li and Junqiang Wu}
                   <p class="paper-authors">Chengqing Li, <span class="author-self">Dongdong Lin</span>, Jinhu Lu, Feng Hao</p>
                   <p class="paper-meta">IEEE MultiMedia, 2018</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/abstract/document/8495009">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/8495009" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-6" aria-expanded="false" aria-controls="cite-pub-6">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Cryptanalysis</span><span class="paper-tag">ESI Highly Cited Paper</span></p>
@@ -455,7 +461,7 @@ author = {Han Chen and Yuezun Li and Dongdong Lin and Bin Li and Junqiang Wu}
                   <p class="paper-authors">Chengqing Li, <span class="author-self">Dongdong Lin</span>, Jinhu Lu</p>
                   <p class="paper-meta">IEEE MultiMedia, 2017</p>
                   <div class="paper-links">
-                    <a href="https://ieeexplore.ieee.org/abstract/document/7999153">Paper</a>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/7999153" data-i18n="paper">Paper</a>
                     <button class="cite-toggle" type="button" data-target="cite-pub-7" aria-expanded="false" aria-controls="cite-pub-7">Cite</button>
                   </div>
                   <p class="paper-tags"><span class="paper-tag">Cryptanalysis</span><span class="paper-tag">ESI Highly Cited Paper</span></p>
