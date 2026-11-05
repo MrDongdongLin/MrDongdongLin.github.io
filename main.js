@@ -32,16 +32,17 @@ const messages = {
     bioIntro: "林东东现为",
     bioCollaborator: "讲师，与",
     huiTian: "田晖",
+    professorTitle: "教授",
     bioEducation: "合作开展研究。本科及硕士毕业于湘潭大学，师从",
     chengqingLi: "李澄清",
     bioDoctorate: "；博士毕业于深圳大学，师从",
     binLi: "李斌",
     bioVisit: "。2020—2022 年，在意大利锡耶纳大学访学，与 ",
-    and: " 和 ",
-    bioEnd: " 合作开展研究。",
-    bioResearch: "主要研究方向包括人工智能安全、深度模型水印、深度伪造检测、对抗鲁棒性和多媒体取证。近期工作涉及扩散模型水印、语音合成系统水印，以及生成模型的所有权验证。",
-    bioFocus: "目前关注可信人工智能生成内容（AIGC）、鲁棒的模型所有权保护，以及多模态生成系统的安全问题。",
-    bioService: "现为中国计算机学会（CCF）专业会员、中国图象图形学学会（CSIG）会员及 IEEE 会员，并担任 IEEE T-IFS/DSC/ASLP、SP、CVPR、ACM MM 和 ICASSP 等期刊与会议的审稿人。",
+    barniTitle: " 教授",
+    and: "和 ",
+    bioEnd: " 副教授合作开展研究。",
+    bioResearch: "主要研究方向包括人工智能安全、深度模型水印、深度伪造检测、对抗鲁棒性和多媒体取证。近期工作涉及扩散模型溯源、多模态大模型溯源、语音合成系统水印，以及生成模型的内容溯源。",
+    bioService: "现为中国计算机学会（CCF）专业会员、中国图象图形学学会（CSIG）会员及 IEEE 会员，并担任 IEEE T-IFS/DSC/ASLP、SP、CVPR、ACM MM、ICASSP、计算机学报等期刊与会议的审稿人。",
     newsTDSC: "1 篇论文被 IEEE TDSC 录用。",
     newsSPL: "1 篇论文被 IEEE SPL 录用。",
     newsESWA: "1 篇论文被 ESWA 录用。",
@@ -95,6 +96,9 @@ const renderLanguage = () => {
   document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : "en";
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = translate(element.dataset.i18n);
+  });
+  document.querySelectorAll("[data-language-only]").forEach((element) => {
+    element.hidden = element.dataset.languageOnly !== currentLanguage;
   });
   translatedAttributes.forEach((attribute) => {
     document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
