@@ -37,16 +37,16 @@ Yue Li, Linying Xue, **Dongdong Lin**, Qiushi Li, Hui Tian, Hongxia Wang
 
 --------- More ---------
 
-[TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Attribution](https://arxiv.org/abs/2504.20532)
+[TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Traceability](https://arxiv.org/abs/2504.20532)
 
 TAG: #Speech Watermarking
 
-Yue Li, Weizhi Liu, **Dongdong Lin**
+Yue Li, Weizhi Liu, Kaiqing Lin, **Dongdong Lin**, Kassem Kallas
 
 - Cite
 @article{li2025trinimark,
-  title={TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Attribution},
-  author={Li, Yue and Liu, Weizhi and Lin, Dongdong},
+  title={TriniMark: A Robust Generative Speech Watermarking Method for Trinity-Level Traceability},
+  author={Li, Yue and Liu, Weizhi and Lin, Kaiqing and Lin, Dongdong and Kallas, Kassem},
   journal={arXiv preprint arXiv:2504.20532},
   year={2025}
 }
@@ -110,19 +110,19 @@ Yue Li, Weizhi Liu, **Dongdong Lin**, Hui Tian, Hongxia Wang
 
 TAG: #Model Watermarking, #Text-to-image Model, #Low-Rank Adaptation
 
-Publication: Expert Systems with Applications
+Publication: Expert Systems with Applications, 331, 133172 (2026)
 
 **Dongdong Lin**, Yue Li, Benedetta Tondi, Kaiqing Lin, Bin Li, Mauro Barni
 
 - Cite
 @article{LIN2026133172,
-  title={An efficient watermarking method for latent diffusion models via low-rank adaptation},
-  author={Lin, Dongdong and Li, Yue and Tondi, Benedetta and Li, Bin and Barni, Mauro},
+  title={An efficient watermarking method for latent diffusion models via low-rank adaptation and dynamic loss weighting},
+  author={Lin, Dongdong and Li, Yue and Tondi, Benedetta and Lin, Kaiqing and Li, Bin and Barni, Mauro},
   journal = {Expert Systems with Applications},
   volume = {331},
   pages = {133172},
   year = {2026},
-  doi = {https://doi.org/10.1016/j.eswa.2026.133172}
+  doi = {10.1016/j.eswa.2026.133172}
 }
 
 [Exploiting Robust Model Watermarking Against the Model Fine-Tuning Attack via Flat Minima Aware Optimizers](https://ieeexplore.ieee.org/abstract/document/10890107)
@@ -184,7 +184,7 @@ Publication: IEEE Transactions on Dependable and Secure Computing
   doi={10.1109/TDSC.2024.3424900}
 }
 
-[Watching the big artifacts: Exposing deepfake videos via bi-granularity artifacts](https://www.sciencedirect.com/science/article/pii/S0031320322006586)
+[Watching the BiG artifacts: Exposing DeepFake videos via Bi-granularity artifacts](https://www.sciencedirect.com/science/article/pii/S0031320322006586)
 
 TAG: #Deepfake Detection, #PR2023, #CCF-B
 
